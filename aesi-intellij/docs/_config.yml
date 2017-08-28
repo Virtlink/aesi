@@ -1,0 +1,11 @@
+title:          Aesi adapter for IntelliJ
+email:          info@virtlink.com
+author:         Daniel Pelsmaeker
+description:    >
+    An Aesi adapter for IntelliJ.
+url:            "https://virtlink.com/aesi-intellij"
+
+theme:          jekyll-theme-cayman
+show_downloads: true
+
+

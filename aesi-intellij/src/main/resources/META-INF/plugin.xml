@@ -1,0 +1,32 @@
+<idea-plugin version="2">
+  <id>org.metaborg.paplj</id>
+  <name>PAPLJ</name>
+  <vendor email="info@metaborg.org" url="http://www.metaborg.org">Metaborg</vendor>
+
+  <description><![CDATA[
+      IntelliJ IDEA implementation of PAPLJ.
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Bug fixes and performance improvements.
+    ]]>
+  </change-notes>
+
+  <idea-version since-build="141.0"/>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!--<programRunner implementation="org.metaborg.paplj.debugger.AesiDebugRunner"/>-->
+    <lang.syntaxHighlighterFactory language="Paplj" implementationClass="org.metaborg.paplj.syntaxhighlighting.AesiSyntaxHighlighterFactory"/>
+    <ApplicationLoadListener implementation="org.metaborg.paplj.PapljPluginInitializer"/>
+    <fileTypeFactory implementation="org.metaborg.paplj.PapljFileTypeFactory"/>
+    <lang.parserDefinition language="Paplj" implementationClass="org.metaborg.paplj.parser.PapljParserDefinition"/>
+    <lang.syntaxHighlighterFactory language="Paplj" implementationClass="org.metaborg.paplj.lexer.PapljSyntaxHighlighterFactory"/>
+    <lang.psiStructureViewFactory language="Paplj" implementationClass="org.metaborg.paplj.structureoutline.PapljStructureViewFactory"/>
+    <colorSettingsPage implementation="org.metaborg.paplj.PapljColorSettingsPage"/>
+    <completion.contributor language="Paplj" implementationClass="org.metaborg.paplj.codecompletion.PapljCompletionContributor"/>
+  </extensions>
+
+  <actions>
+  </actions>
+
+</idea-plugin>
