@@ -26,7 +26,8 @@ To work with AESI in IntelliJ:
 
 
 ## Contents
-- [AESI-IntelliJ API Documentation](aesi-intellij/index.md)
+- [AESI Java API Documentation](aesi-java/index.md)
+- [AESI for IntelliJ API Documentation](aesi-intellij/index.md)
 - [License](license.md)
 
 
