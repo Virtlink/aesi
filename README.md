@@ -17,20 +17,23 @@ An AESI adapter for Eclipse.
 
 
 ## Quick Installation
-This extension has the following requirements:
+### AESI for Eclipse
+The AESI for Eclipse extension has the following requirements:
 
 - Java 8 JDK
 - [Eclipse SDK][1]
 
-Clone the repository and open the project in Eclipse.
-
-    git clone https://github.com/Virtlink/aesi.git
-    cd aesi/
-
-Then build and run the program by starting the _Eclipse Application_
-launch configuration. A new instance of Eclipse will open with the language loaded.
+Open the project in Eclipse, then build and run the program by starting the
+_Eclipse Application_ launch configuration. A new instance of Eclipse will open
+with the language loaded.
 
 See the [documentation][2] for other installation options.
+
+### AESI for IntelliJ
+The AESI for IntelliJ extension has the following requirements:
+
+- Java 8 JDK
+
 
 
 

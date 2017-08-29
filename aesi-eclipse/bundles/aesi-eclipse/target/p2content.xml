@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='1'>
+  <unit id='aesi-eclipse' version='1.0.0.qualifier'>
+    <update id='aesi-eclipse' range='[0.0.0,1.0.0.qualifier)' severity='0'/>
+    <properties size='5'>
+      <property name='org.eclipse.equinox.p2.name' value='AESI for Eclipse'/>
+      <property name='org.eclipse.equinox.p2.provider' value='Virtlink'/>
+      <property name='maven-groupId' value='com.virtlink'/>
+      <property name='maven-artifactId' value='aesi-eclipse'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+    <provides size='5'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='aesi-eclipse' version='1.0.0.qualifier'/>
+      <provided namespace='osgi.bundle' name='aesi-eclipse' version='1.0.0.qualifier'/>
+      <provided namespace='java.package' name='com.virtlink.aesi' version='0.0.0'/>
+      <provided namespace='java.package' name='com.virtlink.aesi.syntaxhighlighting' version='0.0.0'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+    </provides>
+    <requires size='22'>
+      <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.core.filesystem' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.ui.workbench' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.ui.console' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.ui.views' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.jface.text' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.debug.core' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.debug.ui' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='aesi-eclipse.externaldeps' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.jface' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.ui.texteditor' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.ui' range='0.0.0'/>
+      <required namespace='java.package' name='org.osgi.framework' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.core.runtime' range='0.0.0'/>
+      <required namespace='java.package' name='javax.annotation' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.debug.core' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.core.resources' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.debug.ui' range='0.0.0'/>
+    </requires>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='aesi-eclipse' version='1.0.0.qualifier'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: aesi-eclipse;singleton:=true&#xA;Bundle-Version: 1.0.0.qualifier&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+</units>

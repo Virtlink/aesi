@@ -26,8 +26,17 @@ To work with AESI in IntelliJ:
 
 
 ## Contents
-- [AESI Java API Documentation](aesi-java/index.md)
-- [AESI for IntelliJ API Documentation](aesi-intellij/index.md)
+
+## AESI for Eclipse
+- [Workspace Setup](eclipse-workspace-setup.md)
+- [Dependencies](eclipse-dependencies.md)
+
+## APIs
+- [AESI Java](aesi-java/index.md)
+- [AESI for IntelliJ](aesi-intellij/index.md)
+- [AESI for Eclipse](aesi-eclipse/index.md)
+
+## Miscellaneous
 - [License](license.md)
 
 

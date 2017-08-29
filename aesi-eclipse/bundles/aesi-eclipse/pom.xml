@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>AESI adapter for Eclipse</name>
+    <artifactId>aesi-eclipse</artifactId>
+    <packaging>eclipse-plugin</packaging>
+
+    <parent>
+        <groupId>com.virtlink</groupId>
+        <artifactId>aesi-eclipse.configuration.eclipse.plugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../releng/eclipse/plugin</relativePath>
+    </parent>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <configuration>
+                    <outputDir>${project.basedir}/../../../docs/</outputDir>
+        
+                    <sourceLinks>
+                        <link>
+                            <dir>${project.basedir}/src/main/kotlin</dir>
+                            <url>https://github.com/Virtlink/aesi/tree/master/aesi-eclipse/bundles/aesi-eclipse/src/main/kotlin</url>
+                            <urlSuffix>#L</urlSuffix>
+                        </link>
+                    </sourceLinks>
+        
+                    <externalDocumentationLinks>
+                        <link>
+                            <url>https://virtlink.com/aesi/aesi-java/</url>
+                            <packageListUrl>https://raw.githubusercontent.com/Virtlink/aesi/master/docs/aesi-java/package-list</packageListUrl>
+                        </link>
+                    </externalDocumentationLinks>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
