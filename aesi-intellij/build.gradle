@@ -68,10 +68,6 @@ intellij {
     instrumentCode = false
 }
 
-dependencies {
-    compile project(':aesi')
-}
-
 test {
     testLogging {
         exceptionFormat = 'full'
