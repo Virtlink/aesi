@@ -8,6 +8,6 @@ title: org.metaborg.paplj.codecompletion - aesi-intellij
 
 ### Types
 
-| [PapljCodeCompleter](-paplj-code-completer/index.html) | `class PapljCodeCompleter : ICodeCompleter` |
+| [PapljCodeCompleter](-paplj-code-completer/index.html) | `class PapljCodeCompleter : `[`ICodeCompleter`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.codecompletion/-i-code-completer/index.html) |
 | [PapljCompletionContributor](-paplj-completion-contributor/index.html) | `class PapljCompletionContributor : CompletionContributor` |
 

@@ -6,4 +6,4 @@ title: PapljStructureViewModel.outliner - aesi-intellij
 
 # outliner
 
-`val outliner: IStructureOutliner`
+`val outliner: `[`IStructureOutliner`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.structureoutline/-i-structure-outliner/index.html)

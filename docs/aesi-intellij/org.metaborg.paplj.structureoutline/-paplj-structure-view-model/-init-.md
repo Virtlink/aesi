@@ -6,4 +6,4 @@ title: PapljStructureViewModel.<init> - aesi-intellij
 
 # &lt;init&gt;
 
-`PapljStructureViewModel(editor: Editor?, file: `[`PapljFile`](../../org.metaborg.paplj.psi/-paplj-file/index.html)`, outliner: IStructureOutliner, project: IProject, document: IDocument)`
+`PapljStructureViewModel(editor: Editor?, file: `[`PapljFile`](../../org.metaborg.paplj.psi/-paplj-file/index.html)`, outliner: `[`IStructureOutliner`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.structureoutline/-i-structure-outliner/index.html)`, project: `[`IProject`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-project/index.html)`, document: `[`IDocument`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-document/index.html)`)`

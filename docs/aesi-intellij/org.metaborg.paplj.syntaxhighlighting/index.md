@@ -14,5 +14,5 @@ title: org.metaborg.paplj.syntaxhighlighting - aesi-intellij
 | [AesiTokenType](-aesi-token-type/index.html) | `class AesiTokenType : IElementType` |
 | [AesiTokenTypeManager](-aesi-token-type-manager/index.html) | `class AesiTokenTypeManager`<br>Tracks token types. |
 | [ExtendedPsiBuilderFactoryImpl](-extended-psi-builder-factory-impl/index.html) | `class ExtendedPsiBuilderFactoryImpl : PsiBuilderFactoryImpl` |
-| [PapljSyntaxHighlighter](-paplj-syntax-highlighter/index.html) | `class PapljSyntaxHighlighter : ISyntaxHighlighter` |
+| [PapljSyntaxHighlighter](-paplj-syntax-highlighter/index.html) | `class PapljSyntaxHighlighter : `[`ISyntaxHighlighter`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.syntaxhighlighting/-i-syntax-highlighter/index.html) |
 

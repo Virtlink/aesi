@@ -6,4 +6,4 @@ title: PapljStructureViewModel.PapljTreeElement.<init> - aesi-intellij
 
 # &lt;init&gt;
 
-`PapljTreeElement(element: T, symbol: ISymbol?, model: `[`PapljStructureViewModel`](../index.html)`)`
+`PapljTreeElement(element: T, symbol: `[`ISymbol`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.structureoutline/-i-symbol/index.html)`?, model: `[`PapljStructureViewModel`](../index.html)`)`

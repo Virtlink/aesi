@@ -6,4 +6,4 @@ title: PapljStructureViewModel.document - aesi-intellij
 
 # document
 
-`val document: IDocument`
+`val document: `[`IDocument`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-document/index.html)

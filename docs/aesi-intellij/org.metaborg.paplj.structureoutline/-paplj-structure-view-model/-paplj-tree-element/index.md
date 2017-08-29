@@ -10,12 +10,12 @@ title: PapljStructureViewModel.PapljTreeElement - aesi-intellij
 
 ### Constructors
 
-| [&lt;init&gt;](-init-.html) | `PapljTreeElement(element: T, symbol: ISymbol?, model: `[`PapljStructureViewModel`](../index.html)`)` |
+| [&lt;init&gt;](-init-.html) | `PapljTreeElement(element: T, symbol: `[`ISymbol`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.structureoutline/-i-symbol/index.html)`?, model: `[`PapljStructureViewModel`](../index.html)`)` |
 
 ### Properties
 
 | [model](model.html) | `val model: `[`PapljStructureViewModel`](../index.html) |
-| [symbol](symbol.html) | `val symbol: ISymbol?` |
+| [symbol](symbol.html) | `val symbol: `[`ISymbol`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.structureoutline/-i-symbol/index.html)`?` |
 
 ### Functions
 

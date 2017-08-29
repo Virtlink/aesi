@@ -6,4 +6,4 @@ title: PapljProjectManager.toAesiProject - aesi-intellij
 
 # toAesiProject
 
-`fun toAesiProject(project: Project): IProject`
+`fun toAesiProject(project: Project): `[`IProject`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-project/index.html)

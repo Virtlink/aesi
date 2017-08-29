@@ -6,4 +6,4 @@ title: PapljStructureViewModel.PapljTreeElement.symbol - aesi-intellij
 
 # symbol
 
-`val symbol: ISymbol?`
+`val symbol: `[`ISymbol`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.structureoutline/-i-symbol/index.html)`?`

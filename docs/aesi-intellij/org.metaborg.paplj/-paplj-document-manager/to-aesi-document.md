@@ -6,5 +6,5 @@ title: PapljDocumentManager.toAesiDocument - aesi-intellij
 
 # toAesiDocument
 
-`fun toAesiDocument(file: `[`PapljFile`](../../org.metaborg.paplj.psi/-paplj-file/index.html)`): IDocument`
-`fun toAesiDocument(file: VirtualFile): IDocument`
+`fun toAesiDocument(file: `[`PapljFile`](../../org.metaborg.paplj.psi/-paplj-file/index.html)`): `[`IDocument`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-document/index.html)
+`fun toAesiDocument(file: VirtualFile): `[`IDocument`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-document/index.html)

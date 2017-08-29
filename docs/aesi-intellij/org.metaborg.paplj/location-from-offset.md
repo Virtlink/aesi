@@ -6,5 +6,5 @@ title: locationFromOffset - aesi-intellij
 
 # locationFromOffset
 
-`fun locationFromOffset(document: Document, offset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): Location`
-`fun locationFromOffset(file: PsiFile, offset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): Location?`
+`fun locationFromOffset(document: Document, offset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Location`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-location/index.html)
+`fun locationFromOffset(file: PsiFile, offset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Location`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-location/index.html)`?`

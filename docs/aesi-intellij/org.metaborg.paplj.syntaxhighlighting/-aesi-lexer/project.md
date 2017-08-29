@@ -6,4 +6,4 @@ title: AesiLexer.project - aesi-intellij
 
 # project
 
-`val project: IProject`
+`val project: `[`IProject`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-project/index.html)

@@ -6,4 +6,4 @@ title: AesiLexer.tryGetToken - aesi-intellij
 
 # tryGetToken
 
-`fun tryGetToken(index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): IToken?`
+`fun tryGetToken(index: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`IToken`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.syntaxhighlighting/-i-token/index.html)`?`

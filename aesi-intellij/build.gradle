@@ -73,6 +73,7 @@ allprojects {
 
         externalDocumentationLink {
             url = new URL("https://virtlink.com/aesi/aesi-java/")
+            packageListUrl = new URL("https://raw.githubusercontent.com/Virtlink/aesi/master/docs/aesi-java/package-list")
         }
     }
 }

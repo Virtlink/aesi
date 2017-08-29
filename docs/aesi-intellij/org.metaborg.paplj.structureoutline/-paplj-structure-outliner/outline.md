@@ -6,4 +6,4 @@ title: PapljStructureOutliner.outline - aesi-intellij
 
 # outline
 
-`fun outline(project: IProject, document: IDocument, symbol: ISymbol?, cancellationToken: ICancellationToken?): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<ISymbol>`
+`fun outline(project: `[`IProject`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-project/index.html)`, document: `[`IDocument`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-document/index.html)`, symbol: `[`ISymbol`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.structureoutline/-i-symbol/index.html)`?, cancellationToken: `[`ICancellationToken`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-cancellation-token/index.html)`?): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`ISymbol`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.structureoutline/-i-symbol/index.html)`>`

@@ -6,5 +6,5 @@ title: toOffset - aesi-intellij
 
 # toOffset
 
-`fun Location.toOffset(document: Document): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
-`fun Location.toOffset(file: PsiFile): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`?`
+`fun `[`Location`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-location/index.html)`.toOffset(document: Document): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
+`fun `[`Location`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-location/index.html)`.toOffset(file: PsiFile): `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`?`

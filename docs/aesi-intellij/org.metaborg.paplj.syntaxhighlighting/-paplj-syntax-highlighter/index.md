@@ -6,7 +6,7 @@ title: PapljSyntaxHighlighter - aesi-intellij
 
 # PapljSyntaxHighlighter
 
-`class PapljSyntaxHighlighter : ISyntaxHighlighter`
+`class PapljSyntaxHighlighter : `[`ISyntaxHighlighter`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.syntaxhighlighting/-i-syntax-highlighter/index.html)
 
 ### Constructors
 
@@ -14,5 +14,5 @@ title: PapljSyntaxHighlighter - aesi-intellij
 
 ### Functions
 
-| [highlight](highlight.html) | `fun highlight(project: IProject, document: IDocument, text: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, span: Span, cancellationToken: ICancellationToken?): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<IToken>` |
+| [highlight](highlight.html) | `fun highlight(project: `[`IProject`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-project/index.html)`, document: `[`IDocument`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-document/index.html)`, text: `[`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)`, span: `[`Span`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-span/index.html)`, cancellationToken: `[`ICancellationToken`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-i-cancellation-token/index.html)`?): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<`[`IToken`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.syntaxhighlighting/-i-token/index.html)`>` |
 

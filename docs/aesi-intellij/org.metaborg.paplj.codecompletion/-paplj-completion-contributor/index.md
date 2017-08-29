@@ -19,5 +19,5 @@ title: PapljCompletionContributor - aesi-intellij
 ### Functions
 
 | [fillCompletionVariants](fill-completion-variants.html) | `fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet): `[`Unit`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html) |
-| [getBaseIcon](get-base-icon.html) | `fun getBaseIcon(kindIcon: `[`Icon`](http://docs.oracle.com/javase/6/docs/api/javax/swing/Icon.html)`?, attributes: `[`EnumSet`](http://docs.oracle.com/javase/6/docs/api/java/util/EnumSet.html)`<Attribute>): `[`Icon`](http://docs.oracle.com/javase/6/docs/api/javax/swing/Icon.html)`?` |
+| [getBaseIcon](get-base-icon.html) | `fun getBaseIcon(kindIcon: `[`Icon`](http://docs.oracle.com/javase/6/docs/api/javax/swing/Icon.html)`?, attributes: `[`EnumSet`](http://docs.oracle.com/javase/6/docs/api/java/util/EnumSet.html)`<`[`Attribute`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices.codecompletion/-attribute/index.html)`>): `[`Icon`](http://docs.oracle.com/javase/6/docs/api/javax/swing/Icon.html)`?` |
 

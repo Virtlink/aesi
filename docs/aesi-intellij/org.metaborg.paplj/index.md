@@ -25,5 +25,5 @@ title: org.metaborg.paplj - aesi-intellij
 
 ### Functions
 
-| [locationFromOffset](location-from-offset.html) | `fun locationFromOffset(document: Document, offset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): Location`<br>`fun locationFromOffset(file: PsiFile, offset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): Location?` |
+| [locationFromOffset](location-from-offset.html) | `fun locationFromOffset(document: Document, offset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Location`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-location/index.html)<br>`fun locationFromOffset(file: PsiFile, offset: `[`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)`): `[`Location`](https://virtlink.com/aesi/aesi-java/com.virtlink.editorservices/-location/index.html)`?` |
 
