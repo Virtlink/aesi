@@ -64,6 +64,16 @@ allprojects {
 
     dokka {
         outputFormat = 'jekyll'
+
+        linkMapping {
+            dir = "src/main/kotlin"
+            url = "https://github.com/Virtlink/aesi/tree/master/aesi-intellij/src/main/kotlin"
+            suffix = "#L"
+        }
+
+        externalDocumentationLink {
+            url = new URL("https://virtlink.com/aesi/aesi-java/")
+        }
     }
 }
 

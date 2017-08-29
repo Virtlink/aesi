@@ -1,0 +1,8 @@
+$dokka.format:jekyll
+$dokka.linkExtension:html
+
+com.virtlink.editorservices
+com.virtlink.editorservices.codecompletion
+com.virtlink.editorservices.debugger
+com.virtlink.editorservices.structureoutline
+com.virtlink.editorservices.syntaxhighlighting
