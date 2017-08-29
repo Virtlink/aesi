@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd ../aesi-java/
+cd aesi-java/
 ./gradlew dokka
 
 cd ../aesi-intellij/
