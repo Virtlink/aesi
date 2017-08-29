@@ -1,0 +1,13 @@
+$dokka.format:jekyll
+$dokka.linkExtension:html
+$dokka.location:org.metaborg.paplj$toOffset(com.virtlink.editorservices.Location, com.intellij.openapi.editor.Document)org.metaborg.paplj/com.virtlink.editorservices.-location/to-offset.html
+$dokka.location:org.metaborg.paplj$toOffset(com.virtlink.editorservices.Location, com.intellij.psi.PsiFile)org.metaborg.paplj/com.virtlink.editorservices.-location/to-offset.html
+org.metaborg.paplj
+org.metaborg.paplj.codecompletion
+org.metaborg.paplj.debugger
+org.metaborg.paplj.lexer
+org.metaborg.paplj.parser
+org.metaborg.paplj.psi
+org.metaborg.paplj.psi.impl
+org.metaborg.paplj.structureoutline
+org.metaborg.paplj.syntaxhighlighting

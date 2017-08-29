@@ -1,13 +1,16 @@
 buildscript {
     ext.kotlin_version = '1.1.4-2'
+    ext.dokka_version = '0.9.15'
     ext.javaVersion = '1.8'
 
     repositories {
         mavenCentral()
+        jcenter()
         maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
     }
 }
 
@@ -17,6 +20,7 @@ plugins {
 
 allprojects {
     apply plugin: 'idea'
+    apply plugin: 'org.jetbrains.dokka'
     idea {
         module {
             generatedSourceDirs += file('src/gen')
@@ -33,7 +37,6 @@ allprojects {
     targetCompatibility = javaVersion
 
     tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
-
     sourceSets {
         main {
             java.srcDirs += 'src/main/gen'
@@ -58,6 +61,14 @@ allprojects {
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
         testCompile 'junit:junit:4.11'
     }
+
+    dokka {
+        outputFormat = 'jekyll'
+    }
+}
+
+dokka {
+    outputDirectory = "$projectDir/../docs/"
 }
 
 apply plugin: 'org.jetbrains.intellij'
