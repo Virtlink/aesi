@@ -20,7 +20,7 @@ To work with AESI in IntelliJ:
     > following exception:
     > 
     >     FileNotFoundException: Entry fileTemplates//Singleton.java.ft not found
-3.  Build the project using:
+3.  Build the project in the `aesi-intellij` folder using:
 
         ./gradlew check
 
