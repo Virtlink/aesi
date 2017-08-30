@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1504094196785
+Bnd-LastModified: 1504101177963
 Build-Jdk: 1.8.0_144
 Built-By: daniel
-Bundle-ClassPath: .,jsr305-3.0.2.jar,slf4j-api-1.7.25.jar,aesi-java-0.0.
- 1-SNAPSHOT.jar
+Bundle-ClassPath: .,jsr305-3.0.2.jar,slf4j-api-1.7.25.jar,kotlin-stdlib-
+ 1.1.4-2.jar,aesi-java-0.0.1-SNAPSHOT.jar
 Bundle-DocURL: http://www.ewi.tudelft.nl/en
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ManifestVersion: 2
@@ -13,11 +13,12 @@ Bundle-Vendor: Delft University of Technology
 Bundle-Version: 1.0.0.qualifier
 Created-By: Apache Maven Bundle Plugin
 Eclipse-BuddyPolicy: registered
-Embed-Dependency: jsr305,slf4j-api,aesi-java
+Embed-Dependency: jsr305,slf4j-api,kotlin-stdlib,aesi-java
 Embedded-Artifacts: jsr305-3.0.2.jar;g="com.google.code.findbugs";a="jsr
  305";v="3.0.2",slf4j-api-1.7.25.jar;g="org.slf4j";a="slf4j-api";v="1.7.
- 25",aesi-java-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="aesi-java";v="0.0.
- 1-SNAPSHOT"
+ 25",kotlin-stdlib-1.1.4-2.jar;g="org.jetbrains.kotlin";a="kotlin-stdlib
+ ";v="1.1.4-2",aesi-java-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="aesi-jav
+ a";v="0.0.1-SNAPSHOT"
 Export-Package: javax.annotation;provider=metaborg;mandatory:=provider;v
  ersion="3.0.2",javax.annotation.concurrent;provider=metaborg;mandatory:
  =provider;version="3.0.2",javax.annotation.meta;provider=metaborg;manda
@@ -25,11 +26,29 @@ Export-Package: javax.annotation;provider=metaborg;mandatory:=provider;v
  rovider;version="1.7.25",org.slf4j.event;provider=metaborg;mandatory:=p
  rovider;version="1.7.25",org.slf4j.helpers;provider=metaborg;mandatory:
  =provider;version="1.7.25",org.slf4j.spi;provider=metaborg;mandatory:=p
- rovider;version="1.7.25",com.virtlink.editorservices;provider=metaborg;
- mandatory:=provider,com.virtlink.editorservices.codecompletion;provider
- =metaborg;mandatory:=provider,com.virtlink.editorservices.debugger;prov
- ider=metaborg;mandatory:=provider,com.virtlink.editorservices.structure
- outline;provider=metaborg;mandatory:=provider,com.virtlink.editorservic
- es.syntaxhighlighting;provider=metaborg;mandatory:=provider
+ rovider;version="1.7.25",kotlin;provider=metaborg;mandatory:=provider,k
+ otlin.annotation;provider=metaborg;mandatory:=provider,kotlin.collectio
+ ns;provider=metaborg;mandatory:=provider,kotlin.comparisons;provider=me
+ taborg;mandatory:=provider,kotlin.concurrent;provider=metaborg;mandator
+ y:=provider,kotlin.coroutines.experimental;provider=metaborg;mandatory:
+ =provider,kotlin.coroutines.experimental.intrinsics;provider=metaborg;m
+ andatory:=provider,kotlin.coroutines.experimental.jvm.internal;provider
+ =metaborg;mandatory:=provider,kotlin.experimental;provider=metaborg;man
+ datory:=provider,kotlin.internal;provider=metaborg;mandatory:=provider,
+ kotlin.io;provider=metaborg;mandatory:=provider,kotlin.jvm;provider=met
+ aborg;mandatory:=provider,kotlin.jvm.functions;provider=metaborg;mandat
+ ory:=provider,kotlin.jvm.internal;provider=metaborg;mandatory:=provider
+ ,kotlin.jvm.internal.markers;provider=metaborg;mandatory:=provider,kotl
+ in.jvm.internal.unsafe;provider=metaborg;mandatory:=provider,kotlin.pro
+ perties;provider=metaborg;mandatory:=provider,kotlin.ranges;provider=me
+ taborg;mandatory:=provider,kotlin.reflect;provider=metaborg;mandatory:=
+ provider,kotlin.sequences;provider=metaborg;mandatory:=provider,kotlin.
+ system;provider=metaborg;mandatory:=provider,kotlin.text;provider=metab
+ org;mandatory:=provider,com.virtlink.editorservices;provider=metaborg;m
+ andatory:=provider,com.virtlink.editorservices.codecompletion;provider=
+ metaborg;mandatory:=provider,com.virtlink.editorservices.debugger;provi
+ der=metaborg;mandatory:=provider,com.virtlink.editorservices.structureo
+ utline;provider=metaborg;mandatory:=provider,com.virtlink.editorservice
+ s.syntaxhighlighting;provider=metaborg;mandatory:=provider
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.3.0.201609221906

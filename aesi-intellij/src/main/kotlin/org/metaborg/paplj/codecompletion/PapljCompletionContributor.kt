@@ -58,7 +58,7 @@ class PapljCompletionContributor : CompletionContributor() {
         for (proposal in proposals) {
             val icon = getIcon(proposal.kind, proposal.visibility, proposal.attributes)
             // TODO: Prefix?
-            val element = LookupElementBuilder.create(proposal.name)
+            val element = LookupElementBuilder.create(proposal.label)
                     .withInsertHandler({ context, item -> proposalInsertHandler(context, item, proposal) })
                     .withTailText(proposal.postfix, true)
                     .withTypeText(proposal.type)
@@ -76,7 +76,7 @@ class PapljCompletionContributor : CompletionContributor() {
 
     private fun proposalInsertHandler(context: InsertionContext, item: LookupElement, proposal: ICompletionProposal) {
         // Replace the text that's normally inserted by the completion.
-        val insertionText = proposal.insertionText ?: proposal.name
+        val insertionText = proposal.insertionText ?: proposal.label
         context.document.replaceString(context.startOffset, context.tailOffset, insertionText)
         val caret = proposal.caret
         if (caret != null && caret > 0 && caret < insertionText.length) {

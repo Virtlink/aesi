@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.virtlink.aesi.ICancellationToken;
 import com.virtlink.aesi.IAesiDocument;
-import com.virtlink.aesi.IAesiProject;
-import com.virtlink.aesi.Location;
+import com.virtlink.editorservices.codecompletion.ICompletionProposal;
 
 import javax.annotation.Nullable;
 

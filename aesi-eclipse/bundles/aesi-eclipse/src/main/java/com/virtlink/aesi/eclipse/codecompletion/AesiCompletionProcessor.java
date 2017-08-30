@@ -28,7 +28,7 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
     public ICompletionProposal[] computeCompletionProposals(ITextViewer textViewer, int offset) {
     	// TODO: Determine project and document.
         IAesiDocument document = null;
-        List<com.virtlink.aesi.codecompletion.ICompletionProposal> proposals = this.codeCompleter.complete(document, offset, null);
+        List<com.virtlink.editorservices.codecompletion.ICompletionProposal> proposals = this.codeCompleter.complete(document, offset, null);
         return proposals.stream().map(p -> toEclipseCompletionProposal(p, textViewer.getDocument(), offset)).toArray(ICompletionProposal[]::new);
     }
 
@@ -57,14 +57,14 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
         return null;
     }
     
-    private ICompletionProposal toEclipseCompletionProposal(com.virtlink.aesi.codecompletion.ICompletionProposal proposal, IDocument document, int offset) {
+    private ICompletionProposal toEclipseCompletionProposal(com.virtlink.editorservices.codecompletion.ICompletionProposal proposal, IDocument document, int offset) {
         String replacementText = proposal.getInsertionText() != null ? proposal.getInsertionText() : proposal.getLabel();
         Image icon = IconManager.getInstance().getIcon();
     	return new CompletionProposal(
                 replacementText,
                 offset,
                 0,
-                offset + proposal.getCaretOffset(),
+                offset + proposal.getCaret(),
                 icon,
                 proposal.getLabel(),
                 new ContextInformation(null, "Context display string", "Info display string"),
