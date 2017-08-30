@@ -1,3 +1,7 @@
+---
+title: AESI Eclipse Development in IntelliJ
+---
+
 # Development in IntelliJ
 
 To develop this project in IntelliJ, you need:
@@ -6,7 +10,7 @@ To develop this project in IntelliJ, you need:
 - [Osmorc plugin](https://plugins.jetbrains.com/plugin/1816-osmorc)
 
 1.  Import the `aesi-eclipse` and `externaldeps` Maven projects.
-2.  Import the `aesi-java` and `aesi-intellij` Gradle projects.
+2.  Import the `aesi-java` Gradle project.
 3.  Right-click the `aesi-eclipse` module and select _Add Framework Support..._.
 4.  Check _OSGi_, and under _Libraries_ select _Download_. Click OK.
 5.  Download all P2 dependencies so IntelliJ can find them, by executing this

@@ -30,6 +30,7 @@ To work with AESI in IntelliJ:
 - [Building](building.md)
 
 ### AESI for Eclipse
+- [IntelliJ Development](intellij-development.md)
 - [Workspace Setup](eclipse-workspace-setup.md)
 - [Dependencies](eclipse-dependencies.md)
 
