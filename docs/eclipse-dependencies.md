@@ -1,4 +1,8 @@
-# Dependencies
+---
+title: AESI Eclipse Dependencies
+---
+
+# AESI Eclipse Dependencies
 
 ## Adding a Bundle Dependency
 Eclipse RCP projects only support OSGi bundles as dependencies. An OSGi bundle

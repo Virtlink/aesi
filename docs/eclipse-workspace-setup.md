@@ -1,4 +1,8 @@
-# Workspace Setup
+---
+title: Eclipse Workspace Setup
+---
+
+# Eclipse Workspace Setup
 
 1.  In Eclipse, import two projects into the workspace:
 

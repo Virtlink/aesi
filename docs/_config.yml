@@ -5,7 +5,7 @@ description:    >
     An Aesi adapter for IntelliJ.
 url:            "https://virtlink.com/aesi-intellij"
 
-theme:          jekyll-theme-cayman
+theme:          jekyll-theme-slate
 show_downloads: true
 
 
