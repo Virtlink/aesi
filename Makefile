@@ -1,4 +1,4 @@
-MARGS=-X
+MARGS=
 GARGS=--console rich
 
 .PHONY: all aesi-java aesi-eclipse aesi-intellij clean docs
