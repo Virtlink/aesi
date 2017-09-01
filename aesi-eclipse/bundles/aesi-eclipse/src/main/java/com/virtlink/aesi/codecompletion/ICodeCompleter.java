@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 /**
  * A code completer.
  */
-public interface ICodeCompleter {
+public interface ICodeCompleterx {
 
 	/**
 	 * Returns completion proposals for the current caret position in the text in a document.

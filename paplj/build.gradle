@@ -1,8 +1,4 @@
 buildscript {
-    // ext.kotlinVersion = '1.1.4-3'
-    // ext.dokkaVersion = '0.9.15'
-    // ext.javaVersion = '1.8'
-
     repositories {
         mavenCentral()
         jcenter()
@@ -17,7 +13,7 @@ buildscript {
 apply from: '../shared/shared.gradle'
 
 dependencies {
-    compile     "com.virtlink:aesi-java:0.0.1-SNAPSHOT"
+    compile     "com.virtlink:aesi-java:${project.version}"
 }
 
 dokka {

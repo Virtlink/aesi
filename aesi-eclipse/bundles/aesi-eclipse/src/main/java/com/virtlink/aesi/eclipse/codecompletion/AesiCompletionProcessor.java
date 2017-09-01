@@ -10,7 +10,7 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.*;
 
 import com.virtlink.aesi.codecompletion.DummyCodeCompleter;
-import com.virtlink.aesi.codecompletion.ICodeCompleter;
+import com.virtlink.editorservices.codecompletion.ICodeCompleter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;

@@ -1,3 +1,5 @@
 rootProject.name = 'aesi-intellij'
 
 includeBuild '../aesi-java'
+includeBuild '../aesi-paplj'
+

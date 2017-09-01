@@ -8,10 +8,10 @@ import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import java.util.*
 
 class PapljCodeCompleter : ICodeCompleter {
-    override fun complete(project: IProject, caret: IDocumentLocation, smart: Boolean, cancellationToken: ICancellationToken): List<ICompletionProposal> {
+    override fun complete(document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): List<ICompletionProposal> {
         return listOf(
                 CompletionProposal("Hello",
-                        insertionText = caret.document.path + ":" + caret.offset,
+                        insertionText = document.path + ":" + caretOffset,
                         postfix = "(subject: World)",
                         type = "Type",
                         description = "Description string",
