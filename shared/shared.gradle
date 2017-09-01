@@ -1,0 +1,55 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.dokka'
+
+group 'org.metaborg'
+version '0.0.1-SNAPSHOT'
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile     "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    testCompile 'junit:junit:4.11'
+}
+
+dokka {
+    outputFormat = 'jekyll'
+    outputDirectory = "$projectDir/../docs/"
+
+    // linkMapping {
+    //     dir = "src/main/kotlin"
+    //     url = "https://github.com/Virtlink/aesi/tree/master/aesi-intellij/src/main/kotlin"
+    //     suffix = "#L"
+    // }
+
+    // externalDocumentationLink {
+    //     url = new URL("https://virtlink.com/aesi/aesi-java/")
+    //     packageListUrl = new URL("https://raw.githubusercontent.com/Virtlink/aesi/master/docs/aesi-java/package-list")
+    // }
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "$javaVersion"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "$javaVersion"
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}

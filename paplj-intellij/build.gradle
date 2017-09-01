@@ -1,0 +1,110 @@
+buildscript {
+    // ext.kotlin_version = '1.1.4-3'
+    // ext.dokka_version = '0.9.15'
+    // ext.javaVersion = '1.8'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}"
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.2.9"
+}
+
+apply from: '../shared/shared.gradle'
+
+idea {
+    module {
+        generatedSourceDirs += file('src/gen')
+    }
+}
+
+sourceSets {
+    main {
+        java.srcDirs += 'src/main/gen'
+    }
+}
+
+dependencies {
+    compileOnly('com.github.JetBrains:Grammar-Kit:1.5.1') {
+        exclude group: 'org.jetbrains.plugins'
+        exclude module: 'idea'
+    }
+
+    compile     "com.virtlink:aesi-java:0.0.1-SNAPSHOT"
+}
+
+dokka {
+    linkMapping {
+        dir = "src/main/kotlin"
+        url = "https://github.com/Virtlink/aesi/tree/master/aesi-intellij/src/main/kotlin"
+        suffix = "#L"
+    }
+
+    externalDocumentationLink {
+        url = new URL("https://virtlink.com/aesi/aesi-java/")
+        packageListUrl = new URL("https://raw.githubusercontent.com/Virtlink/aesi/master/docs/aesi-java/package-list")
+    }
+}
+
+apply plugin: 'org.jetbrains.intellij'
+intellij {
+    version ideaVersion
+    downloadSources Boolean.valueOf(downloadIdeaSources)
+    updateSinceUntilBuild = false
+    instrumentCode = false
+}
+
+lexerTask(project, 'PapljLexer', 'org/metaborg/paplj')
+parserTask(project, 'Paplj', 'org/metaborg/paplj')
+
+static def codegenTask(project, task) {
+    project.compileKotlin.dependsOn task
+    project.compileTestKotlin.dependsOn task
+    return task
+}
+
+def lexerTask(project, lexerName, pkg) {
+    return codegenTask(project, tasks.create("generate${lexerName}", JavaExec) {
+        def src = "$project.projectDir/src/main/grammars/$pkg/${lexerName}.flex"
+        def dstRoot = "$project.projectDir/src/main/gen"
+        def dst = "$dstRoot/$pkg"
+
+        main = 'jflex.Main'
+        classpath = files('lib/jflex/jflex-1.7.0-SNAPSHOT.jar')
+
+        args = ['--skel', 'lib/jflex/idea-flex.skeleton',
+                '-d', dst,
+                src
+        ]
+
+        inputs.file file(src)
+        outputs.dir file("$dst/_${lexerName}.java")
+    })
+}
+
+def parserTask(project, parserName, pkg) {
+    return codegenTask(project, tasks.create("generate${parserName}", JavaExec) {
+        def src = "$project.projectDir/src/main/grammars/$pkg/${parserName}.bnf"
+        def dstRoot = "$project.projectDir/src/main/gen"
+        def dst = "$dstRoot/$pkg/psi"
+        doFirst {
+            delete file(dst)
+        }
+
+        main = 'org.intellij.grammar.Main'
+        classpath(configurations.compileOnly)
+
+        args = [dstRoot, file(src)]
+
+        inputs.file file(src)
+        outputs.dir dst
+    })
+}
