@@ -16,26 +16,14 @@ plugins {
 
 apply from: '../shared/shared.gradle'
 
-idea {
-    module {
-        generatedSourceDirs += file('src/gen')
-    }
-}
-
-sourceSets {
-    main {
-        java.srcDirs += 'src/main/gen'
-    }
-}
-
 dependencies {
     compileOnly('com.github.JetBrains:Grammar-Kit:1.5.1') {
         exclude group: 'org.jetbrains.plugins'
         exclude module: 'idea'
     }
 
-    compile     "com.virtlink:paplj:${project.version}"
-    compile     "com.virtlink:aesi-java:${project.version}"
+    compile     "${project.group}:paplj:${project.version}"
+    compile     "${project.group}:aesi:${project.version}"
 }
 
 dokka {

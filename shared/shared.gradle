@@ -1,15 +1,28 @@
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'idea'
+apply plugin: 'maven'
 apply plugin: 'org.jetbrains.dokka'
 
-group 'org.metaborg'
+group 'com.virtlink'
 version '0.0.1-SNAPSHOT'
 
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+idea {
+    module {
+        generatedSourceDirs += file('src/main/gen')
+    }
+}
+
+sourceSets {
+    main {
+        java.srcDirs += 'src/main/gen'
+    }
+}
 
 repositories {
     mavenLocal()

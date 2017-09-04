@@ -44,7 +44,7 @@ class PapljCompletionContributor : CompletionContributor() {
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
         val smart = when (parameters.completionType) {
             CompletionType.BASIC -> false
-            CompletionType.SMART -> true
+            CompletionType.SMART -> return
             CompletionType.CLASS_NAME -> return
         }
 
@@ -54,7 +54,7 @@ class PapljCompletionContributor : CompletionContributor() {
         val document = Document(getModuleRelativePath(parameters.originalFile) ?: "")
         val offset = parameters.offset
 
-        val proposals = codeCompleter.complete(project, DocumentLocation(document, offset), smart, CancellationToken())
+        val proposals = codeCompleter.complete(document, offset, CancellationToken())
         for (proposal in proposals) {
             val icon = getIcon(proposal.kind, proposal.visibility, proposal.attributes)
             // TODO: Prefix?

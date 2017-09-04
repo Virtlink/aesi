@@ -5,9 +5,8 @@
 
     <!-- Root Parent POM -->
 
-    <name>AESI adapter for Eclipse (Parent Configuration)</name>
     <groupId>com.virtlink</groupId>
-    <artifactId>aesi-eclipse.configuration.parent</artifactId>
+    <artifactId>paplj-eclipse.configuration.parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 

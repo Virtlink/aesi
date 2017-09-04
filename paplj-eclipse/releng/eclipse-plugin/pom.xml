@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Eclipse Plugin Parent POM -->
+
+    <artifactId>paplj-eclipse.configuration.eclipse.plugin</artifactId>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.virtlink</groupId>
+        <artifactId>paplj-eclipse.configuration.parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <repositories>
+        <repository>
+            <id>platform</id>
+            <url>${platform-repository-url}</url>
+            <layout>p2</layout>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.virtlink</groupId>
+            <artifactId>aesi-eclipse.externaldeps</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- For IntelliJ: -->
+        <!--<dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.ui.views</artifactId>
+            <version>3.6.100</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.equinox.common</artifactId>
+            <version>3.8.0</version>
+            <scope>provided</scope>
+        </dependency>-->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-compiler-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <useProjectSettings>false</useProjectSettings>
+                    <strictCompilerTarget>true</strictCompilerTarget>
+                    <compilerArgument>-warn:-discouraged,forbidden,deprication,raw,unchecked,typeHiding,serial,unusedImport</compilerArgument>
+                    <compilerArgument>-err:-forbidden</compilerArgument>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                    <debug>true</debug>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-packaging-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <strictBinIncludes>false</strictBinIncludes>
+                    <strictVersions>false</strictVersions>
+                    <archiveSite>true</archiveSite>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-surefire-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <useUIHarness>true</useUIHarness>
+                    <useUIThread>true</useUIThread>
+                    <argLine>-Xmx512m -Xms256m -Xss16m -XX:MaxPermSize=256m -server ${ui.test.vmargs}</argLine>
+                    <work>${test-workspace-location}</work>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <includePackedArtifacts>true</includePackedArtifacts>
+                    <pomDependencies>consider</pomDependencies>
+                    <executionEnvironmentDefault>JavaSE-${java-version}</executionEnvironmentDefault>
+                    <resolver>p2</resolver>
+                    <environments>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>macosx</os>
+                            <ws>cocoa</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                    </environments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
