@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: AESI for Eclipse
+Bundle-Name: AESI Adapter for Eclipse
 Bundle-SymbolicName: aesi-eclipse;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: com.virtlink.aesi.eclipse.AesiPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.filesystem,

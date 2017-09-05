@@ -47,49 +47,49 @@ intellij {
     instrumentCode = false
 }
 
-lexerTask(project, 'PapljLexer', 'org/metaborg/paplj')
-parserTask(project, 'Paplj', 'org/metaborg/paplj')
-
-static def codegenTask(project, task) {
-    project.compileKotlin.dependsOn task
-    project.compileTestKotlin.dependsOn task
-    return task
-}
-
-def lexerTask(project, lexerName, pkg) {
-    return codegenTask(project, tasks.create("generate${lexerName}", JavaExec) {
-        def src = "$project.projectDir/src/main/grammars/$pkg/${lexerName}.flex"
-        def dstRoot = "$project.projectDir/src/main/gen"
-        def dst = "$dstRoot/$pkg"
-
-        main = 'jflex.Main'
-        classpath = files('lib/jflex/jflex-1.7.0-SNAPSHOT.jar')
-
-        args = ['--skel', 'lib/jflex/idea-flex.skeleton',
-                '-d', dst,
-                src
-        ]
-
-        inputs.file file(src)
-        outputs.dir file("$dst/_${lexerName}.java")
-    })
-}
-
-def parserTask(project, parserName, pkg) {
-    return codegenTask(project, tasks.create("generate${parserName}", JavaExec) {
-        def src = "$project.projectDir/src/main/grammars/$pkg/${parserName}.bnf"
-        def dstRoot = "$project.projectDir/src/main/gen"
-        def dst = "$dstRoot/$pkg/psi"
-        doFirst {
-            delete file(dst)
-        }
-
-        main = 'org.intellij.grammar.Main'
-        classpath(configurations.compileOnly)
-
-        args = [dstRoot, file(src)]
-
-        inputs.file file(src)
-        outputs.dir dst
-    })
-}
+//lexerTask(project, 'PapljLexer', 'org/metaborg/paplj')
+//parserTask(project, 'Paplj', 'org/metaborg/paplj')
+//
+//static def codegenTask(project, task) {
+//    project.compileKotlin.dependsOn task
+//    project.compileTestKotlin.dependsOn task
+//    return task
+//}
+//
+//def lexerTask(project, lexerName, pkg) {
+//    return codegenTask(project, tasks.create("generate${lexerName}", JavaExec) {
+//        def src = "$project.projectDir/src/main/grammars/$pkg/${lexerName}.flex"
+//        def dstRoot = "$project.projectDir/src/main/gen"
+//        def dst = "$dstRoot/$pkg"
+//
+//        main = 'jflex.Main'
+//        classpath = files('lib/jflex/jflex-1.7.0-SNAPSHOT.jar')
+//
+//        args = ['--skel', 'lib/jflex/idea-flex.skeleton',
+//                '-d', dst,
+//                src
+//        ]
+//
+//        inputs.file file(src)
+//        outputs.dir file("$dst/_${lexerName}.java")
+//    })
+//}
+//
+//def parserTask(project, parserName, pkg) {
+//    return codegenTask(project, tasks.create("generate${parserName}", JavaExec) {
+//        def src = "$project.projectDir/src/main/grammars/$pkg/${parserName}.bnf"
+//        def dstRoot = "$project.projectDir/src/main/gen"
+//        def dst = "$dstRoot/$pkg/psi"
+//        doFirst {
+//            delete file(dst)
+//        }
+//
+//        main = 'org.intellij.grammar.Main'
+//        classpath(configurations.compileOnly)
+//
+//        args = [dstRoot, file(src)]
+//
+//        inputs.file file(src)
+//        outputs.dir dst
+//    })
+//}

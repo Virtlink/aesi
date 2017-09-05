@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: AESI for Eclipse
-Bundle-SymbolicName: aesi-eclipse;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Name: PAPLJ for Eclipse
+Bundle-SymbolicName: paplj-eclipse;singleton:=true
+Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: com.virtlink.aesi.eclipse.AesiPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.filesystem,
@@ -16,14 +16,14 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface.text,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
- aesi-eclipse.externaldeps
+ aesi-eclipse,
+ paplj-eclipse.externaldeps
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: com.virtlink.aesi,
- com.virtlink.aesi.syntaxhighlighting
+Export-Package: com.virtlink.paplj
 Bundle-Vendor: Virtlink
-Eclipse-RegisterBuddy: 
- aesi-eclipse.externaldeps
+Eclipse-RegisterBuddy: aesi-eclipse,
+ paplj-eclipse.externaldeps
 Import-Package: javax.annotation,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
