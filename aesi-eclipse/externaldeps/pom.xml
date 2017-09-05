@@ -14,9 +14,9 @@
 
     <parent>
         <groupId>com.virtlink</groupId>
-        <artifactId>aesi-eclipse.configuration.parent</artifactId>
+        <artifactId>eclipse.configuration.parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../releng</relativePath>
+        <relativePath>../../releng</relativePath>
     </parent>
 
     <dependencies>
@@ -44,6 +44,11 @@
 		    <groupId>org.jetbrains</groupId>
 		    <artifactId>annotations</artifactId>
 		    <version>13.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.inject</groupId>
+		    <artifactId>guice</artifactId>
+		    <version>4.1.0</version>
 		</dependency>
     </dependencies>
 
@@ -89,7 +94,8 @@
                             slf4j-api,
                             kotlin-stdlib,
                             aesi,
-                            annotations
+                            annotations,
+                            guice
                         </Embed-Dependency>
                         <!-- Export dependency packages -->
                         <Export-Package>
@@ -98,6 +104,7 @@
                             kotlin.*;provider=metaborg;mandatory:=provider,
                             org.jetbrains.*;provider=metaborg;mandatory:=provider,
                             org.intellij.*;provider=metaborg;mandatory:=provider,
+                            com.google.inject.*;provider=metaborg;mandatory:=provider,
                             com.virtlink.editorservices.*;provider=metaborg;mandatory:=provider
                         </Export-Package>
                         <!-- Don't declare dependency on JDK, internal, non-existent packages, or optional dependencies that

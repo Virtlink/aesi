@@ -14,7 +14,7 @@ plugins {
     id "org.jetbrains.intellij" version "0.2.9"
 }
 
-apply from: '../shared/shared.gradle'
+apply from: '../releng/shared.gradle'
 
 dependencies {
     compileOnly('com.github.JetBrains:Grammar-Kit:1.5.1') {

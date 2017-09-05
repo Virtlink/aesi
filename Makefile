@@ -30,8 +30,8 @@ clean.aesi-intellij: clean.aesi
 
 # aesi-eclipse
 aesi-eclipse: aesi
-	mvn install $(MARGS) -f aesi-eclipse/releng/pom.xml
-	mvn install $(MARGS) -f aesi-eclipse/releng/eclipse-plugin/pom.xml
+	mvn install $(MARGS) -f releng/pom.xml
+	mvn install $(MARGS) -f releng/aesi-eclipse/pom.xml
 	mvn clean install $(MARGS) -f aesi-eclipse/externaldeps/pom.xml
 	mvn clean verify  $(MARGS) -f aesi-eclipse/bundle/pom.xml
 
@@ -41,8 +41,8 @@ docs.aesi-eclipse: docs.aesi
 clean.aesi-eclipse: clean.aesi
 	mvn clean $(MARGS) -f aesi-eclipse/bundle/pom.xml
 	mvn clean $(MARGS) -f aesi-eclipse/externaldeps/pom.xml
-	mvn clean $(MARGS) -f aesi-eclipse/releng/eclipse-plugin/pom.xml
-	mvn clean $(MARGS) -f aesi-eclipse/releng/pom.xml
+	mvn clean $(MARGS) -f releng/aesi-eclipse/pom.xml
+	mvn clean $(MARGS) -f releng/pom.xml
 
 # paplj
 paplj: aesi

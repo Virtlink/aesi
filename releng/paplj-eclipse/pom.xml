@@ -5,12 +5,12 @@
 
     <!-- Eclipse Plugin Parent POM -->
 
-    <artifactId>aesi-eclipse.configuration.eclipse.plugin</artifactId>
+    <artifactId>paplj-eclipse.configuration.eclipse.plugin</artifactId>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>com.virtlink</groupId>
-        <artifactId>aesi-eclipse.configuration.parent</artifactId>
+        <artifactId>eclipse.configuration.parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
@@ -29,19 +29,11 @@
             <artifactId>aesi-eclipse.externaldeps</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- For IntelliJ: -->
-        <!--<dependency>
-            <groupId>org.eclipse.platform</groupId>
-            <artifactId>org.eclipse.ui.views</artifactId>
-            <version>3.6.100</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
-            <groupId>org.eclipse.platform</groupId>
-            <artifactId>org.eclipse.equinox.common</artifactId>
-            <version>3.8.0</version>
-            <scope>provided</scope>
-        </dependency>-->
+            <groupId>com.virtlink</groupId>
+            <artifactId>aesi-eclipse</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

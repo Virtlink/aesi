@@ -12,7 +12,7 @@
         <groupId>com.virtlink</groupId>
         <artifactId>aesi-eclipse.configuration.eclipse.plugin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../releng/eclipse-plugin</relativePath>
+        <relativePath>../../releng/aesi-eclipse</relativePath>
     </parent>
 
     <build>

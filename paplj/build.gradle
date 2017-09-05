@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-apply from: '../shared/shared.gradle'
+apply from: '../releng/shared.gradle'
 
 dependencies {
     compile "${project.group}:aesi:${project.version}"
