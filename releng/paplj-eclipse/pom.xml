@@ -26,7 +26,7 @@
     <dependencies>
         <dependency>
             <groupId>com.virtlink</groupId>
-            <artifactId>aesi-eclipse.externaldeps</artifactId>
+            <artifactId>paplj-eclipse.externaldeps</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
