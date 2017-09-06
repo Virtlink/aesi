@@ -1,9 +1,8 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1504690542977
+Bnd-LastModified: 1504709839841
 Build-Jdk: 1.8.0_144
 Built-By: daniel
-Bundle-ClassPath: .,jsr305-3.0.2.jar,slf4j-api-1.7.25.jar,kotlin-stdlib-
- 1.1.4-3.jar,aesi-0.0.1-SNAPSHOT.jar,paplj-0.0.1-SNAPSHOT.jar
+Bundle-ClassPath: .,paplj-0.0.1-SNAPSHOT.jar
 Bundle-DocURL: http://www.ewi.tudelft.nl/en
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ManifestVersion: 2
@@ -13,12 +12,9 @@ Bundle-Vendor: Delft University of Technology
 Bundle-Version: 0.0.1.qualifier
 Created-By: Apache Maven Bundle Plugin
 Eclipse-BuddyPolicy: registered
-Embed-Dependency: jsr305,slf4j-api,kotlin-stdlib,aesi,paplj
-Embedded-Artifacts: jsr305-3.0.2.jar;g="com.google.code.findbugs";a="jsr
- 305";v="3.0.2",slf4j-api-1.7.25.jar;g="org.slf4j";a="slf4j-api";v="1.7.
- 25",kotlin-stdlib-1.1.4-3.jar;g="org.jetbrains.kotlin";a="kotlin-stdlib
- ";v="1.1.4-3",aesi-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="aesi";v="0.0.
- 1-SNAPSHOT",paplj-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="paplj";v="0.0.
- 1-SNAPSHOT"
+Embed-Dependency: paplj
+Embedded-Artifacts: paplj-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="paplj";
+ v="0.0.1-SNAPSHOT"
+Export-Package: com.virtlink.paplj;provider=metaborg;mandatory:=provider
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.3.0.201609221906

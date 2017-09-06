@@ -19,7 +19,7 @@
     </parent>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j-version}</version>
@@ -28,22 +28,22 @@
 		    <groupId>com.google.code.findbugs</groupId>
 		    <artifactId>jsr305</artifactId>
 		    <version>3.0.2</version>
-		</dependency>
-        <dependency>
+		</dependency>-->
+        <!-- <dependency>
 		    <groupId>com.virtlink</groupId>
 		    <artifactId>aesi</artifactId>
 		    <version>${project.version}</version>
-		</dependency>
+		</dependency> -->
         <dependency>
 		    <groupId>com.virtlink</groupId>
 		    <artifactId>paplj</artifactId>
 		    <version>${project.version}</version>
 		</dependency>
-        <dependency>
+        <!--<dependency>
 		    <groupId>org.jetbrains.kotlin</groupId>
 		    <artifactId>kotlin-stdlib</artifactId>
 		    <version>${kotlin-version}</version>
-		</dependency>
+		</dependency>-->
     </dependencies>
 
     <repositories>
@@ -84,14 +84,25 @@
                         <Bundle-Version>$(replace;${project.version};-SNAPSHOT;.${forceContextQualifier})</Bundle-Version>
                         <!-- Embed dependencies into plugin bundle, so they are exportable. -->
                         <Embed-Dependency>
+                            paplj
+                        </Embed-Dependency>
+                        <!--<Embed-Dependency>
                             jsr305,
                             slf4j-api,
                             kotlin-stdlib,
-                            aesi,
-                            paplj
-                        </Embed-Dependency>
+                            paplj,
+                            aesi
+                        </Embed-Dependency>-->
                         <!-- Export dependency packages -->
-                        <Export-Package>{local-packages}</Export-Package>
+                        <Export-Package>*;provider=metaborg;mandatory:=provider</Export-Package>
+                        <!-- <Export-Package>{local-packages};provider=metaborg;mandatory:=provider</Export-Package> -->
+                        <!-- <Export-Package>
+                        	javax.annotation.*;provider=metaborg;mandatory:=provider,
+                            org.slf4j.*;provider=metaborg;mandatory:=provider,
+                            kotlin.*;provider=metaborg;mandatory:=provider,
+                            com.virtlink.editorservices.*;provider=metaborg;mandatory:=provider,
+                            com.virtlink.paplj.*;provider=metaborg;mandatory:=provider
+                        </Export-Package> -->
                         <!-- Don't declare dependency on JDK, internal, non-existent packages, or optional dependencies that
                           we do not need. -->
                         <Import-Package>

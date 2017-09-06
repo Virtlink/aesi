@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: PAPLJ for Eclipse
 Bundle-SymbolicName: paplj-eclipse;singleton:=true
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: com.virtlink.aesi.eclipse.AesiPlugin
+Bundle-Activator: com.virtlink.paplj.eclipse.PapljPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.filesystem,
  org.eclipse.core.resources,

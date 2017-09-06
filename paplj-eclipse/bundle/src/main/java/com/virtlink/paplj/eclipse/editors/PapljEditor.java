@@ -7,7 +7,7 @@ import com.virtlink.paplj.eclipse.PapljPlugin;
 
 public class PapljEditor extends AesiEditor {
 
-	public PapljEditor(ColorManager colorManager, AesiSourceViewerConfiguration sourceViewerConfiguration) {
+	public PapljEditor() {
 		super(
 				PapljPlugin.getInjector().getInstance(ColorManager.class),
 				PapljPlugin.getInjector().getInstance(AesiSourceViewerConfiguration.class));

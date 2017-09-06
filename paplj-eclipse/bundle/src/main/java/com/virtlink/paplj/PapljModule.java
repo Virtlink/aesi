@@ -11,7 +11,7 @@ import com.virtlink.paplj.DummyCodeCompleter;
 public class PapljModule extends AesiModule {
 	@Override
 	protected void bindCodeCompletion() {
-		super.bindCodeCompletion();
 		bind(ICodeCompleter.class).to(DummyCodeCompleter.class);
+		super.bindCodeCompletion();
 	}
 }

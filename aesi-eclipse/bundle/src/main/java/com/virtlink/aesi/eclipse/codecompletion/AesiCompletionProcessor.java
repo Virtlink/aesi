@@ -1,5 +1,6 @@
 package com.virtlink.aesi.eclipse.codecompletion;
 
+import com.google.inject.Inject;
 import com.virtlink.aesi.IAesiDocument;
 import com.virtlink.aesi.IAesiProject;
 import com.virtlink.aesi.Location;
@@ -23,6 +24,7 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
 	
 	private final ICodeCompleter codeCompleter;
 	
+	@Inject
 	public AesiCompletionProcessor(ICodeCompleter codeCompleter) {
 		this.codeCompleter = codeCompleter;
 	}
