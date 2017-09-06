@@ -20,7 +20,10 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: com.virtlink.aesi,
- com.virtlink.aesi.syntaxhighlighting
+ com.virtlink.aesi.codecompletion,
+ com.virtlink.aesi.eclipse.editors,
+ com.virtlink.aesi.syntaxhighlighting,
+ com.virtlink.editorservices
 Bundle-Vendor: Virtlink
 Eclipse-RegisterBuddy: 
  aesi-eclipse.externaldeps

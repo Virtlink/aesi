@@ -9,7 +9,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.*;
 
-import com.virtlink.aesi.codecompletion.DummyCodeCompleter;
 import com.virtlink.editorservices.codecompletion.ICodeCompleter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
@@ -22,7 +21,11 @@ import java.util.List;
  */
 public class AesiCompletionProcessor implements IContentAssistProcessor {
 	
-	private final ICodeCompleter codeCompleter = new DummyCodeCompleter();
+	private final ICodeCompleter codeCompleter;
+	
+	public AesiCompletionProcessor(ICodeCompleter codeCompleter) {
+		this.codeCompleter = codeCompleter;
+	}
 	
     @Override
     public ICompletionProposal[] computeCompletionProposals(ITextViewer textViewer, int offset) {

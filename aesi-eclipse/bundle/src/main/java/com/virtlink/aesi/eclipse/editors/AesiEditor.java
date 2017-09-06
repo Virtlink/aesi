@@ -14,16 +14,19 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 /**
  * Editor for AESI languages.
  */
-public class AesiEditor extends TextEditor {
+public abstract class AesiEditor extends TextEditor {
 
 	private ColorManager colorManager;
 	@Nullable private AesiOutlinePage outlinePage;
 
-	public AesiEditor() {
+	public AesiEditor(ColorManager colorManager, AesiSourceViewerConfiguration sourceViewerConfiguration) {
 		super();
-		this.colorManager = new ColorManager();
+		this.colorManager = colorManager;
 
-		setSourceViewerConfiguration(new AesiSourceViewerConfiguration(colorManager));
+		setSourceViewerConfiguration(sourceViewerConfiguration);
+//		this.colorManager = new ColorManager();
+//
+//		setSourceViewerConfiguration(new AesiSourceViewerConfiguration(colorManager));
 		setDocumentProvider(new AesiDocumentProvider());
 	}
 

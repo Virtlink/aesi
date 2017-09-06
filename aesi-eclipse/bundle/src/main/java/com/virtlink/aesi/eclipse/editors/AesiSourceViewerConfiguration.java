@@ -1,5 +1,7 @@
 package com.virtlink.aesi.eclipse.editors;
 
+import com.google.inject.Inject;
+import com.virtlink.aesi.eclipse.AesiPlugin;
 import com.virtlink.aesi.eclipse.codecompletion.AesiCompletionProcessor;
 import com.virtlink.aesi.eclipse.syntaxcoloring.AsyncPresentationReconciler;
 import org.eclipse.jface.text.IDocument;
@@ -24,10 +26,13 @@ public class AesiSourceViewerConfiguration extends TextSourceViewerConfiguration
 //	private XMLTagScanner tagScanner;
 //	private XMLScanner scanner;
 	private AesiSourceScanner scanner;
-	private ColorManager colorManager;
+	private final ColorManager colorManager;
+	private final IContentAssistProcessorFactory contentAssistProcessorFactory;
 
-	public AesiSourceViewerConfiguration(ColorManager colorManager) {
+	@Inject
+	public AesiSourceViewerConfiguration(ColorManager colorManager, IContentAssistProcessorFactory contentAssistProcessorFactory) {
 		this.colorManager = colorManager;
+		this.contentAssistProcessorFactory = contentAssistProcessorFactory;
 	}
 
 //	@Override
@@ -104,7 +109,8 @@ public class AesiSourceViewerConfiguration extends TextSourceViewerConfiguration
 	@Override
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant ca = new ContentAssistant();
-		IContentAssistProcessor cap = new AesiCompletionProcessor();
+//		AesiPlugin.getInjector()
+		IContentAssistProcessor cap = this.contentAssistProcessorFactory.create();
 		ca.setContentAssistProcessor(cap, IDocument.DEFAULT_CONTENT_TYPE);
 		ca.setInformationControlCreator(getInformationControlCreator(sourceViewer));
 		return ca;
