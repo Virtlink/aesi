@@ -12,8 +12,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/paplj.iml" filepath="$PROJECT_DIR$/.idea/modules/paplj.iml" />
       <module fileurl="file://$PROJECT_DIR$/paplj-eclipse/bundle/paplj-eclipse.iml" filepath="$PROJECT_DIR$/paplj-eclipse/bundle/paplj-eclipse.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/paplj-intellij.iml" filepath="$PROJECT_DIR$/.idea/modules/paplj-intellij.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/paplj-intellij_main.iml" filepath="$PROJECT_DIR$/.idea/modules/paplj-intellij_main.iml" group="paplj-intellij" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/paplj-intellij_test.iml" filepath="$PROJECT_DIR$/.idea/modules/paplj-intellij_test.iml" group="paplj-intellij" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/paplj_main.iml" filepath="$PROJECT_DIR$/.idea/modules/paplj_main.iml" group="paplj" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/paplj_test.iml" filepath="$PROJECT_DIR$/.idea/modules/paplj_test.iml" group="paplj" />
     </modules>

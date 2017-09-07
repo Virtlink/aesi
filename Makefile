@@ -20,13 +20,13 @@ clean.aesi:
 
 # aesi-intellij
 aesi-intellij: aesi
-	aesi-intellij/gradlew check $(GARGS) -p aesi-intellij/
+	aesi-intellij/gradlew install $(GARGS) -p aesi-intellij/
 
 docs.aesi-intellij: docs.aesi
-	aesi-intellij/gradlew  dokka $(GARGS) -p aesi-intellij/
+	aesi-intellij/gradlew dokka $(GARGS) -p aesi-intellij/
 
 clean.aesi-intellij: clean.aesi
-	aesi-intellij/gradlew  clean $(GARGS) -p aesi-intellij/
+	aesi-intellij/gradlew clean $(GARGS) -p aesi-intellij/
 
 # aesi-eclipse
 aesi-eclipse: aesi

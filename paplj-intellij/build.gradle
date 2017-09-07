@@ -23,7 +23,7 @@ dependencies {
     }
 
     compile     "${project.group}:paplj:${project.version}"
-    compile     "${project.group}:aesi:${project.version}"
+    compile     "${project.group}:aesi-intellij:${project.version}"
 }
 
 dokka {
