@@ -11,16 +11,20 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.2.9"
+    id "org.jetbrains.intellij" version "0.2.17"
 }
 
 apply from: '../releng/shared.gradle'
 
 dependencies {
-    compileOnly('com.github.JetBrains:Grammar-Kit:1.5.1') {
+    compileOnly('com.github.JetBrains:Grammar-Kit:1.5.2') {
         exclude group: 'org.jetbrains.plugins'
         exclude module: 'idea'
     }
+    compile "com.google.inject:guice:${guiceVersion}"
+    compile "com.google.inject.extensions:guice-assistedinject:${guiceVersion}"
+    compile "com.google.inject.extensions:guice-multibindings:${guiceVersion}"
+
 
     compile "${project.group}:aesi:${project.version}"
 }

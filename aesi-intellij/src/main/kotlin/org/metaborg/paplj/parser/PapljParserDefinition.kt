@@ -12,7 +12,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import org.metaborg.paplj.PapljLanguage
+import org.metaborg.paplj.AesiLanguage
 import org.metaborg.paplj.lexer.PapljLexerAdapter
 import org.metaborg.paplj.psi.PapljFile
 import org.metaborg.paplj.psi.PapljTypes
@@ -22,7 +22,7 @@ class PapljParserDefinition : IAesiParserDefinition {
     companion object {
         val WHITE_SPACES: TokenSet = TokenSet.create(TokenType.WHITE_SPACE)
 //        val COMMENTS: TokenSet = TokenSet.create(PapljTypes.COMMENT)
-        val FILE: IFileElementType = IFileElementType(Language.findInstance(PapljLanguage.javaClass))
+        val FILE: IFileElementType = IFileElementType(Language.findInstance(AesiLanguage.javaClass))
     }
 
     override fun createLexer(project: Project) : Lexer {

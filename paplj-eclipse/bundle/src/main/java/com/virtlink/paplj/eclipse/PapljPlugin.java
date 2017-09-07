@@ -28,7 +28,7 @@ public class PapljPlugin extends AbstractUIPlugin {
 	
 	/**
 	 * Gets the dependency injector.
-	 * @return The dependency injecotr.
+	 * @return The dependency injector.
 	 */
 	public static Injector getInjector() { return PapljPlugin.injector; }
 	

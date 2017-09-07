@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1504773318914
+Bnd-LastModified: 1504786612275
 Build-Jdk: 1.8.0_144
 Built-By: daniel
 Bundle-ClassPath: .,paplj-0.0.1-SNAPSHOT.jar

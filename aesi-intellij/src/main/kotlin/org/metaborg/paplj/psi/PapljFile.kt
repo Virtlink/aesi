@@ -2,16 +2,15 @@ package org.metaborg.paplj.psi
 
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
-import com.intellij.openapi.util.UserDataHolderBase
 import com.intellij.psi.FileViewProvider
-import org.metaborg.paplj.PapljFileType
-import org.metaborg.paplj.PapljLanguage
+import org.metaborg.paplj.AesiFileType
+import org.metaborg.paplj.AesiLanguage
 import javax.swing.Icon
 
-class PapljFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, PapljLanguage) {
+class PapljFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, AesiLanguage) {
 
     override fun getFileType(): FileType {
-        return PapljFileType
+        return AesiFileType
     }
 
     override fun getIcon(flags: Int): Icon? {

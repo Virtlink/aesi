@@ -18,12 +18,12 @@
     <!--<programRunner implementation="org.metaborg.paplj.debugger.AesiDebugRunner"/>-->
     <lang.syntaxHighlighterFactory language="Paplj" implementationClass="org.metaborg.paplj.syntaxhighlighting.AesiSyntaxHighlighterFactory"/>
     <ApplicationLoadListener implementation="org.metaborg.paplj.PapljPluginInitializer"/>
-    <fileTypeFactory implementation="org.metaborg.paplj.PapljFileTypeFactory"/>
+    <fileTypeFactory implementation="com.virtlink.paplj.intellij.PapljFileTypeFactory"/>
     <lang.parserDefinition language="Paplj" implementationClass="org.metaborg.paplj.parser.PapljParserDefinition"/>
     <lang.syntaxHighlighterFactory language="Paplj" implementationClass="org.metaborg.paplj.lexer.PapljSyntaxHighlighterFactory"/>
     <lang.psiStructureViewFactory language="Paplj" implementationClass="org.metaborg.paplj.structureoutline.PapljStructureViewFactory"/>
     <colorSettingsPage implementation="org.metaborg.paplj.PapljColorSettingsPage"/>
-    <completion.contributor language="Paplj" implementationClass="org.metaborg.paplj.codecompletion.PapljCompletionContributor"/>
+    <completion.contributor language="Paplj" implementationClass="com.virtlink.editorservices.intellij.codecompletion.AesiCompletionContributor"/>
   </extensions>
 
   <actions>

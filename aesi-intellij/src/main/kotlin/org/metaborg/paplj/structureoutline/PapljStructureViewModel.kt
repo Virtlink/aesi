@@ -1,6 +1,5 @@
 package org.metaborg.paplj.structureoutline
 
-import com.intellij.icons.AllIcons
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.structureView.TextEditorBasedStructureViewModel
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase
@@ -11,7 +10,6 @@ import com.intellij.util.PlatformIcons
 import org.metaborg.paplj.psi.PapljFile
 import com.virtlink.editorservices.*
 import com.virtlink.editorservices.structureoutline.*
-import org.metaborg.paplj.PapljIcons
 import org.metaborg.paplj.psi.PapljCompositeElement
 import org.metaborg.paplj.toOffset
 import javax.swing.Icon
@@ -51,7 +49,7 @@ class PapljStructureViewModel(editor: Editor?,
 
         override fun getIcon(open: Boolean): Icon? {
             return when (symbol?.kind ?: SymbolKind.Constant) {
-                SymbolKind.File -> PapljIcons.FILE
+                SymbolKind.File -> PlatformIcons.PACKAGE_ICON //PapljIcons.FILE
                 SymbolKind.Module -> PlatformIcons.OPENED_MODULE_GROUP_ICON
                 SymbolKind.Namespace -> PlatformIcons.PACKAGE_ICON
                 SymbolKind.Package -> PlatformIcons.PACKAGE_ICON

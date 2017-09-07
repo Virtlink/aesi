@@ -2,7 +2,6 @@ package org.metaborg.paplj.parser
 
 import com.intellij.lang.ParserDefinition
 import com.intellij.testFramework.ParsingTestCase
-import org.metaborg.paplj.PapljFileType
 
 abstract class PapljParserTestsBase(dataPath: String = "parser",
                                     fileExt: String = PapljFileType.EXTENSION,

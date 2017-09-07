@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.xdebugger.XSourcePosition
 import com.intellij.xdebugger.evaluation.EvaluationMode
 import com.intellij.xdebugger.evaluation.XDebuggerEditorsProvider
-import org.metaborg.paplj.PapljFileType
+import org.metaborg.paplj.AesiFileType
 
 class AesiDebuggerEditorsProvider : XDebuggerEditorsProvider() {
     override fun createDocument(project: Project, text: String, sourcePosition: XSourcePosition?, mode: EvaluationMode): Document {
@@ -14,7 +14,7 @@ class AesiDebuggerEditorsProvider : XDebuggerEditorsProvider() {
     }
 
     override fun getFileType(): FileType {
-        return PapljFileType
+        return AesiFileType
     }
 
 }

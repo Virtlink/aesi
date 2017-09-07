@@ -1,4 +1,4 @@
-package org.metaborg.paplj
+package com.virtlink.paplj.intellij
 
 import com.intellij.openapi.fileTypes.FileTypeConsumer
 import com.intellij.openapi.fileTypes.FileTypeFactory

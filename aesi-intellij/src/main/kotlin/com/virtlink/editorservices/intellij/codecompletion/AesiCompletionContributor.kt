@@ -1,45 +1,29 @@
-package org.metaborg.paplj.codecompletion
+package com.virtlink.editorservices.intellij.codecompletion
 
 import com.intellij.codeInsight.completion.*
-import com.intellij.codeInsight.lookup.AutoCompletionPolicy
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.EditorModificationUtil
-import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleUtil
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.ProjectUtil
 import com.intellij.openapi.roots.ModuleRootManager
-import com.intellij.openapi.util.Iconable
 import com.intellij.openapi.vfs.VfsUtil
-import com.intellij.openapi.vfs.VfsUtilCore
-import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.tree.IElementType
 import com.intellij.util.PlatformIcons
-import com.intellij.util.ProcessingContext
-import com.intellij.util.VisibilityIcons
 import com.virtlink.editorservices.codecompletion.ICodeCompleter
-import org.metaborg.paplj.PapljLanguage
-import org.metaborg.paplj.psi.PapljTypes
 import com.intellij.ui.RowIcon
 import com.intellij.util.ui.EmptyIcon
 import com.virtlink.editorservices.*
 import com.virtlink.editorservices.codecompletion.Attribute
 import java.util.*
-import javax.swing.text.StyleConstants.setIcon
 import com.intellij.ui.LayeredIcon
 import com.intellij.util.SmartList
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import javax.swing.Icon
+import com.google.inject.Inject
 
 
-class PapljCompletionContributor : CompletionContributor() {
-
-    // TODO: Inject
-    val codeCompleter = PapljCodeCompleter()
+abstract class AesiCompletionContributor @Inject constructor(private val codeCompleter: ICodeCompleter) : CompletionContributor() {
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
         val smart = when (parameters.completionType) {

@@ -1,4 +1,4 @@
-package org.metaborg.paplj
+package com.virtlink.paplj.intellij
 
 import com.intellij.openapi.util.IconLoader
 import javax.swing.Icon

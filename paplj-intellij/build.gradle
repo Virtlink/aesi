@@ -11,19 +11,18 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.2.9"
+    id "org.jetbrains.intellij" version "0.2.17"
 }
 
 apply from: '../releng/shared.gradle'
 
 dependencies {
-    compileOnly('com.github.JetBrains:Grammar-Kit:1.5.1') {
-        exclude group: 'org.jetbrains.plugins'
-        exclude module: 'idea'
-    }
+    compile "com.google.inject:guice:${guiceVersion}"
+    compile "com.google.inject.extensions:guice-assistedinject:${guiceVersion}"
+    compile "com.google.inject.extensions:guice-multibindings:${guiceVersion}"
 
-    compile     "${project.group}:paplj:${project.version}"
-    compile     "${project.group}:aesi-intellij:${project.version}"
+    compile "${project.group}:paplj:${project.version}"
+    compile "${project.group}:aesi-intellij:${project.version}"
 }
 
 dokka {
@@ -46,50 +45,3 @@ intellij {
     updateSinceUntilBuild = false
     instrumentCode = false
 }
-
-//lexerTask(project, 'PapljLexer', 'org/metaborg/paplj')
-//parserTask(project, 'Paplj', 'org/metaborg/paplj')
-//
-//static def codegenTask(project, task) {
-//    project.compileKotlin.dependsOn task
-//    project.compileTestKotlin.dependsOn task
-//    return task
-//}
-//
-//def lexerTask(project, lexerName, pkg) {
-//    return codegenTask(project, tasks.create("generate${lexerName}", JavaExec) {
-//        def src = "$project.projectDir/src/main/grammars/$pkg/${lexerName}.flex"
-//        def dstRoot = "$project.projectDir/src/main/gen"
-//        def dst = "$dstRoot/$pkg"
-//
-//        main = 'jflex.Main'
-//        classpath = files('lib/jflex/jflex-1.7.0-SNAPSHOT.jar')
-//
-//        args = ['--skel', 'lib/jflex/idea-flex.skeleton',
-//                '-d', dst,
-//                src
-//        ]
-//
-//        inputs.file file(src)
-//        outputs.dir file("$dst/_${lexerName}.java")
-//    })
-//}
-//
-//def parserTask(project, parserName, pkg) {
-//    return codegenTask(project, tasks.create("generate${parserName}", JavaExec) {
-//        def src = "$project.projectDir/src/main/grammars/$pkg/${parserName}.bnf"
-//        def dstRoot = "$project.projectDir/src/main/gen"
-//        def dst = "$dstRoot/$pkg/psi"
-//        doFirst {
-//            delete file(dst)
-//        }
-//
-//        main = 'org.intellij.grammar.Main'
-//        classpath(configurations.compileOnly)
-//
-//        args = [dstRoot, file(src)]
-//
-//        inputs.file file(src)
-//        outputs.dir dst
-//    })
-//}

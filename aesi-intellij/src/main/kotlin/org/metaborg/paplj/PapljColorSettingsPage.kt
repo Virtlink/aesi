@@ -5,6 +5,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
+import com.intellij.util.PlatformIcons
 import org.metaborg.paplj.lexer.PapljSyntaxHighlighter
 import org.metaborg.paplj.lexer.PapljTextColor
 import javax.swing.Icon
@@ -17,7 +18,7 @@ class PapljColorSettingsPage : ColorSettingsPage {
 
     override fun getDisplayName() = "PAPLJ"
 
-    override fun getIcon() = PapljIcons.FILE
+    override fun getIcon() = PlatformIcons.CLASS_ICON//PapljIcons.FILE
 
     override fun getHighlighter() = PapljSyntaxHighlighter()
 

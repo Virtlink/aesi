@@ -7,7 +7,7 @@ import com.virtlink.editorservices.codecompletion.ICodeCompleter
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import java.util.*
 
-class PapljCodeCompleter : ICodeCompleter {
+class XPapljCodeCompleter : ICodeCompleter {
     override fun complete(document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): List<ICompletionProposal> {
         return listOf(
                 CompletionProposal("Hello",

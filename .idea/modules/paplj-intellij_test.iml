@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="aesi-intellij:test" external.linked.project.path="$MODULE_DIR$/../../aesi-intellij" external.root.project.path="$MODULE_DIR$/../../aesi-intellij" external.system.id="GRADLE" external.system.module.group="com.virtlink" external.system.module.type="sourceSet" external.system.module.version="0.0.1-SNAPSHOT" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="paplj-intellij:test" external.linked.project.path="$MODULE_DIR$/../../paplj-intellij" external.root.project.path="$MODULE_DIR$/../../paplj-intellij" external.system.id="GRADLE" external.system.module.group="com.virtlink" external.system.module.type="sourceSet" external.system.module.version="0.0.1-SNAPSHOT" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="kotlin-language" name="Kotlin">
       <configuration version="3" platform="JVM 1.8" useProjectSettings="false">
         <compilerSettings />
         <compilerArguments>
-          <option name="destination" value="$MODULE_DIR$/../../aesi-intellij/build/classes/kotlin/test" />
+          <option name="destination" value="$MODULE_DIR$/../../paplj-intellij/build/classes/kotlin/test" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
-          <option name="moduleName" value="aesi-intellij_main" />
+          <option name="moduleName" value="paplj-intellij_main" />
           <option name="jvmTarget" value="1.8" />
           <option name="addCompilerBuiltIns" value="true" />
           <option name="loadBuiltInsFromDependencies" value="true" />
@@ -25,29 +25,29 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output-test url="file://$MODULE_DIR$/../../aesi-intellij/out/test/classes" />
+    <output-test url="file://$MODULE_DIR$/../../paplj-intellij/out/test/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../aesi-intellij/src/test">
-      <sourceFolder url="file://$MODULE_DIR$/../../aesi-intellij/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../aesi-intellij/src/test/kotlin" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../aesi-intellij/src/test/resources" type="java-test-resource" />
+    <content url="file://$MODULE_DIR$/../../paplj-intellij/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../paplj-intellij/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../paplj-intellij/src/test/kotlin" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../paplj-intellij/src/test/resources" type="java-test-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="aesi-intellij_main" />
+    <orderEntry type="module" module-name="paplj-intellij_main" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../aesi-intellij/build/classes/java/main" />
+          <root url="file://$MODULE_DIR$/../../paplj-intellij/build/classes/java/main" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Gradle: com.virtlink:paplj:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Gradle: com.virtlink:aesi-intellij:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: com.virtlink:aesi:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-test-junit:1.1.4-3" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-test:1.1.4-3" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.1.4-3" level="project" />
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
@@ -57,6 +57,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-test:1.1.4-3" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.1.4-3" level="project" />
     <orderEntry type="library" name="Gradle: com.google.inject.extensions:guice-assistedinject:4.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.inject.extensions:guice-multibindings:4.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.inject:guice:4.1.0" level="project" />
@@ -202,5 +204,5 @@
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
   </component>
-  <component name="TestModuleProperties" production-module="aesi-intellij_main" />
+  <component name="TestModuleProperties" production-module="paplj-intellij_main" />
 </module>
