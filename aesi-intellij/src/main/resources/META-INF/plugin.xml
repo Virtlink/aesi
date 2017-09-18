@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<!--<idea-plugin>
   <id>org.metaborg.paplj</id>
   <name>PAPLJ</name>
   <vendor email="info@metaborg.org" url="http://www.metaborg.org">Metaborg</vendor>
@@ -15,7 +15,6 @@
   <idea-version since-build="141.0"/>
 
   <extensions defaultExtensionNs="com.intellij">
-    <!--<programRunner implementation="org.metaborg.paplj.debugger.AesiDebugRunner"/>-->
     <lang.syntaxHighlighterFactory language="Paplj" implementationClass="org.metaborg.paplj.syntaxhighlighting.AesiSyntaxHighlighterFactory"/>
     <ApplicationLoadListener implementation="org.metaborg.paplj.PapljPluginInitializer"/>
     <fileTypeFactory implementation="com.virtlink.paplj.intellij.PapljFileTypeFactory"/>
@@ -29,4 +28,4 @@
   <actions>
   </actions>
 
-</idea-plugin>
+</idea-plugin>-->

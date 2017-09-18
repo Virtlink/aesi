@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.syntaxhighlighting
+package com.virtlink.editorservices.syntaxcoloring
 
 import com.virtlink.editorservices.Span
 

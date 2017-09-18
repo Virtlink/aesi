@@ -26,6 +26,7 @@ import com.google.inject.Inject
 abstract class AesiCompletionContributor @Inject constructor(private val codeCompleter: ICodeCompleter) : CompletionContributor() {
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
+        System.out.println("Completing!");
         val smart = when (parameters.completionType) {
             CompletionType.BASIC -> false
             CompletionType.SMART -> return

@@ -9,8 +9,13 @@ import com.google.inject.Module
 abstract class AesiModule : AbstractModule() {
     override fun configure() {
         bindCodeCompletion()
+        bindSyntaxColoring()
     }
 
     protected open fun bindCodeCompletion() {
+    }
+
+    protected open fun bindSyntaxColoring() {
+
     }
 }
