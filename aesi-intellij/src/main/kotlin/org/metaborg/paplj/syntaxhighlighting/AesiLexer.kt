@@ -1,24 +1,5 @@
 package org.metaborg.paplj.syntaxhighlighting
 
-import com.intellij.lexer.Lexer
-import com.intellij.lexer.LexerBase
-import com.intellij.lexer.LexerPosition
-import com.intellij.openapi.diagnostic.Logger
-import com.intellij.psi.PsiFile
-import com.intellij.psi.tree.IElementType
-import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
-import com.virtlink.editorservices.Span
-import org.metaborg.paplj.PapljDocumentManager
-import org.metaborg.paplj.PapljProjectManager
-import org.metaborg.paplj.locationFromOffset
-import org.metaborg.paplj.psi.PapljFile
-import org.metaborg.paplj.toOffset
-import com.intellij.openapi.editor.Document
-import com.virtlink.editorservices.syntaxcoloring.ISyntaxColorer
-import com.virtlink.editorservices.syntaxcoloring.IToken
-import java.lang.Integer.min
-
 //val papljFile = psiFile as PapljFile
 //val project: IProject = PapljProjectManager.toAesiProject(psiFile.project)
 //val document: IDocument = PapljDocumentManager.toAesiDocument(psiFile)

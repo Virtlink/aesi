@@ -11,6 +11,8 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFile
+import com.virtlink.editorservices.intellij.DocumentManager
+import com.virtlink.editorservices.intellij.ProjectManager
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColorer
 
 @Suppress("LeakingThis")
@@ -19,11 +21,11 @@ abstract class AesiHighlightingPassFactory(
         registrar: TextEditorHighlightingPassRegistrar)
     : AbstractProjectComponent(project), TextEditorHighlightingPassFactory {
 
-    private val syntaxColorer: ISyntaxColorer
+//    private val syntaxColorer: ISyntaxColorer
 
     init {
         registrar.registerTextEditorHighlightingPass(this, null, null, true, -1)
-        this.syntaxColorer = this.injector.getInstance(ISyntaxColorer::class.java)
+//        this.syntaxColorer = this.injector.getInstance(ISyntaxColorer::class.java)
     }
 
     abstract val injector: Injector
@@ -31,6 +33,9 @@ abstract class AesiHighlightingPassFactory(
     override fun createHighlightingPass(file: PsiFile, editor: Editor): TextEditorHighlightingPass? {
         val vfile = FileDocumentManager.getInstance().getFile(editor.document) ?: return null
 
-        return AesiHighlightingPass(syntaxColorer, file, editor, 0, editor.document.textLength)
+        val syntaxColorer = this.injector.getInstance(ISyntaxColorer::class.java)
+        val projectManager = this.injector.getInstance(ProjectManager::class.java)
+        val documentManager = this.injector.getInstance(DocumentManager::class.java)
+        return AesiHighlightingPass(syntaxColorer, projectManager, documentManager, file, editor, 0, editor.document.textLength)
     }
 }

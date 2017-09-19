@@ -7,34 +7,34 @@ import com.virtlink.editorservices.codecompletion.ICodeCompleter
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import java.util.*
 
-class XPapljCodeCompleter : ICodeCompleter {
-    override fun complete(document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): List<ICompletionProposal> {
-        return listOf(
-                CompletionProposal("Hello",
-                        insertionText = document.path + ":" + caretOffset,
-                        postfix = "(subject: World)",
-                        type = "Type",
-                        description = "Description string",
-                        documentation = "Extensive documentation",
-                        kind = Kind.Method,
-                        visibility = Visibility(ClassVisibility.Protected, PackageVisibility.Public, LibraryVisibility.Public),
-                        attributes = EnumSet.of(Attribute.Static)),
-                CompletionProposal("Local variable",
-                        insertionText = "local var",
-                        type = "String",
-                        kind = Kind.Variable,
-                        visibility = Visibility(ClassVisibility.Private, PackageVisibility.Public, LibraryVisibility.Public),
-                        attributes = EnumSet.of(Attribute.NotInherited)),
-                CompletionProposal("Method",
-                        insertionText = "method()",
-                        caret = 7,
-                        type = "String",
-                        postfix = " (deprecated)",
-                        kind = Kind.AbstractMethod,
-                        visibility = Visibility(ClassVisibility.Public, PackageVisibility.Package, LibraryVisibility.Public),
-                        attributes = EnumSet.of(Attribute.Deprecated)),
-                CompletionProposal("if",
-                        postfix = " then else")
-        )
-    }
-}
+//class XPapljCodeCompleter : ICodeCompleter {
+//    override fun complete(document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): List<ICompletionProposal> {
+//        return listOf(
+//                CompletionProposal("Hello",
+//                        insertionText = document.path + ":" + caretOffset,
+//                        postfix = "(subject: World)",
+//                        type = "Type",
+//                        description = "Description string",
+//                        documentation = "Extensive documentation",
+//                        kind = Kind.Method,
+//                        visibility = Visibility(ClassVisibility.Protected, PackageVisibility.Public, LibraryVisibility.Public),
+//                        attributes = EnumSet.of(Attribute.Static)),
+//                CompletionProposal("Local variable",
+//                        insertionText = "local var",
+//                        type = "String",
+//                        kind = Kind.Variable,
+//                        visibility = Visibility(ClassVisibility.Private, PackageVisibility.Public, LibraryVisibility.Public),
+//                        attributes = EnumSet.of(Attribute.NotInherited)),
+//                CompletionProposal("Method",
+//                        insertionText = "method()",
+//                        caret = 7,
+//                        type = "String",
+//                        postfix = " (deprecated)",
+//                        kind = Kind.AbstractMethod,
+//                        visibility = Visibility(ClassVisibility.Public, PackageVisibility.Package, LibraryVisibility.Public),
+//                        attributes = EnumSet.of(Attribute.Deprecated)),
+//                CompletionProposal("if",
+//                        postfix = " then else")
+//        )
+//    }
+//}

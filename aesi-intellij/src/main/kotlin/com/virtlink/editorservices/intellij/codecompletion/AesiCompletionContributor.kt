@@ -21,9 +21,15 @@ import com.intellij.util.SmartList
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import javax.swing.Icon
 import com.google.inject.Inject
+import com.virtlink.editorservices.intellij.DocumentManager
+import com.virtlink.editorservices.intellij.ProjectManager
 
 
-abstract class AesiCompletionContributor @Inject constructor(private val codeCompleter: ICodeCompleter) : CompletionContributor() {
+abstract class AesiCompletionContributor
+@Inject constructor(private val codeCompleter: ICodeCompleter,
+                    private val projectManager: ProjectManager,
+                    private val documentManager: DocumentManager)
+    : CompletionContributor() {
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
         System.out.println("Completing!");
@@ -33,10 +39,8 @@ abstract class AesiCompletionContributor @Inject constructor(private val codeCom
             CompletionType.CLASS_NAME -> return
         }
 
-        // TODO: More sensible translation from IntelliJ project to Aesi Project.
-        val project = com.virtlink.editorservices.Project(parameters.originalFile.project.name)
-        // TODO: More sensible translation from IntelliJ file to relative path; or another way to uniquely identify a file
-        val document = Document(getModuleRelativePath(parameters.originalFile) ?: "")
+        val project = this.projectManager.getProjectForFile(parameters.originalFile)
+        val document = this.documentManager.getDocument(parameters.editor)
         val offset = parameters.offset
 
         val proposals = codeCompleter.complete(document, offset, CancellationToken())

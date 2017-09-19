@@ -23,7 +23,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <ApplicationLoadListener implementation="com.virtlink.paplj.intellij.PapljPluginInitializer"/>
     <fileTypeFactory implementation="com.virtlink.paplj.intellij.PapljFileTypeFactory"/>
-    <completion.contributor language="Paplj" implementationClass="com.virtlink.paplj.intellij.codecompletion.PapljCompletionContributor"/>
+    <completion.contributor language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.codecompletion.PapljCompletionContributor"/>
   </extensions>
 
   <actions>

@@ -8,6 +8,9 @@ import com.google.inject.Module
 
 abstract class AesiModule : AbstractModule() {
     override fun configure() {
+        bind(DocumentManager::class.java)
+        bind(ProjectManager::class.java)
+
         bindCodeCompletion()
         bindSyntaxColoring()
     }

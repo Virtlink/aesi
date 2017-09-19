@@ -1,12 +1,14 @@
 MARGS=
 GARGS=--console rich
 
-.PHONY: all clean docs aesi aesi-eclipse aesi-intellij paplj paplj-eclipse paplj-intellij clean.aesi clean.aesi-eclipse clean.aesi-intellij clean.paplj clean.paplj-eclipse clean.paplj-intellij docs.aesi docs.aesi-eclipse docs.aesi-intellij docs.paplj docs.paplj-eclipse docs.paplj-intellij
+.PHONY: all clean docs run-intellij aesi aesi-eclipse aesi-intellij paplj paplj-eclipse paplj-intellij clean.aesi clean.aesi-eclipse clean.aesi-intellij clean.paplj clean.paplj-eclipse clean.paplj-intellij docs.aesi docs.aesi-eclipse docs.aesi-intellij docs.paplj docs.paplj-eclipse docs.paplj-intellij
 .SILENT:
 
 all: paplj-eclipse paplj-intellij
 clean: clean.paplj-eclipse clean.paplj-intellij
 docs: docs.paplj-eclipse docs.paplj-intellij
+run-intellij: paplj-intellij
+	paplj-intellij/gradlew runIde $(GARGS) -p paplj-intellij/
 
 # aesi
 aesi:

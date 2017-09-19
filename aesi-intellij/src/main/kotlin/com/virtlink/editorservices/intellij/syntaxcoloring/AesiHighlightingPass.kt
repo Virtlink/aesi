@@ -21,46 +21,33 @@ import com.intellij.util.SmartList
 import com.intellij.usages.ChunkExtractor.getStartOffset
 import com.intellij.openapi.util.TextRange
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
+import com.intellij.openapi.roots.ProjectRootManager
 import com.virtlink.editorservices.Span
+import com.virtlink.editorservices.intellij.DocumentManager
+import com.virtlink.editorservices.intellij.ProjectManager
 import com.virtlink.editorservices.intellij.toCancellationToken
 import com.virtlink.editorservices.syntaxcoloring.IToken
 
 class AesiHighlightingPass @Inject constructor(
         private val colorizer: ISyntaxColorer,
+        private val projectManager: ProjectManager,
+        private val documentManager: DocumentManager,
         @Assisted private val file: PsiFile,
         @Assisted private val editor: Editor,
         @Assisted private val startOffset: Int,
         @Assisted private val endOffset: Int)
     : TextEditorHighlightingPass(file.project, editor.document) {
 
-//    @Volatile private var highlights = Collections.emptyList<HighlightInfo>()
     @Volatile private var tokens = Collections.emptyList<IToken>()
     private val colorizerAdapter = AesiSyntaxColorerAdapter(editor, startOffset, endOffset)
 
     override fun doCollectInformation(progress: ProgressIndicator) {
-        // TODO: Project, document
-        val project = com.virtlink.editorservices.Project("NAME")
-        val document = com.virtlink.editorservices.Document("NAME")
+        val project = this.projectManager.getProjectForFile(file)
+        val document = this.documentManager.getDocument(editor)
         this.tokens = colorizer.highlight(project, document, Span(this.startOffset, this.endOffset), progress.toCancellationToken())
-//        this.highlights = tokens.map { t -> tokenToHighlightInfo(t) }.toList()
-
     }
-
-//    private fun tokenToHighlightInfo(token: IToken): HighlightInfo {
-//        val style = getStyle(token)
-//        return HighlightInfo.newHighlightInfo(style)
-//                .range(token.location.startOffset, token.location.endOffset)
-//                .createUnconditionally()
-//    }
-//
-//    private fun getStyle(token: IToken): HighlightInfoType {
-//        return HighlightInfoType.DEPRECATED
-//    }
 
     override fun doApplyInformationToEditor() {
         colorizerAdapter.colorize(this.tokens)
-//        UpdateHighlightersUtil.setHighlightersToEditor(myProject, myDocument!!, startOffset, endOffset, highlights, colorsScheme, id)
-//        val daemonCodeAnalyzer = DaemonCodeAnalyzer.getInstance(myProject)
-//        (daemonCodeAnalyzer as DaemonCodeAnalyzerImpl).fileStatusMap.markFileUpToDate(myDocument, id)
     }
 }
