@@ -7,7 +7,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
-import org.metaborg.paplj.psi.PapljFile
+import org.metaborg.paplj.psi.XPapljFile
 import com.virtlink.editorservices.*
 import com.virtlink.editorservices.structureoutline.*
 import org.metaborg.paplj.psi.PapljCompositeElement
@@ -15,7 +15,7 @@ import org.metaborg.paplj.toOffset
 import javax.swing.Icon
 
 class PapljStructureViewModel(editor: Editor?,
-                              file: PapljFile,
+                              file: XPapljFile,
                               val outliner: IStructureOutliner,
                               val project: IProject,
                               val document: IDocument)
@@ -25,7 +25,7 @@ class PapljStructureViewModel(editor: Editor?,
         return createTreeElement(null)
     }
 
-    override fun getPsiFile(): PapljFile = super.getPsiFile() as PapljFile
+    override fun getPsiFile(): XPapljFile = super.getPsiFile() as XPapljFile
 
     private inline fun <reified T: PsiElement> findElementAt(offset: Int): T? {
         return PsiTreeUtil.getParentOfType(this.psiFile.findElementAt(offset), T::class.java)

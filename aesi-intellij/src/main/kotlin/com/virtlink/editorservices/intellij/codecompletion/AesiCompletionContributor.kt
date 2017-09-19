@@ -32,7 +32,6 @@ abstract class AesiCompletionContributor
     : CompletionContributor() {
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
-        System.out.println("Completing!");
         val smart = when (parameters.completionType) {
             CompletionType.BASIC -> false
             CompletionType.SMART -> return
@@ -43,23 +42,38 @@ abstract class AesiCompletionContributor
         val document = this.documentManager.getDocument(parameters.editor)
         val offset = parameters.offset
 
-        val proposals = codeCompleter.complete(document, offset, CancellationToken())
-        for (proposal in proposals) {
+        val completionInfo = codeCompleter.complete(document, offset, CancellationToken())
+
+        // IntelliJ by default uses the CamelHumpMatcher to test whether a completion result
+        // should be included. However, this matcher takes the start of the current element
+        // up to the current offset as the prefix. With the plain-text-like PSI file we have
+        // only a single element for the whole file, which means it will take the whole file's
+        // text before the caret position as the prefix. We don't want that, so we'll use our
+        // own prefix matcher.
+        // Since the prefix matcher determines what is shown, highlights the prefix in the
+        // completion list and replaces it by the inserted text, we need to make sure the prefix
+        // is correct. Also, if there is only one result with the given prefix, it is inserted
+        // automagically.
+        // Otherwise we'd use just "" here to disregard the prefix.
+        val newResult = result.withPrefixMatcher(PlainPrefixMatcher(completionInfo.prefix))
+
+        for (proposal in completionInfo.proposals) {
             val icon = getIcon(proposal.kind, proposal.visibility, proposal.attributes)
             // TODO: Prefix?
             val element = LookupElementBuilder.create(proposal.label)
-                    .withInsertHandler({ context, item -> proposalInsertHandler(context, item, proposal) })
-                    .withTailText(proposal.postfix, true)
-                    .withTypeText(proposal.type)
-                    .withCaseSensitivity(proposal.caseSensitive)
-//                    .withPresentableText(proposal.prefix + proposal.name)
-                    .withIcon(icon)
-                    .withBoldness(proposal.attributes.contains(Attribute.NotInherited))
-                    .withStrikeoutness(proposal.attributes.contains(Attribute.Deprecated))
+//                    .withInsertHandler({ context, item -> proposalInsertHandler(context, item, proposal) })
+//                    .withTailText(proposal.postfix, true)
+//                    .withTypeText(proposal.type)
+//                    .withCaseSensitivity(proposal.caseSensitive)
+////                    .withPresentableText(proposal.prefix + proposal.name)
+//                    .withIcon(icon)
+//                    .withBoldness(proposal.attributes.contains(Attribute.NotInherited))
+//                    .withStrikeoutness(proposal.attributes.contains(Attribute.Deprecated))
             // TODO: Description
             // TODO: Documentation
-            val priorityElement = PrioritizedLookupElement.withPriority(element, proposal.priority.toDouble())
-            result.addElement(priorityElement)
+//            val priorityElement = PrioritizedLookupElement.withPriority(element, proposal.priority.toDouble())
+//            result.addElement(priorityElement)
+            newResult.addElement(element)
         }
     }
 

@@ -14,7 +14,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import org.metaborg.paplj.AesiLanguage
 import org.metaborg.paplj.lexer.PapljLexerAdapter
-import org.metaborg.paplj.psi.PapljFile
+import org.metaborg.paplj.psi.XPapljFile
 import org.metaborg.paplj.psi.PapljTypes
 
 class PapljParserDefinition : IAesiParserDefinition {
@@ -42,7 +42,7 @@ class PapljParserDefinition : IAesiParserDefinition {
     }
 
     override fun createFile(viewProvider: FileViewProvider?): PsiFile? {
-        return PapljFile(viewProvider!!)
+        return XPapljFile(viewProvider!!)
     }
 
     override fun createElement(node: ASTNode?): PsiElement {

@@ -10,7 +10,7 @@ import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.intellij.DocumentManager
 import com.virtlink.editorservices.intellij.ProjectManager
-import org.metaborg.paplj.psi.PapljFile
+import org.metaborg.paplj.psi.XPapljFile
 
 class PapljStructureViewFactory : PsiStructureViewFactory {
 
@@ -20,7 +20,7 @@ class PapljStructureViewFactory : PsiStructureViewFactory {
     val documentManager = DocumentManager()
 
     override fun getStructureViewBuilder(psiFile: PsiFile): StructureViewBuilder? {
-        val papljFile = psiFile as PapljFile
+        val papljFile = psiFile as XPapljFile
         val project: IProject = projectManager.getProjectForFile(psiFile)
         val document: IDocument = documentManager.getDocument(psiFile)
 

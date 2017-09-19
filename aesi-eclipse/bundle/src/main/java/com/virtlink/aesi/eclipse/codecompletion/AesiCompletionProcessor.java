@@ -6,6 +6,8 @@ import com.virtlink.aesi.IAesiProject;
 import com.virtlink.aesi.Location;
 import com.virtlink.aesi.eclipse.AesiUtils;
 import com.virtlink.aesi.eclipse.IconManager;
+import com.virtlink.editorservices.codecompletion.ICompletionInfo;
+import com.virtlink.editorservices.codecompletion.ICompletionProposal;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.*;
@@ -30,11 +32,13 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
 	}
 	
     @Override
-    public ICompletionProposal[] computeCompletionProposals(ITextViewer textViewer, int offset) {
+    public org.eclipse.jface.text.contentassist.ICompletionProposal[] computeCompletionProposals(ITextViewer textViewer, int offset) {
     	// TODO: Determine project and document.
         com.virtlink.editorservices.IDocument document = null;
-        List<com.virtlink.editorservices.codecompletion.ICompletionProposal> proposals = this.codeCompleter.complete(document, offset, null);
-        return proposals.stream().map(p -> toEclipseCompletionProposal(p, textViewer.getDocument(), offset)).toArray(ICompletionProposal[]::new);
+        ICompletionInfo completionInfo = this.codeCompleter.complete(document, offset, null);
+        List<ICompletionProposal> proposals = completionInfo.getProposals();
+        // TODO: Do something with the prefix.
+        return proposals.stream().map(p -> toEclipseCompletionProposal(p, textViewer.getDocument(), offset)).toArray(org.eclipse.jface.text.contentassist.ICompletionProposal[]::new);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
         return null;
     }
     
-    private ICompletionProposal toEclipseCompletionProposal(com.virtlink.editorservices.codecompletion.ICompletionProposal proposal, IDocument document, int offset) {
+    private org.eclipse.jface.text.contentassist.ICompletionProposal toEclipseCompletionProposal(com.virtlink.editorservices.codecompletion.ICompletionProposal proposal, IDocument document, int offset) {
         String replacementText = proposal.getInsertionText() != null ? proposal.getInsertionText() : proposal.getLabel();
         Image icon = IconManager.getInstance().getIcon();
     	return new CompletionProposal(

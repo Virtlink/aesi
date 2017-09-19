@@ -19,10 +19,10 @@ interface ICodeCompleter {
      * @param document The document for which to provide completions.
      * @param caretOffset The offset of the caret in the document.
      * @param cancellationToken The cancellation token; or `null` when not supported.
-     * @return The list of tokens in the colorized document.
+     * @return The completion info.
      */
     fun complete(
             document: IDocument,
             caretOffset: Int,
-            cancellationToken: ICancellationToken?): List<ICompletionProposal>
+            cancellationToken: ICancellationToken?): ICompletionInfo
 }

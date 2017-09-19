@@ -21,6 +21,7 @@
   </project-components>
 
   <extensions defaultExtensionNs="com.intellij">
+    <lang.fileViewProviderFactory language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.PapljFileViewProviderFactory" />
     <ApplicationLoadListener implementation="com.virtlink.paplj.intellij.PapljPluginInitializer"/>
     <fileTypeFactory implementation="com.virtlink.paplj.intellij.PapljFileTypeFactory"/>
     <completion.contributor language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.codecompletion.PapljCompletionContributor"/>

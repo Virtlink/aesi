@@ -1,6 +1,6 @@
 package org.metaborg.paplj.syntaxhighlighting
 
-//val papljFile = psiFile as PapljFile
+//val papljFile = psiFile as XPapljFile
 //val project: IProject = PapljProjectManager.toAesiProject(psiFile.project)
 //val document: IDocument = PapljDocumentManager.toAesiDocument(psiFile)
 
