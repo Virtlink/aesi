@@ -10,6 +10,11 @@ buildscript {
     }
 }
 
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/javadoc"
+}
+
 apply from: '../releng/shared.gradle'
 
 dependencies {

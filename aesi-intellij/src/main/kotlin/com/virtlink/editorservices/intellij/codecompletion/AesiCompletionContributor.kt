@@ -54,21 +54,25 @@ abstract class AesiCompletionContributor
         // completion list and replaces it by the inserted text, we need to make sure the prefix
         // is correct. Also, if there is only one result with the given prefix, it is inserted
         // automagically.
-        // Otherwise we'd use just "" here to disregard the prefix.
-        val newResult = result.withPrefixMatcher(PlainPrefixMatcher(completionInfo.prefix))
+        // When trying to insert something on an empty line, the prefix is already "".
+        // In that case we reuse the existing prefix matcher, as our matcher substitute has a bug
+        // where it thinks it has matched the first character of the results already when set to "".
+
+        val newResult = if (result.prefixMatcher.prefix != "") result.withPrefixMatcher(PlainPrefixMatcher(completionInfo.prefix)) else result
+
 
         for (proposal in completionInfo.proposals) {
             val icon = getIcon(proposal.kind, proposal.visibility, proposal.attributes)
             // TODO: Prefix?
             val element = LookupElementBuilder.create(proposal.label)
-//                    .withInsertHandler({ context, item -> proposalInsertHandler(context, item, proposal) })
-//                    .withTailText(proposal.postfix, true)
-//                    .withTypeText(proposal.type)
-//                    .withCaseSensitivity(proposal.caseSensitive)
-////                    .withPresentableText(proposal.prefix + proposal.name)
-//                    .withIcon(icon)
-//                    .withBoldness(proposal.attributes.contains(Attribute.NotInherited))
-//                    .withStrikeoutness(proposal.attributes.contains(Attribute.Deprecated))
+                    .withInsertHandler({ context, item -> proposalInsertHandler(context, item, proposal) })
+                    .withTailText(proposal.postfix, true)
+                    .withTypeText(proposal.type)
+                    .withCaseSensitivity(proposal.caseSensitive)
+//                    .withPresentableText(proposal.prefix + proposal.name)
+                    .withIcon(icon)
+                    .withBoldness(proposal.attributes.contains(Attribute.NotInherited))
+                    .withStrikeoutness(proposal.attributes.contains(Attribute.Deprecated))
             // TODO: Description
             // TODO: Documentation
 //            val priorityElement = PrioritizedLookupElement.withPriority(element, proposal.priority.toDouble())

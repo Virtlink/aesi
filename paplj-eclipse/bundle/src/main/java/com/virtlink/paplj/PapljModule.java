@@ -6,7 +6,7 @@ import com.virtlink.aesi.eclipse.editors.ColorManager;
 import com.virtlink.aesi.eclipse.editors.IContentAssistProcessorFactory;
 import com.virtlink.editorservices.AesiModule;
 import com.virtlink.editorservices.codecompletion.ICodeCompleter;
-import com.virtlink.paplj.DummyCodeCompleter;
+import com.virtlink.paplj.codecompletion.DummyCodeCompleter;
 
 public class PapljModule extends AesiModule {
 	@Override

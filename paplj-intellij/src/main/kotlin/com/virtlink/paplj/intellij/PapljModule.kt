@@ -3,7 +3,7 @@ package com.virtlink.paplj.intellij
 import com.virtlink.editorservices.intellij.AesiModule
 import com.virtlink.editorservices.codecompletion.ICodeCompleter
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColorer
-import com.virtlink.paplj.DummyCodeCompleter
+import com.virtlink.paplj.codecompletion.DummyCodeCompleter
 import com.virtlink.paplj.syntaxcoloring.DummySyntaxColorer
 
 
