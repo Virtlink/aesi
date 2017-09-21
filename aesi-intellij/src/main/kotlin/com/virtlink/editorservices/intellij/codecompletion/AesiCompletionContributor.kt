@@ -42,7 +42,7 @@ abstract class AesiCompletionContributor
         val document = this.documentManager.getDocument(parameters.editor)
         val offset = parameters.offset
 
-        val completionInfo = codeCompleter.complete(document, offset, CancellationToken())
+        val completionInfo = this.codeCompleter.complete(project, document, offset, CancellationToken())
 
         // IntelliJ by default uses the CamelHumpMatcher to test whether a completion result
         // should be included. However, this matcher takes the start of the current element
@@ -58,7 +58,8 @@ abstract class AesiCompletionContributor
         // In that case we reuse the existing prefix matcher, as our matcher substitute has a bug
         // where it thinks it has matched the first character of the results already when set to "".
 
-        val newResult = if (result.prefixMatcher.prefix != "") result.withPrefixMatcher(PlainPrefixMatcher(completionInfo.prefix)) else result
+        // FIXME
+//        val newResult = if (result.prefixMatcher.prefix != "") result.withPrefixMatcher(PlainPrefixMatcher(completionInfo.prefix)) else result
 
 
         for (proposal in completionInfo.proposals) {
@@ -77,7 +78,9 @@ abstract class AesiCompletionContributor
             // TODO: Documentation
 //            val priorityElement = PrioritizedLookupElement.withPriority(element, proposal.priority.toDouble())
 //            result.addElement(priorityElement)
-            newResult.addElement(element)
+            // FIXME
+//            newResult.addElement(element)
+            result.addElement(element)
         }
     }
 

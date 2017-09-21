@@ -5,7 +5,7 @@ import com.virtlink.editorservices.codecompletion.*
 import java.util.*
 
 class DummyCodeCompleter : ICodeCompleter {
-    override fun complete(document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): ICompletionInfo {
+    override fun complete(project: IProject, document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): ICompletionInfo {
         val proposals = listOf(
                 CompletionProposal("Hello",
                         insertionText = "hello world!",

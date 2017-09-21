@@ -27,7 +27,11 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output-test url="file://$MODULE_DIR$/../../paplj/out/test/classes" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../paplj/build/generated-src/antlr/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../paplj/build/generated-src/antlr/test" isTestSource="true" />
+    </content>
     <content url="file://$MODULE_DIR$/../../paplj/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../paplj/src/test/antlr" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../paplj/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../paplj/src/test/kotlin" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../paplj/src/test/resources" type="java-test-resource" />
@@ -44,6 +48,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Gradle: org.antlr:antlr4:4.5.3" level="project" />
     <orderEntry type="library" name="Gradle: com.virtlink:aesi:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-test-junit:1.1.4-3" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-test:1.1.4-3" level="project" />

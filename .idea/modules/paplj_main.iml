@@ -28,7 +28,11 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../paplj/out/production/classes" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../paplj/build/generated-src/antlr/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../paplj/build/generated-src/antlr/main" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../paplj/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../paplj/src/main/antlr" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../paplj/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../paplj/src/main/kotlin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../paplj/src/main/gen" isTestSource="false" generated="true" />
@@ -36,6 +40,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr4:4.5.3" level="project" />
     <orderEntry type="library" name="Gradle: com.virtlink:aesi:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.1.4-3" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
