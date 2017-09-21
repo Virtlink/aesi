@@ -8,14 +8,14 @@ import com.intellij.psi.tree.IElementType
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.Span
-import com.virtlink.editorservices.intellij.psi.ElementTypeManager
+import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColorer
 import com.virtlink.editorservices.syntaxcoloring.IToken
 
 class AesiLexer @Inject constructor(
         @Assisted private val project: IProject,
         @Assisted private val document: IDocument,
-        private val elementTypeManager: ElementTypeManager,
+        private val tokenTypeManager: AesiTokenTypeManager,
         private val colorer: ISyntaxColorer)
     : LexerBase() {
 
@@ -108,24 +108,22 @@ class AesiLexer @Inject constructor(
         return endOffset
     }
 
-    private fun getTokenType(token: IToken?): IElementType {
-        if (token == null)
-            return this.elementTypeManager.dummyElementType
-
-        return this.elementTypeManager.contentElementType
-    }
+    private fun getTokenType(token: IToken?): IElementType
+        = this.tokenTypeManager.getTokenType(token?.scope)
 
     override fun advance() {
         tokenIndex++
     }
 
     override fun getTokenStart(): Int {
-        assert(0 <= tokenIndex && tokenIndex < tokens.size, { "Expected index 0 <= $tokenIndex < ${tokens.size}." })
+        assert(0 <= tokenIndex && tokenIndex < tokens.size,
+                { "Expected index 0 <= $tokenIndex < ${tokens.size}." })
         return tokens[tokenIndex].startOffset
     }
 
     override fun getTokenEnd(): Int {
-        assert(0 <= tokenIndex && tokenIndex < tokens.size, { "Expected index 0 <= $tokenIndex < ${tokens.size}." })
+        assert(0 <= tokenIndex && tokenIndex < tokens.size,
+                { "Expected index 0 <= $tokenIndex < ${tokens.size}." })
         return tokens[tokenIndex].endOffset
     }
 

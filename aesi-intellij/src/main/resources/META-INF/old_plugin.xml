@@ -15,7 +15,7 @@
   <idea-version since-build="141.0"/>
 
   <extensions defaultExtensionNs="com.intellij">
-    <lang.syntaxHighlighterFactory language="Paplj" implementationClass="org.metaborg.paplj.syntaxhighlighting.AesiSyntaxHighlighterFactory"/>
+    <lang.syntaxHighlighterFactory language="Paplj" implementationClass="com.virtlink.editorservices.intellij.syntaxcoloring.AesiSyntaxHighlighterFactory"/>
     <ApplicationLoadListener implementation="org.metaborg.paplj.PapljPluginInitializer"/>
     <fileTypeFactory implementation="com.virtlink.paplj.intellij.PapljFileTypeFactory"/>
     <lang.parserDefinition language="Paplj" implementationClass="org.metaborg.paplj.parser.PapljParserDefinition"/>

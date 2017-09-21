@@ -22,28 +22,25 @@ open class AesiParserDefinition @Inject constructor(
         private val fileType: LanguageFileType,
         private val fileElementType: IFileElementType)
     : ParserDefinition {
-//    private val fileElementType : IFileElementType = AesiFileElementType(this.fileType.language)
+
+    override fun getFileNodeType(): IFileElementType = this.fileElementType
 
     override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): ParserDefinition.SpaceRequirements
             = ParserDefinition.SpaceRequirements.MAY
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    override fun getFileNodeType(): IFileElementType = this.fileElementType
-
     override fun getWhitespaceTokens(): TokenSet = TokenSet.EMPTY
 
-    override fun createLexer(project: Project?): Lexer {
-        TODO()
-    }
+    override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
 
-    override fun createParser(project: Project?): PsiParser {
-        throw UnsupportedOperationException("See AesiFileElementType.doParseContents().")
-    }
+    override fun createLexer(project: Project?): Lexer
+        = throw UnsupportedOperationException("See AesiFileElementType.doParseContents().")
+
+    override fun createParser(project: Project?): PsiParser
+        = throw UnsupportedOperationException("See AesiFileElementType.doParseContents().")
 
     override fun createFile(viewProvider: FileViewProvider?): PsiFile = AesiFile2(viewProvider!!, this.fileType)
 
     override fun createElement(node: ASTNode?): PsiElement = AesiPsiElement(node!!)
-
-    override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
 }
