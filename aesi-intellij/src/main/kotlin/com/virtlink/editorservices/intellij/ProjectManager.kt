@@ -12,7 +12,14 @@ class ProjectManager {
         return IntellijProject(module)
     }
     fun getProjectForFile(project: Project, virtualFile: VirtualFile): IProject {
-        return getProject(ProjectRootManager.getInstance(project).fileIndex.getModuleForFile(virtualFile)!!)
+        // For some files, such as LightVirtualFile objects, we can't determine the module
+        // it belongs to. In that case we return a dummy project.
+        var module = ProjectRootManager.getInstance(project).fileIndex.getModuleForFile(virtualFile)
+        if (module == null) {
+            return DummyProject
+//            module = ProjectRootManager.getInstance(project).fileIndex.getModuleForFile(virtualFile)
+        }
+        return getProject(module)
     }
     fun getProjectForFile(file: PsiFile): IProject {
         return getProjectForFile(file.project, file.virtualFile)

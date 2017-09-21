@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="IntelliJ Application" type="GradleRunConfiguration" factoryName="Gradle" singleton="true">
+    <log_file path="$PROJECT_DIR$/paplj-intellij/build/idea-sandbox/system/log/idea.log" checked="true" skipped="true" show_all="false" alias="IDEA log" />
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$/paplj-intellij" />
