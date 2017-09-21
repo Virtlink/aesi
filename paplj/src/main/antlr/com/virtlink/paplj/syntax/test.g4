@@ -1,7 +1,7 @@
 grammar test;
 
 @header {
-    package com.virtlink.paplj.syntax;
+package com.virtlink.paplj.syntax;
 }
 
 r   : 'hello' ID;

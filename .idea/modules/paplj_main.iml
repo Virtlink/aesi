@@ -43,6 +43,7 @@
     <orderEntry type="library" name="Gradle: org.antlr:antlr4:4.5.3" level="project" />
     <orderEntry type="library" name="Gradle: com.virtlink:aesi:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.1.4-3" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr4-runtime:4.5.3" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
   </component>
 </module>

@@ -18,13 +18,10 @@ task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
 apply plugin: 'antlr'
 apply from: '../releng/shared.gradle'
 
-//generateGrammarSource {
-//    outputDirectory = file("src/main/gen")
-//}
-
 dependencies {
     compile "${project.group}:aesi:${project.version}"
     antlr   "org.antlr:antlr4:4.5.3"
+    compile "org.antlr:antlr4-runtime:4.5.3"
 }
 
 dokka {
