@@ -6,43 +6,49 @@ import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColorer
 import com.virtlink.editorservices.syntaxcoloring.IToken
-import com.virtlink.paplj.syntax.testBaseListener
-import com.virtlink.paplj.syntax.testLexer
-import com.virtlink.paplj.syntax.testParser
+import com.virtlink.editorservices.syntaxcoloring.Token
+import com.virtlink.paplj.syntax.PapljLexer
 import org.antlr.v4.runtime.ANTLRInputStream
-import org.antlr.v4.runtime.CommonTokenStream
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.ErrorNode
-import org.antlr.v4.runtime.tree.ParseTreeListener
-import org.antlr.v4.runtime.tree.TerminalNode
 
 class AntlrSyntaxColorizer: ISyntaxColorer {
     override fun highlight(project: IProject, document: IDocument, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
         val tokens = mutableListOf<IToken>()
 
         val input = ANTLRInputStream(document.text)
-        val lexer = testLexer(input)
-        val tokenStream = CommonTokenStream(lexer)
-        val parser = testParser(tokenStream)
-        parser.addParseListener(object : ParseTreeListener {
-            override fun enterEveryRule(ctx: ParserRuleContext?) {
-                System.out.println(ctx)
-            }
+        val lexer = PapljLexer(input)
+        var token = lexer.nextToken()
+        while (token.type != org.antlr.v4.runtime.Token.EOF) {
+            val scope = getTokenScope(token)
+            val startOffset = token.startIndex
+            val endOffset = token.stopIndex + 1
+            tokens.add(Token(Span(startOffset, endOffset), scope))
 
-            override fun exitEveryRule(ctx: ParserRuleContext?) {
-                System.out.println(ctx)
-            }
-
-            override fun visitErrorNode(node: ErrorNode?) {
-                System.out.println(node)
-            }
-
-            override fun visitTerminal(node: TerminalNode?) {
-                System.out.println(node)
-            }
-        })
-        parser.r()
+            token = lexer.nextToken()
+        }
 
         return tokens
+    }
+
+    private val keywords = arrayOf("PROGRAM", "RUN", "IMPORT", "CLASS", "EXTENDS", "IF", "ELSE", "LET", "IN",
+            "AS", "TRUE", "FALSE", "THIS", "NULL", "NEW")
+    private val operators = arrayOf("EQ", "NEQ", "LTE",
+            "GTE", "LT", "GT", "OR", "AND", "ASSIGN", "PLUS", "MIN", "MUL", "DIV",
+            "NOT")
+    private val punctuation = arrayOf("SEMICOLON", "DOTSTAR", "COMMA", "DOT", "LBRACE", "RBRACE", "LPAREN", "RPAREN")
+
+
+    private fun getTokenScope(token: org.antlr.v4.runtime.Token): String {
+        val tokenName = if (token.type >= 0) PapljLexer.ruleNames[token.type] else null
+        return when (tokenName) {
+            in keywords -> "keyword"
+            in operators -> "keyword.operator"
+            in punctuation -> "text"
+            "ID" -> "variable"
+            "INT" -> "constant.numeric"
+            "COMMENT" -> "comment.block"
+            "LINE_COMMENT" -> "comment.line"
+            "WS" -> "text.whitespace"
+            else -> "invalid.illegal"
+        }
     }
 }

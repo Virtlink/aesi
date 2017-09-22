@@ -16,7 +16,8 @@ class DocumentManager {
         return getDocument(editor.document)
     }
     fun getDocument(file: PsiFile): IDocument {
-        return getDocument(PsiDocumentManager.getInstance(file.project).getDocument(file)!!)
+        val document = PsiDocumentManager.getInstance(file.project).getDocument(file)
+        return if (document != null) getDocument(document) else TextDocument(file.text)
     }
     fun getDocument(file: VirtualFile): IDocument {
         return getDocument(FileDocumentManager.getInstance().getDocument(file)!!)

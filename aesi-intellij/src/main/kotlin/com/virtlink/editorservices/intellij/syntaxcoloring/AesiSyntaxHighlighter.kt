@@ -31,6 +31,7 @@ class AesiSyntaxHighlighter(val lexer: Lexer): SyntaxHighlighterBase() {
     private val styleScopes = listOf(
             // Put more specific scopes (longer prefixes) before more general scopes (shorter prefixes).
             // See https://manual.macromates.com/en/language_grammars for details about these scopes.
+            createScopeStyle("text.whitespace",             HighlighterColors.TEXT),     // TODO: Whitespace
             createScopeStyle("text",                        HighlighterColors.TEXT),
             createScopeStyle("source",                      HighlighterColors.TEXT),
             // Comments

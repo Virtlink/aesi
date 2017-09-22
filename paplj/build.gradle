@@ -18,6 +18,10 @@ task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
 apply plugin: 'antlr'
 apply from: '../releng/shared.gradle'
 
+// Fix Antlr/Kotlin dependencies
+compileKotlin.dependsOn generateGrammarSource
+compileTestKotlin.dependsOn generateTestGrammarSource
+
 dependencies {
     compile "${project.group}:aesi:${project.version}"
     antlr   "org.antlr:antlr4:4.5.3"
