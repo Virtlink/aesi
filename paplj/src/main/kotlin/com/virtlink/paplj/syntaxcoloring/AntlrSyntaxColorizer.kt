@@ -31,19 +31,21 @@ class AntlrSyntaxColorizer: ISyntaxColorer {
 
     private val keywords = arrayOf("PROGRAM", "RUN", "IMPORT", "CLASS", "EXTENDS", "IF", "ELSE", "LET", "IN",
             "AS", "TRUE", "FALSE", "THIS", "NULL", "NEW")
-    private val operators = arrayOf("EQ", "NEQ", "LTE",
-            "GTE", "LT", "GT", "OR", "AND", "ASSIGN", "PLUS", "MIN", "MUL", "DIV",
-            "NOT")
-    private val punctuation = arrayOf("SEMICOLON", "DOTSTAR", "COMMA", "DOT", "LBRACE", "RBRACE", "LPAREN", "RPAREN")
+    private val operators = arrayOf("EQ", "NEQ", "LTE", "GTE", "LT", "GT",
+            "OR", "AND", "ASSIGN", "PLUS", "MIN", "MUL", "DIV", "NOT")
 
 
     private fun getTokenScope(token: org.antlr.v4.runtime.Token): String {
-        val tokenName = if (token.type >= 0) PapljLexer.ruleNames[token.type] else null
+        val tokenName = if (token.type > 0 && token.type <= PapljLexer.ruleNames.size) PapljLexer.ruleNames[token.type - 1] else null
         return when (tokenName) {
             in keywords -> "keyword"
             in operators -> "keyword.operator"
-            in punctuation -> "text"
-            "ID" -> "variable"
+            "LBRACE", "RBRACE" -> "meta.braces"
+            "LPAREN", "RPAREN" -> "meta.parens"
+            "DOT", "DOTSTAR" -> "punctuation.accessor"
+            "COMMA" -> "punctuation.separator"
+            "SEMICOLON" -> "punctuation.terminator"
+            "ID" -> "entity.name" // Not really correct
             "INT" -> "constant.numeric"
             "COMMENT" -> "comment.block"
             "LINE_COMMENT" -> "comment.line"

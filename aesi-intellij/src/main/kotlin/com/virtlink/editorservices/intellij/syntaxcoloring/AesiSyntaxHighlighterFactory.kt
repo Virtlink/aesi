@@ -14,11 +14,12 @@ abstract class AesiSyntaxHighlighterFactory(injector: Injector)
     private val projectManager = injector.getInstance(ProjectManager::class.java)
     private val documentManager = injector.getInstance(DocumentManager::class.java)
     private val lexerFactory = injector.getInstance(ILexerFactory::class.java)
+    private val scopeManager = injector.getInstance(ScopeManager::class.java)
 
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter {
         val aesiProject = this.projectManager.getProjectForFile(project, virtualFile)
         val aesiDocument = this.documentManager.getDocument(virtualFile!!)
         val lexer = this.lexerFactory.create(aesiProject, aesiDocument)
-        return AesiSyntaxHighlighter(lexer)
+        return AesiSyntaxHighlighter(lexer, scopeManager)
     }
 }

@@ -51,6 +51,5 @@ NOT         : '!';
 ID          : [A-Za-z]+;
 INT         : [0-9]+;
 COMMENT     : '/*' .*? '*/' -> channel(COMMENTS);
-LINE_COMMENT: '//' .*? NL -> channel(COMMENTS);
-fragment NL : '\r'? '\n';
+LINE_COMMENT: '//' .*? '\r'? '\n' -> channel(COMMENTS);
 WS          : [ \t\r\n]+ -> channel(WHITESPACE);

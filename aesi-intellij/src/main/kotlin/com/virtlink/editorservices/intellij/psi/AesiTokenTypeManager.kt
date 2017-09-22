@@ -2,6 +2,9 @@ package com.virtlink.editorservices.intellij.psi
 
 import com.google.inject.Inject
 import com.intellij.lang.Language
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
+import com.intellij.psi.tree.TokenSet
+import com.virtlink.editorservices.intellij.syntaxcoloring.AesiSyntaxHighlighter
 
 /**
  * Tracks token types.
@@ -18,6 +21,25 @@ class AesiTokenTypeManager
     val scopedElementTypes = HashMap<String, AesiTokenType>()
 
     val defaultScope: String get() = "text"
+
+    val whitespaceTokens get() = TokenSet.create(
+            getTokenType("text.whitespace")
+    )
+    val commentTokens get() = TokenSet.create(
+            getTokenType("comment.block"),
+            getTokenType("comment.line"),
+            getTokenType("comment")
+    )
+    val stringLiteralTokens get() = TokenSet.create(
+            getTokenType("string.quoted.single"),
+            getTokenType("string.quoted.double"),
+            getTokenType("string.quoted.triple"),
+            getTokenType("string.quoted"),
+            getTokenType("string.unquoted"),
+            getTokenType("string.interpolated"),
+            getTokenType("string.regexp"),
+            getTokenType("string")
+    )
 
     fun getTokenType(scope: String?): AesiTokenType
         = scopedElementTypes.getOrPut(scope ?: defaultScope, { AesiTokenType(scope ?: defaultScope, language) })

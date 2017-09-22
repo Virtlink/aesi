@@ -2,7 +2,6 @@ package com.virtlink.editorservices.intellij.syntaxcoloring
 
 import com.google.inject.Inject
 import com.intellij.lang.ASTNode
-import com.intellij.lang.Language
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
 import com.intellij.lexer.Lexer
@@ -14,13 +13,13 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import com.virtlink.editorservices.intellij.psi.AesiFile2
-import com.virtlink.editorservices.intellij.psi.AesiFileElementType
 import com.virtlink.editorservices.intellij.psi.AesiPsiElement
-import org.metaborg.paplj.AesiLanguage
+import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager
 
 open class AesiParserDefinition @Inject constructor(
         private val fileType: LanguageFileType,
-        private val fileElementType: IFileElementType)
+        private val fileElementType: IFileElementType,
+        private val tokenTypeManager: AesiTokenTypeManager)
     : ParserDefinition {
 
     override fun getFileNodeType(): IFileElementType = this.fileElementType
@@ -28,11 +27,11 @@ open class AesiParserDefinition @Inject constructor(
     override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): ParserDefinition.SpaceRequirements
             = ParserDefinition.SpaceRequirements.MAY
 
-    override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
+    override fun getStringLiteralElements(): TokenSet = tokenTypeManager.stringLiteralTokens
 
-    override fun getWhitespaceTokens(): TokenSet = TokenSet.EMPTY
+    override fun getWhitespaceTokens(): TokenSet = tokenTypeManager.whitespaceTokens
 
-    override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
+    override fun getCommentTokens(): TokenSet = tokenTypeManager.commentTokens
 
     override fun createLexer(project: Project?): Lexer
         = throw UnsupportedOperationException("See AesiFileElementType.doParseContents().")

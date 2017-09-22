@@ -16,7 +16,8 @@ class AesiLexer @Inject constructor(
         @Assisted private val project: IProject,
         @Assisted private val document: IDocument,
         private val tokenTypeManager: AesiTokenTypeManager,
-        private val colorer: ISyntaxColorer)
+        private val colorer: ISyntaxColorer,
+        private val scopeManager: ScopeManager)
     : LexerBase() {
 
     private val LOG = Logger.getInstance(this.javaClass)
@@ -108,8 +109,11 @@ class AesiLexer @Inject constructor(
         return endOffset
     }
 
-    private fun getTokenType(token: IToken?): IElementType
-        = this.tokenTypeManager.getTokenType(token?.scope)
+    private fun getTokenType(token: IToken?): IElementType {
+        val scope = this.scopeManager.getSimplifiedScope(token?.scope ?: this.scopeManager.DEFAULT_SCOPE)
+        val tokenType = this.tokenTypeManager.getTokenType(scope)
+        return tokenType
+    }
 
     override fun advance() {
         tokenIndex++

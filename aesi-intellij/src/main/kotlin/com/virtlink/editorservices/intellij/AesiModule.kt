@@ -8,6 +8,7 @@ import com.intellij.lexer.Lexer
 import com.virtlink.editorservices.intellij.psi.*
 import com.virtlink.editorservices.intellij.syntaxcoloring.AesiLexer
 import com.virtlink.editorservices.intellij.syntaxcoloring.ILexerFactory
+import com.virtlink.editorservices.intellij.syntaxcoloring.ScopeManager
 
 
 abstract class AesiModule : AbstractModule() {
@@ -16,6 +17,7 @@ abstract class AesiModule : AbstractModule() {
         bind(ProjectManager::class.java).`in`(Singleton::class.java)
         bind(AesiTokenTypeManager::class.java).`in`(Singleton::class.java)
         bind(AesiElementTypeManager::class.java).`in`(Singleton::class.java)
+        bind(ScopeManager::class.java).`in`(Singleton::class.java)
         bind(IFileElementType::class.java).to(AesiFileElementType::class.java).`in`(Singleton::class.java)
         install(FactoryModuleBuilder()
                 .implement(Lexer::class.java, AesiLexer::class.java)
