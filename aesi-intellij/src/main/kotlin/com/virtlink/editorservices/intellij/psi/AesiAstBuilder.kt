@@ -9,11 +9,14 @@ class AesiAstBuilder @Inject constructor(private val elementTypeManager: AesiEle
 
     fun build(root: IElementType, builder: PsiBuilder): ASTNode {
         val m = builder.mark()
+        // Add sub-root to prevent ASTNode.firstChild from being null.
+        val m2 = builder.mark()
         while (!builder.eof()) {
-            val m2 = builder.mark()
+            val m3 = builder.mark()
             builder.advanceLexer()
-            m2.done(elementTypeManager.contentElementType)
+            m3.done(elementTypeManager.contentElementType)
         }
+        m2.done(elementTypeManager.contentElementType)
         m.done(root)
 
         return builder.treeBuilt

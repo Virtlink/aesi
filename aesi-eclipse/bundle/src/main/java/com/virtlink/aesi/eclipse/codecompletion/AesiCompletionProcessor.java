@@ -34,8 +34,9 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
     @Override
     public org.eclipse.jface.text.contentassist.ICompletionProposal[] computeCompletionProposals(ITextViewer textViewer, int offset) {
     	// TODO: Determine project and document.
+        com.virtlink.editorservices.IProject project = null;
         com.virtlink.editorservices.IDocument document = null;
-        ICompletionInfo completionInfo = this.codeCompleter.complete(document, offset, null);
+        ICompletionInfo completionInfo = this.codeCompleter.complete(project, document, offset, null);
         List<ICompletionProposal> proposals = completionInfo.getProposals();
         // TODO: Do something with the prefix.
         return proposals.stream().map(p -> toEclipseCompletionProposal(p, textViewer.getDocument(), offset)).toArray(org.eclipse.jface.text.contentassist.ICompletionProposal[]::new);
