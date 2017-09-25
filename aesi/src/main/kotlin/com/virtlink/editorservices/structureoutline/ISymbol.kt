@@ -6,5 +6,5 @@ import com.virtlink.editorservices.Location
 interface ISymbol {
     val name: String
     val kind: SymbolKind
-    val location: Location
+    val location: Int
 }
