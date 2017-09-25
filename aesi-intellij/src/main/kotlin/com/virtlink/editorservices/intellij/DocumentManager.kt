@@ -7,6 +7,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
 import com.virtlink.editorservices.IDocument
+import com.virtlink.editorservices.IProject
 
 class DocumentManager {
     fun getDocument(document: Document): IDocument {
@@ -21,5 +22,12 @@ class DocumentManager {
     }
     fun getDocument(file: VirtualFile): IDocument {
         return getDocument(FileDocumentManager.getInstance().getDocument(file)!!)
+    }
+
+    fun getPsiFile(project: IProject, document: IDocument): PsiFile? {
+        if (document !is IntellijDocument || project !is IntellijProject)
+            return null
+
+        return PsiDocumentManager.getInstance(project.intellijModule.project).getPsiFile(document.intellijDocument)
     }
 }

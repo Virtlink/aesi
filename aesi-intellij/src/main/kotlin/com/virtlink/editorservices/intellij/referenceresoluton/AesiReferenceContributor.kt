@@ -3,11 +3,14 @@ package com.virtlink.editorservices.intellij.referenceresoluton
 import com.intellij.psi.PsiReferenceContributor
 import com.intellij.psi.PsiReferenceRegistrar
 
-import com.intellij.patterns.PlatformPatterns.psiFile
-import com.virtlink.paplj.intellij.AesiFile
+import com.intellij.patterns.PlatformPatterns.psiElement
+import com.virtlink.editorservices.intellij.psi.AesiPsiElement
 
-abstract class AesiReferenceContributor : PsiReferenceContributor() {
+abstract class AesiReferenceContributor(
+        private val referenceProvider: AesiReferenceProvider)
+    : PsiReferenceContributor() {
+
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
-        registrar.registerReferenceProvider(psiFile(AesiFile::class.java), AesiReferenceProvider())
+        registrar.registerReferenceProvider(psiElement(AesiPsiElement::class.java), referenceProvider)
     }
 }

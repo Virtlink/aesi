@@ -12,9 +12,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
-import com.virtlink.editorservices.intellij.psi.AesiFile2
-import com.virtlink.editorservices.intellij.psi.AesiPsiElement
-import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager
+import com.virtlink.editorservices.intellij.psi.*
 
 open class AesiParserDefinition @Inject constructor(
         private val fileType: LanguageFileType,
@@ -24,7 +22,7 @@ open class AesiParserDefinition @Inject constructor(
 
     override fun getFileNodeType(): IFileElementType = this.fileElementType
 
-    override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): ParserDefinition.SpaceRequirements
+    override fun spaceExistanceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements
             = ParserDefinition.SpaceRequirements.MAY
 
     override fun getStringLiteralElements(): TokenSet = tokenTypeManager.stringLiteralTokens
@@ -36,10 +34,16 @@ open class AesiParserDefinition @Inject constructor(
     override fun createLexer(project: Project?): Lexer
         = throw UnsupportedOperationException("See AesiFileElementType.doParseContents().")
 
-    override fun createParser(project: Project?): PsiParser
+    override fun createParser(project: Project): PsiParser
         = throw UnsupportedOperationException("See AesiFileElementType.doParseContents().")
 
-    override fun createFile(viewProvider: FileViewProvider?): PsiFile = AesiFile2(viewProvider!!, this.fileType)
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = AesiFile2(viewProvider, this.fileType)
 
-    override fun createElement(node: ASTNode?): PsiElement = AesiPsiElement(node!!)
+    override fun createElement(node: ASTNode): PsiElement {
+        val elementType = node.elementType
+        if (elementType !is AesiElementType)
+            throw UnsupportedOperationException("Unexpected element type: $elementType")
+
+        return elementType.createElement(node)
+    }
 }

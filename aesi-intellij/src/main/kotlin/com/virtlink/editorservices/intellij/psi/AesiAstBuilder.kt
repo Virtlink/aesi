@@ -13,10 +13,11 @@ class AesiAstBuilder @Inject constructor(private val elementTypeManager: AesiEle
         val m2 = builder.mark()
         while (!builder.eof()) {
             val m3 = builder.mark()
+            val elementType = this.elementTypeManager.getElementType(builder.tokenType as AesiTokenType)
             builder.advanceLexer()
-            m3.done(elementTypeManager.contentElementType)
+            m3.done(elementType)
         }
-        m2.done(elementTypeManager.contentElementType)
+        m2.done(elementTypeManager.defaultElementType)
         m.done(root)
 
         return builder.treeBuilt

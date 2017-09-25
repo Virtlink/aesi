@@ -1,30 +1,55 @@
 package com.virtlink.editorservices.intellij.referenceresoluton
 
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
-import com.intellij.psi.PsiReferenceProvider
-import com.intellij.psi.PsiReferenceService
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.CustomizableReferenceProvider
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.GenericReferenceProvider
-import com.intellij.psi.scope.PsiScopeProcessor
+import com.google.inject.Inject
+import com.intellij.openapi.diagnostic.Logger
+import com.intellij.psi.*
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
+import com.virtlink.editorservices.intellij.DocumentManager
+import com.virtlink.editorservices.intellij.ProjectManager
+import com.virtlink.editorservices.intellij.psi.AesiPsiElement
+import com.virtlink.editorservices.intellij.psi.AesiPsiNamedElement
+import com.virtlink.editorservices.intellij.toTextRange
+import com.virtlink.editorservices.referenceresolution.IDefinition
+import com.virtlink.editorservices.referenceresolution.IReferenceResolver
 
-class AesiReferenceProvider : GenericReferenceProvider(), CustomizableReferenceProvider {
-    override fun handleEmptyContext(processor: PsiScopeProcessor?, position: PsiElement?) {
-        super.handleEmptyContext(processor, position)
-    }
+class AesiReferenceProvider @Inject constructor(
+        private val referenceResolver: IReferenceResolver,
+        private val projectManager: ProjectManager,
+        private val documentManager: DocumentManager)
+    : PsiReferenceProvider() {
 
-    override fun setOptions(options: MutableMap<CustomizableReferenceProvider.CustomizationKey<Any>, Any>?) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getOptions(): MutableMap<CustomizableReferenceProvider.CustomizationKey<Any>, Any> {
-        return HashMap()
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    private val LOG = Logger.getInstance(AesiReferenceProvider::class.java)
 
     override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
-        return emptyArray()
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (element !is AesiPsiElement)
+            return PsiReference.EMPTY_ARRAY
+
+        val project = this.projectManager.getProjectForFile(element.containingFile)
+        val document = this.documentManager.getDocument(element.containingFile)
+        val offset = element.textOffset
+        val resolutionInfo = referenceResolver.resolve(project, document, offset, null)
+
+        val references = resolutionInfo.definitions.mapNotNull { toResolveResult(it) }.toTypedArray()
+
+        return arrayOf(AesiPsiReference(references, element, resolutionInfo.referenceRange?.toTextRange() ?: element.textRange))
+    }
+
+    private fun toResolveResult(definition: IDefinition): ResolveResult? {
+        val file = this.documentManager.getPsiFile(definition.project, definition.document)
+        if (file == null) {
+            LOG.info("Could not determine PsiFile for document ${definition.document} in project ${definition.project}.")
+            return null
+        }
+
+        val lexerElement = file.findElementAt(definition.range.startOffset)
+        val namedElement = PsiTreeUtil.getParentOfType(lexerElement, AesiPsiElement::class.java, false)
+//        val namedElement = PsiTreeUtil.getParentOfType(lexerElement, AesiPsiNamedElement::class.java, false)
+        if (namedElement == null) {
+            LOG.info("Could not find PsiNamedElement at offset ${definition.range.startOffset} in file $file.")
+            return null
+        }
+
+        return PsiElementResolveResult(namedElement)
     }
 }

@@ -14,19 +14,12 @@
 
   <idea-version since-build="141.0"/>
 
-  <!--<project-components>-->
-    <!--<component>-->
-      <!--<implementation-class>com.virtlink.paplj.intellij.syntaxcoloring.PapljHighlightingPassFactory</implementation-class>-->
-    <!--</component>-->
-  <!--</project-components>-->
-
   <extensions defaultExtensionNs="com.intellij">
     <lang.syntaxHighlighterFactory language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.syntaxcoloring.PapljSyntaxHighlighterFactory"/>
     <ApplicationLoadListener implementation="com.virtlink.paplj.intellij.PapljPluginInitializer"/>
     <fileTypeFactory implementation="com.virtlink.paplj.intellij.PapljFileTypeFactory"/>
     <lang.parserDefinition language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.syntaxcoloring.PapljParserDefinition"/>
-    <!--<lang.fileViewProviderFactory language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.PapljFileViewProviderFactory" />-->
-    <!--<psi.referenceContributor language="PAPLJ" implementation="com.virtlink.paplj.intellij.referenceresolution.PapljReferenceContributor"/>-->
+    <psi.referenceContributor language="PAPLJ" implementation="com.virtlink.paplj.intellij.referenceresolution.PapljReferenceContributor"/>
     <completion.contributor language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.codecompletion.PapljCompletionContributor"/>
   </extensions>
 

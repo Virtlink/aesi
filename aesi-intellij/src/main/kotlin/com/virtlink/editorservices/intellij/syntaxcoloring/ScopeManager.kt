@@ -86,8 +86,8 @@ class ScopeManager {
     fun getSimplifiedScope(scope: String): String {
         return this.styleScopes
                 .map { (prefix, _) -> prefix }
-                .filter { scope.startsWith(it, true) }
-                .firstOrNull() ?: DEFAULT_SCOPE
+                .firstOrNull { scope.startsWith(it, true) }
+                ?: DEFAULT_SCOPE
     }
 
     fun getTokenHighlights(scope: String): Array<TextAttributesKey> {
