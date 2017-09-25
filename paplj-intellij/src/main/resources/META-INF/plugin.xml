@@ -27,7 +27,7 @@
     <lang.parserDefinition language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.syntaxcoloring.PapljParserDefinition"/>
     <!--<lang.fileViewProviderFactory language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.PapljFileViewProviderFactory" />-->
     <!--<psi.referenceContributor language="PAPLJ" implementation="com.virtlink.paplj.intellij.referenceresolution.PapljReferenceContributor"/>-->
-    <!--<completion.contributor language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.codecompletion.PapljCompletionContributor"/>-->
+    <completion.contributor language="PAPLJ" implementationClass="com.virtlink.paplj.intellij.codecompletion.PapljCompletionContributor"/>
   </extensions>
 
   <actions>
