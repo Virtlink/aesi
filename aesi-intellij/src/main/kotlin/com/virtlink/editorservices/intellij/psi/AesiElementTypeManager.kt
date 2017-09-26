@@ -13,6 +13,7 @@ import com.intellij.psi.tree.TokenSet
 class AesiElementTypeManager
 @Inject constructor(language: Language)  {
 
+    val rootElementType = AesiRootElementType(language)
     val defaultElementType = AesiElementType(language)
     private val namedElementType = AesiNamedElementType(language)
 

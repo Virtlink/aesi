@@ -8,7 +8,7 @@ import com.virtlink.editorservices.intellij.psi.AesiPsiElement
 class AesiPsiReference(private val results: Array<ResolveResult>, element: AesiPsiElement, range: TextRange)
     : PsiPolyVariantReferenceBase<AesiPsiElement>(element, range, true) {
 
-    override fun getVariants(): Array<Any> = TODO("Not supported. Apparently deprecated.")
+    override fun getVariants(): Array<Any> = emptyArray()
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> = results
 

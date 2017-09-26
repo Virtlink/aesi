@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1505895818271
+Bnd-LastModified: 1506417758836
 Build-Jdk: 1.8.0_144
 Built-By: daniel
 Bundle-ClassPath: .,paplj-0.0.1-SNAPSHOT.jar
@@ -16,7 +16,10 @@ Embed-Dependency: paplj
 Embedded-Artifacts: paplj-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="paplj";
  v="0.0.1-SNAPSHOT"
 Export-Package: com.virtlink.paplj.codecompletion;provider=metaborg;mand
- atory:=provider,com.virtlink.paplj.syntaxcoloring;provider=metaborg;man
- datory:=provider
+ atory:=provider,com.virtlink.paplj.referenceresolution;provider=metabor
+ g;mandatory:=provider,com.virtlink.paplj.structureoutline;provider=meta
+ borg;mandatory:=provider,com.virtlink.paplj.syntax;provider=metaborg;ma
+ ndatory:=provider,com.virtlink.paplj.syntaxcoloring;provider=metaborg;m
+ andatory:=provider
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.3.0.201609221906

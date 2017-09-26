@@ -9,6 +9,7 @@ import com.virtlink.editorservices.intellij.DocumentManager
 import com.virtlink.editorservices.intellij.ProjectManager
 import com.virtlink.editorservices.intellij.psi.AesiPsiElement
 import com.virtlink.editorservices.intellij.psi.AesiPsiNamedElement
+import com.virtlink.editorservices.intellij.psi.AesiPsiRootElement
 import com.virtlink.editorservices.intellij.toTextRange
 import com.virtlink.editorservices.referenceresolution.IDefinition
 import com.virtlink.editorservices.referenceresolution.IReferenceResolver
@@ -22,13 +23,16 @@ class AesiReferenceProvider @Inject constructor(
     private val LOG = Logger.getInstance(AesiReferenceProvider::class.java)
 
     override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
-        if (element !is AesiPsiElement)
+        if (element !is AesiPsiElement || element is AesiPsiRootElement)
             return PsiReference.EMPTY_ARRAY
 
         val project = this.projectManager.getProjectForFile(element.containingFile)
         val document = this.documentManager.getDocument(element.containingFile)
         val offset = element.textOffset
         val resolutionInfo = referenceResolver.resolve(project, document, offset, null)
+
+        if (resolutionInfo.definitions.isEmpty())
+            return PsiReference.EMPTY_ARRAY
 
         val references = resolutionInfo.definitions.mapNotNull { toResolveResult(it) }.toTypedArray()
 

@@ -17,7 +17,7 @@ class AesiAstBuilder @Inject constructor(private val elementTypeManager: AesiEle
             builder.advanceLexer()
             m3.done(elementType)
         }
-        m2.done(elementTypeManager.defaultElementType)
+        m2.done(elementTypeManager.rootElementType)
         m.done(root)
 
         return builder.treeBuilt
