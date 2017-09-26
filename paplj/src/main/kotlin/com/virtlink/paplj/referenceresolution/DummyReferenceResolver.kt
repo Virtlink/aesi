@@ -20,7 +20,7 @@ class DummyReferenceResolver : IReferenceResolver {
 
         if (referenceStart == 0 || referenceEnd == -1 || referenceStart == referenceEnd) {
             // no reference
-            return ReferenceResolutionInfo(null, emptyList())
+            return ReferenceResolutionInfo(/*null, */ emptyList())
         }
 
         val referenceSpan = Span(referenceStart, referenceEnd)
@@ -29,16 +29,16 @@ class DummyReferenceResolver : IReferenceResolver {
         val startOffset = document.text.indexOf(referenceText)
         if (startOffset == -1) {
             // no references
-            return ReferenceResolutionInfo(referenceSpan, emptyList())
+            return ReferenceResolutionInfo(/*referenceSpan, */emptyList())
         }
         val endOffset = startOffset + referenceText.length
 
         if (referenceStart <= startOffset && endOffset <= referenceEnd) {
             // reference points to itself
-            return ReferenceResolutionInfo(referenceSpan, emptyList())
+            return ReferenceResolutionInfo(/*referenceSpan, */emptyList())
         }
 
-        return ReferenceResolutionInfo(Span(referenceStart, referenceEnd), listOf(
+        return ReferenceResolutionInfo(/*Span(referenceStart, referenceEnd),*/ listOf(
                 Definition(project, document, Span(startOffset, endOffset), referenceText)
         ))
     }

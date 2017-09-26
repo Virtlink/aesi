@@ -36,7 +36,7 @@ class AesiReferenceProvider @Inject constructor(
 
         val references = resolutionInfo.definitions.mapNotNull { toResolveResult(it) }.toTypedArray()
 
-        return arrayOf(AesiPsiReference(references, element, resolutionInfo.referenceRange?.toTextRange() ?: element.textRange))
+        return arrayOf(AesiPsiReference(references, element))//, resolutionInfo.referenceRange?.toTextRange() ?: element.textRange))
     }
 
     private fun toResolveResult(definition: IDefinition): ResolveResult? {
