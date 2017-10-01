@@ -44,7 +44,6 @@ open class AbstractLanguageServer : LanguageServer, LanguageClientAware, TextDoc
 
     override fun initialized(params: InitializedParams) {
         assertConnected()
-        assertReady()
         logger.info("Client initialized")
         // TODO
         this.state = ServerState.Ready
