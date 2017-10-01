@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.eclipse.lsp4j:org.eclipse.lsp4j.jsonrpc:0.3.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.lsp4j/org.eclipse.lsp4j.jsonrpc/0.3.0/16296abd1cb9fa647ef0fd6c5615e11c69878bc6/org.eclipse.lsp4j.jsonrpc-0.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.lsp4j/org.eclipse.lsp4j.jsonrpc/0.3.0/bda50ffea69f30f3ea929d1030ec24b14e66cae3/org.eclipse.lsp4j.jsonrpc-0.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

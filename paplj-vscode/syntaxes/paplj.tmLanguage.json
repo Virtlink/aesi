@@ -1,0 +1,237 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "PAPLJ",
+	"scopeName": "source.paplj",
+	"fileTypes": [ "pj" ],
+
+	"foldingStartMarker": "(\\{|\\()\\s*$",
+	"foldingStopMarker": "(\\}|\\))\\s*$",
+
+	"patterns": [
+		{ "include": "#comments" },
+		{
+			"name": "meta.program.paplj",
+			"comment": "Matches the `'program' ID (';')?` statement.",
+			"begin": "^\\s*(program)\\b\\s*",
+			"beginCaptures": {
+				"1": { "name": "keyword.other.program.paplj" }
+			},
+			"contentName": "storage.modifier.program.paplj",
+			"patterns": [
+				{ "include": "#qualified_id" }
+			],
+			"end": "\\s*(?:$|(;))",
+			"endCaptures": {
+				"1": { "name": "punctuation.terminator.paplj" }
+			}
+		},
+		{
+			"name": "meta.import.paplj",
+			"comment": "Matches the `'import' ID (';')?` statement.",
+			"begin": "(import)\\b\\s*",
+			"beginCaptures": {
+				"1": { "name": "keyword.other.import.paplj" }
+			},
+			"contentName": "storage.modifier.import.paplj",
+			"patterns": [
+				{ "include": "#qualified_id" }
+			],
+			"end": "\\s*(?:$|(;))",
+			"endCaptures": {
+				"1": { "name": "punctuation.terminator.paplj" }
+			}
+		},
+		{ "include": "#strings" },
+		{ "include": "#numeric" },
+		{ "include": "#constants" },
+		{ "include": "#brackets" },
+		{ "include": "#delimiters" },
+		{ "include": "#operators" },
+		{ "include": "#keywords" },
+		{ "include": "#storage_types" },
+		{ "include": "#identifiers" }
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.block.paplj",
+					"comment": "Matches a block comment between /* and */.",
+					"begin": "/\\*",
+					"end": "\\*/",
+					"captures": {
+						"0": {
+							"name": "punctuation.definition.comment.paplj"
+						}
+					}
+				},
+				{
+					"name": "comment.line.double-slash.paplj",
+					"comment": "Matches a line comment that starts with //.",
+					"begin": "//",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.paplj"
+						}
+					},
+					"end": "$"
+				}
+			]
+		},
+		"qualified_id": {
+			"patterns": [
+				{
+					"name": "punctuation.separator.paplj",
+					"match": "\\."
+				},
+				{
+					"name": "invalid.illegal.character_not_allowed_here.paplj",
+					"match": "\\s"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.double.paplj",
+					"comment": "Matches a double quoted string.",
+					"begin": "\"",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.begin.paplj"
+						}
+					},
+					"patterns": [
+						{
+							"name": "constant.character.escape.paplj",
+							"comment": "Matches \\r, \\n, \\t, \\\\, \\', \\\".",
+							"match": "\\\\[rnt\\\\'\"]"
+						},
+						{
+							"name": "invalid.illegal.unknown-escape.paplj",
+							"comment": "Marks other character escapes as illegal.",
+							"match": "\\\\[^rnt\\\\'\"]"
+						}
+					],
+					"end": "\"",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.end.paplj"
+						}
+					}
+				}
+			]
+		},
+		"numeric": {
+			"patterns": [
+				{
+					"name": "constant.numeric.integer.paplj",
+					"comment": "Matches integer literals.",
+					"match": "\\b\\d+\\b"
+				}
+			]
+		},
+		"constants": {
+			"patterns": [
+				{
+					"name": "constant.language.paplj",
+					"comment": "Matches language constants.",
+					"match": "\\b(true|false|this|null)\\b"
+				}
+			]
+		},
+		"brackets": {
+			"patterns": [
+				{
+					"name": "punctuation.other.bracket.curly.paplj",
+					"match": "\\{|\\}"
+				},
+				{
+					"name": "punctuation.other.bracket.round.paplj",
+					"match": "\\(|\\)"
+				},
+				{
+					"name": "punctuation.other.bracket.square.paplj",
+					"match": "\\[|\\]"
+				},
+				{
+					"name": "punctuation.other.bracket.angled.paplj",
+					"match": "\\<|\\>"
+				}
+			]
+		},
+		"delimiters": {
+			"patterns": [
+				{
+					"name": "punctuation.other.comma.paplj",
+					"match": ","
+				}
+			]
+		},
+		"operators": {
+			"comment": "NOTE: The order matters.",
+			"patterns": [
+				{
+					"name": "keyword.operator.comparison.paplj",
+					"match": "(==|!=|<)"
+				},
+				{
+					"name": "keyword.operator.logical.paplj",
+					"match": "(&&|\\|\\||!)"
+				},
+				{
+					"name": "keyword.operator.assignment.paplj",
+					"match": "(=)"
+				},
+				{
+					"name": "keyword.operator.arithmetic.paplj",
+					"match": "(\\+|\\-|\\*|/)"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.paplj",
+					"match": "\\b(if|else|let|in|new)\\b"
+				},
+				{
+					"name": "keyword.other.paplj",
+					"match": "\\b(program|run|class|extends|as|public|import)\\b"
+				}
+			]
+		},
+		"storage_types": {
+			"patterns": [
+				{
+					"name": "storage.type.numeric.paplj",
+					"match": "\\bNum\\b"
+				},
+				{
+					"name": "storage.type.boolean.paplj",
+					"match": "\\bBool\\b"
+				},
+				{
+					"name": "storage.type.unit.paplj",
+					"match": "\\bUnit\\b"
+				},
+				{
+					"name": "storage.type.any.paplj",
+					"match": "\\bAny\\b"
+				},
+				{
+					"name": "storage.type.null.paplj",
+					"match": "\\bNull\\b"
+				}
+			]
+		},
+		"identifiers": {
+			"patterns": [
+				{
+					"name": "variable.name.paplj",
+					"match": "\\b[a-zA-Z]\\w*\\b"
+				}
+			]
+		}
+	}
+}
