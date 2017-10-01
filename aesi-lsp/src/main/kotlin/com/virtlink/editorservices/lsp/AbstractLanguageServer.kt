@@ -1,5 +1,6 @@
 package com.virtlink.editorservices.lsp
 
+import com.sun.security.ntlm.Server
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.ResponseErrorException
 import org.eclipse.lsp4j.jsonrpc.messages.Either
@@ -8,16 +9,16 @@ import org.eclipse.lsp4j.services.*
 import org.slf4j.LoggerFactory
 import java.util.concurrent.CompletableFuture
 
-class AbstractLanguageServer : LanguageServer, LanguageClientAware {//}, TextDocumentService, WorkspaceService {
+open class AbstractLanguageServer : LanguageServer, LanguageClientAware, TextDocumentService, WorkspaceService {
 
-    var logger = LoggerFactory.getLogger(AbstractLanguageServer::class.java)
+    private var logger = LoggerFactory.getLogger(AbstractLanguageServer::class.java)
 
-    var state: ServerState = ServerState.NewBorn
-    var client: LanguageClient? = null
+    private var state: ServerState = ServerState.NewBorn
+    protected var client: LanguageClient? = null
 
-    override fun getTextDocumentService(): TextDocumentService = TODO()//this
+    override fun getTextDocumentService(): TextDocumentService = this
 
-    override fun getWorkspaceService(): WorkspaceService = TODO()//this
+    override fun getWorkspaceService(): WorkspaceService = this
 
     init {
         logger.info("Server created")
@@ -32,10 +33,13 @@ class AbstractLanguageServer : LanguageServer, LanguageClientAware {//}, TextDoc
         logger.debug("Server initializing")
         this.state = ServerState.ServerInitializing
         // TODO
+        val capabilities = ServerCapabilities()
+        // TODO
         logger.info("Server initialized")
         logger.debug("Client initializing")
         this.state = ServerState.ClientInitializing
-        return CompletableFuture.completedFuture(null)
+
+        return CompletableFuture.completedFuture(InitializeResult(capabilities))
     }
 
     override fun initialized(params: InitializedParams) {
@@ -53,7 +57,7 @@ class AbstractLanguageServer : LanguageServer, LanguageClientAware {//}, TextDoc
         this.state = ServerState.Shutdown
         // TODO
         logger.info("Shut down")
-        return CompletableFuture.completedFuture(null)
+        return CompletableFuture.completedFuture(true)
     }
 
     override fun exit() {
@@ -61,96 +65,66 @@ class AbstractLanguageServer : LanguageServer, LanguageClientAware {//}, TextDoc
         // TODO
     }
 
-/*
+    override fun resolveCompletionItem(unresolved: CompletionItem): CompletableFuture<CompletionItem>
+            = CompletableFuture.completedFuture(null)
 
-    override fun resolveCompletionItem(unresolved: CompletionItem?): CompletableFuture<CompletionItem> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun codeAction(params: CodeActionParams): CompletableFuture<MutableList<out Command>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun codeAction(params: CodeActionParams?): CompletableFuture<MutableList<out Command>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun hover(position: TextDocumentPositionParams): CompletableFuture<Hover>
+            = CompletableFuture.completedFuture(null)
 
-    override fun hover(position: TextDocumentPositionParams?): CompletableFuture<Hover> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun documentHighlight(position: TextDocumentPositionParams): CompletableFuture<MutableList<out DocumentHighlight>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun documentHighlight(position: TextDocumentPositionParams?): CompletableFuture<MutableList<out DocumentHighlight>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun onTypeFormatting(params: DocumentOnTypeFormattingParams): CompletableFuture<MutableList<out TextEdit>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun onTypeFormatting(params: DocumentOnTypeFormattingParams?): CompletableFuture<MutableList<out TextEdit>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun definition(position: TextDocumentPositionParams): CompletableFuture<MutableList<out Location>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun definition(position: TextDocumentPositionParams?): CompletableFuture<MutableList<out Location>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun rangeFormatting(params: DocumentRangeFormattingParams): CompletableFuture<MutableList<out TextEdit>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun rangeFormatting(params: DocumentRangeFormattingParams?): CompletableFuture<MutableList<out TextEdit>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun codeLens(params: CodeLensParams): CompletableFuture<MutableList<out CodeLens>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun codeLens(params: CodeLensParams?): CompletableFuture<MutableList<out CodeLens>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun rename(params: RenameParams): CompletableFuture<WorkspaceEdit>
+            = CompletableFuture.completedFuture(null)
 
-    override fun rename(params: RenameParams?): CompletableFuture<WorkspaceEdit> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun completion(position: TextDocumentPositionParams): CompletableFuture<Either<MutableList<CompletionItem>, CompletionList>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun completion(position: TextDocumentPositionParams?): CompletableFuture<Either<MutableList<CompletionItem>, CompletionList>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun documentSymbol(params: DocumentSymbolParams): CompletableFuture<MutableList<out SymbolInformation>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun documentSymbol(params: DocumentSymbolParams?): CompletableFuture<MutableList<out SymbolInformation>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun didOpen(params: DidOpenTextDocumentParams) { }
 
-    override fun didOpen(params: DidOpenTextDocumentParams?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun didSave(params: DidSaveTextDocumentParams) { }
 
-    override fun didSave(params: DidSaveTextDocumentParams?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun signatureHelp(position: TextDocumentPositionParams): CompletableFuture<SignatureHelp>
+            = CompletableFuture.completedFuture(null)
 
-    override fun signatureHelp(position: TextDocumentPositionParams?): CompletableFuture<SignatureHelp> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun didClose(params: DidCloseTextDocumentParams) { }
 
-    override fun didClose(params: DidCloseTextDocumentParams?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun formatting(params: DocumentFormattingParams): CompletableFuture<MutableList<out TextEdit>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun formatting(params: DocumentFormattingParams?): CompletableFuture<MutableList<out TextEdit>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun didChange(params: DidChangeTextDocumentParams) { }
 
-    override fun didChange(params: DidChangeTextDocumentParams?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun references(params: ReferenceParams): CompletableFuture<MutableList<out Location>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun references(params: ReferenceParams?): CompletableFuture<MutableList<out Location>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun resolveCodeLens(unresolved: CodeLens): CompletableFuture<CodeLens>
+            = CompletableFuture.completedFuture(null)
 
-    override fun resolveCodeLens(unresolved: CodeLens?): CompletableFuture<CodeLens> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun didChangeWatchedFiles(params: DidChangeWatchedFilesParams) { }
 
-    override fun didChangeWatchedFiles(params: DidChangeWatchedFilesParams?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun didChangeConfiguration(params: DidChangeConfigurationParams) { }
 
-    override fun didChangeConfiguration(params: DidChangeConfigurationParams?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun symbol(params: WorkspaceSymbolParams): CompletableFuture<MutableList<out SymbolInformation>>
+            = CompletableFuture.completedFuture(null)
 
-    override fun symbol(params: WorkspaceSymbolParams?): CompletableFuture<MutableList<out SymbolInformation>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-*/
     /**
      * Asserts that the server has been initialized,
      * otherwise throws an exception that returns an error.
