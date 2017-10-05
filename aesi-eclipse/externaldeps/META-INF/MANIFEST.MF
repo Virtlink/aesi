@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1506426278820
+Bnd-LastModified: 1507068718966
 Build-Jdk: 1.8.0_144
 Built-By: daniel
 Bundle-ClassPath: .,jsr305-3.0.2.jar,slf4j-api-1.7.25.jar,kotlin-stdlib-
