@@ -21,6 +21,9 @@ class AesiLanguageServer @Inject constructor(
     = CompletableFutures.computeAsync {
         val capabilities = ServerCapabilities()
         capabilities.completionProvider = CompletionOptions(false, listOf(".", " "))
+        val documentSync = TextDocumentSyncOptions()
+        documentSync.change = TextDocumentSyncKind.Incremental
+        capabilities.textDocumentSync = Either.forRight<TextDocumentSyncKind, TextDocumentSyncOptions>(documentSync)
         InitializeResult(capabilities)
     }
 

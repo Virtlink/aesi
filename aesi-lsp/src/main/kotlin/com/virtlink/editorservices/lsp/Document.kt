@@ -4,6 +4,7 @@ import com.virtlink.editorservices.IDocument
 import java.io.File
 import java.net.URI
 
+
 class Document(val uri: URI): IDocument {
     override val text: String
         // FIXME: Character set is probably not always UTF8,
