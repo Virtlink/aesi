@@ -1,47 +1,47 @@
 package com.virtlink.editorservices.lsp
 
+import com.virtlink.editorservices.IDocument
 import org.eclipse.lsp4j.Position
-import org.eclipse.lsp4j.Range
-import java.util.*
+import java.io.File
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
+import kotlin.concurrent.write
+import java.net.URI
 
 /**
  * Represents an in-memory document.
  * The document may or may not exist on disk.
  */
-class VirtualDocument {
+class VirtualDocument(val uri: URI): IDocument {
 
-    /**
-     * Creates a singly-linked list of lines, starting from the last line toward the first (line 0).
-     *
-     * @property index The zero-based index of the line.
-     * @property startOffset The zero-based offset of the start of the line.
-     * @property endOffset The zero-based offset of the end of the line.
-     * @property length The length of the line.
-     * @property text The current text of the line.
-     * @property previousLine The previous line, or null when this is line 0.
-     */
-    private data class Line(val index: Int, val startOffset: Int, val text: String, val previousLine: Line?) {
-
-        constructor(text: String, previousLine: Line?)
-        : this(if (previousLine != null) previousLine.index + 1 else 0, previousLine?.endOffset ?: 0, text, previousLine)
-
+    private data class Line(val text: String) {
         val length get() = this.text.length
-        val endOffset get() = this.startOffset + this.length
     }
 
-    /**
-     * The last line in the document.
-     */
-    private var lastLine: Line = Line("", null)
+    override val text: String
+        get() {
+            val text = StringBuilder()
+            this.lines.forEach {
+                text.append(it.text)
+            }
+            return text.toString()
+        }
 
-//    private data class LineInfo(val offset: Int, val text: String)
-//
-//    // For every line in the document we maintain:
-//    // The line offset from the start of the document
-//    // The line text, including the end of line character(s)
-//    private val lines = LinkedList<LineInfo>(
-//            listOf(LineInfo(0, ""))     // Line 0
-//    )
+    /**
+     * Gets whether the contents of the document is available.
+     */
+    val available: Boolean
+        get() = this.lines.size != 0
+
+    /**
+     * The lines in the document.
+     */
+    private val lines: MutableList<Line> = mutableListOf(Line(""))
+
+    /**
+     * Lock.
+     */
+    private var lock = ReentrantReadWriteLock()
 
     /**
      * Updates the document to include the specified change.
@@ -51,82 +51,48 @@ class VirtualDocument {
      * @param newText The next text of the specified range, which may be an empty string when text was only removed.
      */
     fun update(offset: Int, length: Int, newText: String) {
-        val lastModifiedLine = findLine(this.lastLine, offset + length)!!
-        val firstModifiedLine = findLine(lastModifiedLine, offset)!!
+        this.lock.read {
+            val start = getLineCharacterOffset(offset)!!
+            val end = getLineCharacterOffset(offset + length)!!
 
-        val originalPrefix = firstModifiedLine.text.substring(0, offset - firstModifiedLine.startOffset)
-        val originalSuffix = lastModifiedLine.text.substring((offset + length) - lastModifiedLine.startOffset)
+            val prefix = if (this.lines.size > 0) this.lines[start.line].text.substring(0, start.character) else ""
+            val suffix = if (this.lines.size > 0) this.lines[end.line].text.substring(end.character) else ""
 
-        val lastNewLine = constructNewLines(firstModifiedLine, originalPrefix, newText, originalSuffix)
+            // Construct the new lines
+            val newLines = mutableListOf<Line>()
+            var currentLineOffset = 0
+            var nextLineOffset = findNextLineOffset(newText, currentLineOffset)
+            if (nextLineOffset != null) {
+                // Construct the first line
+                val newFirstLineText = prefix + newText.substring(currentLineOffset, nextLineOffset)
+                newLines.add(Line(newFirstLineText))
+                currentLineOffset = nextLineOffset
 
-        this.lastLine = reconstructExistingLines(lastModifiedLine, lastNewLine)
-    }
+                // Construct the intermediate lines
+                nextLineOffset = findNextLineOffset(newText, currentLineOffset)
+                while (nextLineOffset != null) {
+                    val newLineText = newText.substring(currentLineOffset, nextLineOffset)
+                    newLines.add(Line(newLineText))
+                    currentLineOffset = nextLineOffset
 
-    private fun constructNewLines(firstModifiedLine: Line, prefix: String, newText: String, suffix: String): Line {
-        var currentLine = firstModifiedLine.previousLine
-        var currentNewTextOffset = 0
-        var nextNewTextOffset = findNextLineOffset(newText, currentNewTextOffset)
-        if (nextNewTextOffset != null) {
-            // Construct the first line
-            val firstLineText = newText.substring(currentNewTextOffset, nextNewTextOffset)
-            currentLine = Line(prefix + firstLineText, currentLine)
-            currentNewTextOffset = nextNewTextOffset
+                    nextLineOffset = findNextLineOffset(newText, currentLineOffset)
+                }
 
-            // Construct each additional line
-            nextNewTextOffset = findNextLineOffset(newText, currentNewTextOffset)
-            while (nextNewTextOffset != null) {
-                val lineText = newText.substring(currentNewTextOffset, nextNewTextOffset)
-                currentLine = Line(lineText, currentLine)
-                currentNewTextOffset = nextNewTextOffset
-
-                nextNewTextOffset = findNextLineOffset(newText, currentNewTextOffset)
+                // Construct the last line
+                val newLastLineText = newText.substring(currentLineOffset) + suffix
+                newLines.add(Line(newLastLineText))
+            } else {
+                // Construct the only line
+                newLines.add(Line(prefix + newText + suffix))
             }
 
-            // Construct the last line
-            val lastLineText = newText.substring(currentNewTextOffset)
-            currentLine = Line(lastLineText + suffix, currentLine)
-        } else {
-            // Construct the only line
-
-            val lineText = newText.substring(currentNewTextOffset)
-            currentLine = Line(prefix + lineText + suffix, currentLine)
+            this.lock.write {
+                // Replace the changed lines
+                val sublist = this.lines.subList(start.line, end.line + 1)
+                sublist.clear()
+                sublist.addAll(newLines)
+            }
         }
-
-        return currentLine
-    }
-
-    private fun reconstructExistingLines(lastModifiedLine: Line, newLine: Line): Line {
-        // Gather the remaining unchanged lines in a stack
-        val lineStack = Stack<Line>()
-        var currentLine = this.lastLine
-        while (currentLine != lastModifiedLine) {
-            lineStack.push(currentLine)
-            currentLine = currentLine.previousLine!!
-        }
-
-        // Reconstruct the remaining unchanged lines with their new indices and offsets
-        var lastLine = newLine
-        while (!lineStack.empty()) {
-            val line = lineStack.pop()
-            lastLine = Line(line.text, lastLine)
-        }
-
-        return lastLine
-    }
-
-
-    /**
-     * Finds the line that contains the specified offset.
-     */
-    private fun findLine(start: Line, offset: Int): Line? {
-        if (offset < 0 || start.endOffset <= offset)
-            return null
-
-        var currentLine = start
-        while (currentLine.startOffset > offset) {
-            currentLine = currentLine.previousLine!!
-        }
-        return currentLine
     }
 
     /**
@@ -138,8 +104,34 @@ class VirtualDocument {
      * or null when the line or character are out of bounds.
      */
     fun getOffset(line: Int, character: Int): Int? {
-        
-        TODO()
+        if (line < 0)
+            throw IllegalArgumentException("Line must be greater than or equal to 0.")
+        if (character < 0)
+            throw IllegalArgumentException("Character must be greater than or equal to 0.")
+
+        this.lock.read {
+            if (line >= this.lines.size)
+                return null
+
+            var currentOffset = 0
+            var currentLine = 0
+            while (currentLine < line) {
+                currentOffset += this.lines[currentLine].length
+                currentLine += 1
+            }
+
+            val currentLength = this.lines[currentLine].length
+            // If the character is outside the line
+            // or at the end of the line while it's not the last line,
+            // then the character is out of bounds.
+            if (character > currentLength ||
+               (currentLine < this.lines.size - 1 &&
+               character == currentLength)) {
+                return null
+            }
+
+            return currentOffset + character
+        }
     }
 
     /**
@@ -150,7 +142,22 @@ class VirtualDocument {
      * or null when the offset is out of bounds.
      */
     fun getLineCharacterOffset(offset: Int): Position? {
-        TODO()
+        if (offset < 0)
+            throw IllegalArgumentException("Offset must be greater than or equal to 0.")
+
+        this.lock.read {
+            var currentOffset = 0
+            var currentLine = 0
+            while ((currentLine < this.lines.size - 1 && currentOffset + this.lines[currentLine].length <= offset)
+                    || (currentLine == this.lines.size && currentOffset + this.lines[currentLine].length < offset)) {
+                currentOffset += this.lines[currentLine].length
+                currentLine += 1
+            }
+
+            if (currentOffset > offset) return null
+
+            return Position(currentLine, offset - currentOffset)
+        }
     }
 
     /**

@@ -9,6 +9,8 @@ import org.eclipse.lsp4j.jsonrpc.ResponseErrorException
 import org.eclipse.lsp4j.jsonrpc.messages.Either
 import org.eclipse.lsp4j.jsonrpc.messages.ResponseError
 import org.eclipse.lsp4j.jsonrpc.messages.ResponseErrorCode
+import org.slf4j.LoggerFactory
+import java.net.URI
 import java.util.concurrent.CompletableFuture
 
 class AesiLanguageServer @Inject constructor(
@@ -16,6 +18,8 @@ class AesiLanguageServer @Inject constructor(
         private val documentManager: DocumentManager,
         private val projectManager: ProjectManager
 ) : AbstractLanguageServer() {
+
+    private var logger = LoggerFactory.getLogger(AesiLanguageServer::class.java)
 
     override fun doInitialize(params: InitializeParams): CompletableFuture<InitializeResult>
     = CompletableFutures.computeAsync {
@@ -27,11 +31,22 @@ class AesiLanguageServer @Inject constructor(
         InitializeResult(capabilities)
     }
 
+    override fun changed(params: DidChangeTextDocumentParams) {
+        val document = this.documentManager.getDocument(URI(params.textDocument.uri))
+        params.contentChanges.forEach {
+            val offset = document.getOffset(it.range.start.line, it.range.start.character)!!
+            val length = it.rangeLength
+            val newText = it.text
+            document.update(offset, length, newText)
+        }
+        logger.info("Applied ${params.contentChanges.size} changes to document ${document.uri}:\n" + document.text)
+    }
+
     override fun doCompletion(position: TextDocumentPositionParams)
             : CompletableFuture<Either<MutableList<CompletionItem>, CompletionList>>
     = CompletableFutures.computeAsync {
         val project = this.projectManager.getProject()
-        val document = this.documentManager.getDocument(position.textDocument)
+        val document = this.documentManager.getDocument(URI(position.textDocument.uri))
         val offset = position.position.toOffset(document)
                 ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                 "Position not found within document.", position.position))
