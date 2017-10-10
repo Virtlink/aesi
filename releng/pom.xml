@@ -6,7 +6,7 @@
     <!-- Root Parent POM -->
 
     <groupId>com.virtlink</groupId>
-    <artifactId>eclipse.configuration.parent</artifactId>
+    <artifactId>aesi.configuration.parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 

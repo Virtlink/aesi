@@ -1,58 +1,19 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}"
-    }
-}
-
-plugins {
-    id "org.jetbrains.intellij" version "0.2.17"
-}
-
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/javadoc"
-}
-
-apply from: '../releng/shared.gradle'
+// Non-standalone build, part of:
+// * paplj-intellij
 
 dependencies {
-    compile "com.google.inject:guice:${guiceVersion}"
-    compile "com.google.inject.extensions:guice-assistedinject:${guiceVersion}"
-    compile "com.google.inject.extensions:guice-multibindings:${guiceVersion}"
+    compile project(":aesi")
 
-
-    compile "${project.group}:aesi:${project.version}"
-}
-
-dokka {
-    linkMapping {
-        dir = "src/main/kotlin"
-        url = "https://github.com/Virtlink/aesi/tree/master/aesi-intellij/src/main/kotlin"
-        suffix = "#L"
-    }
-
-    externalDocumentationLink {
-        url = new URL("https://virtlink.com/aesi/aesi-java/")
-        packageListUrl = new URL("https://raw.githubusercontent.com/Virtlink/aesi/master/docs/aesi-java/package-list")
-    }
+    compile "com.google.inject:guice:$guice_version"
+    compile "com.google.inject.extensions:guice-assistedinject:$guice_version"
+    compile "com.google.inject.extensions:guice-multibindings:$guice_version"
 }
 
 apply plugin: 'org.jetbrains.intellij'
+
 intellij {
-    version ideaVersion
+    version idea_version
     downloadSources Boolean.valueOf(downloadIdeaSources)
     updateSinceUntilBuild = false
     instrumentCode = false
-}
-
-test {
-    testLogging {
-        exceptionFormat = 'full'
-    }
 }

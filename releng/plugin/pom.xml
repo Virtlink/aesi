@@ -5,12 +5,12 @@
 
     <!-- Eclipse Plugin Parent POM -->
 
-    <artifactId>aesi-eclipse.configuration.eclipse.plugin</artifactId>
+    <artifactId>aesi.plugin.configuration.parent</artifactId>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>com.virtlink</groupId>
-        <artifactId>eclipse.configuration.parent</artifactId>
+        <artifactId>aesi.configuration.parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
@@ -110,6 +110,13 @@
                             <arch>x86_64</arch>
                         </environment>
                     </environments>
+                    <!-- <target>
+                        <artifact>
+                            <groupId>com.virtlink</groupId>
+                            <artifactId>aesi-eclipse.externaldeps</artifactId>
+                            <version>${project.version}</version>
+                        </artifact>
+                    </target> -->
                 </configuration>
             </plugin>
         </plugins>

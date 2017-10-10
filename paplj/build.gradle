@@ -1,42 +1,17 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}"
-    }
-}
-
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/javadoc"
-}
+// Non-standalone build, part of:
+// * paplj-intellij
+// * paplj-eclipse
+// * paplj-lsp
 
 apply plugin: 'antlr'
-apply from: '../releng/shared.gradle'
 
-// Fix Antlr/Kotlin dependencies
+// Fixes Antlr/Kotlin dependencies
 compileKotlin.dependsOn generateGrammarSource
 compileTestKotlin.dependsOn generateTestGrammarSource
 
 dependencies {
-    compile "${project.group}:aesi:${project.version}"
-    antlr   "org.antlr:antlr4:4.5.3"
-    compile "org.antlr:antlr4-runtime:4.5.3"
-}
+    compile project(":aesi")
 
-dokka {
-    linkMapping {
-        dir = "src/main/kotlin"
-        url = "https://github.com/Virtlink/aesi/tree/master/aesi-intellij/src/main/kotlin"
-        suffix = "#L"
-    }
-
-    externalDocumentationLink {
-        url = new URL("https://virtlink.com/aesi/aesi-java/")
-        packageListUrl = new URL("https://raw.githubusercontent.com/Virtlink/aesi/master/docs/aesi-java/package-list")
-    }
+    antlr   "org.antlr:antlr4:$antlr_version"
+    compile "org.antlr:antlr4-runtime:$antlr_version"
 }

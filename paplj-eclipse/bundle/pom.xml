@@ -10,10 +10,23 @@
 
     <parent>
         <groupId>com.virtlink</groupId>
-        <artifactId>paplj-eclipse.configuration.eclipse.plugin</artifactId>
+        <artifactId>aesi.plugin.configuration.parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../releng/paplj-eclipse</relativePath>
+        <relativePath>../../releng/plugin/</relativePath>
     </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.virtlink</groupId>
+            <artifactId>paplj-eclipse.externaldeps</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.virtlink</groupId>
+            <artifactId>aesi-eclipse</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -26,15 +39,15 @@
                     <sourceLinks>
                         <link>
                             <dir>${project.basedir}/src/main/kotlin</dir>
-                            <url>https://github.com/Virtlink/aesi/tree/master/aesi-eclipse/bundles/aesi-eclipse/src/main/kotlin</url>
+                            <url>https://github.com/Virtlink/aesi/tree/master/paplj-eclipse/bundles/paplj-eclipse/src/main/kotlin</url>
                             <urlSuffix>#L</urlSuffix>
                         </link>
                     </sourceLinks>
         
                     <externalDocumentationLinks>
                         <link>
-                            <url>https://virtlink.com/aesi/aesi-java/</url>
-                            <packageListUrl>https://raw.githubusercontent.com/Virtlink/aesi/master/docs/aesi-java/package-list</packageListUrl>
+                            <url>https://virtlink.com/aesi/paplj-java/</url>
+                            <packageListUrl>https://raw.githubusercontent.com/Virtlink/aesi/master/docs/paplj-java/package-list</packageListUrl>
                         </link>
                     </externalDocumentationLinks>
                 </configuration>

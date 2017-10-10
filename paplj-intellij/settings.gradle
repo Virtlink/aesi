@@ -1,2 +1,7 @@
 rootProject.name = 'paplj-intellij'
 
+include ":aesi-intellij", ":paplj", ":aesi"
+
+project(":aesi-intellij").projectDir = file("../aesi-intellij")
+project(":paplj").projectDir = file("../paplj")
+project(":aesi").projectDir = file("../aesi")

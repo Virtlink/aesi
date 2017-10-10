@@ -1,29 +1,8 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}"
-    }
-}
+// Non-standalone build, part of:
+// * paplj-intellij
+// * paplj-eclipse
+// * paplj-lsp
 
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/javadoc"
-}
-
-apply from: '../releng/shared.gradle'
-
-dokka {
-    outputFormat = 'jekyll'
-    outputDirectory = "$projectDir/../docs/"
-
-    linkMapping {
-        dir = "src/main/kotlin"
-        url = "https://github.com/Virtlink/aesi/tree/master/aesi-intellij/src/main/kotlin"
-        suffix = "#L"
-    }
+dependencies {
+    
 }

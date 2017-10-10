@@ -14,22 +14,12 @@
 
     <parent>
         <groupId>com.virtlink</groupId>
-        <artifactId>eclipse.configuration.parent</artifactId>
+        <artifactId>aesi.configuration.parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../../releng</relativePath>
+        <relativePath>../../releng/</relativePath>
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j-version}</version>
-        </dependency>
-        <dependency>
-		    <groupId>com.google.code.findbugs</groupId>
-		    <artifactId>jsr305</artifactId>
-		    <version>3.0.2</version>
-		</dependency>
         <dependency>
 		    <groupId>com.virtlink</groupId>
 		    <artifactId>aesi</artifactId>
@@ -39,6 +29,16 @@
 		    <groupId>org.jetbrains.kotlin</groupId>
 		    <artifactId>kotlin-stdlib</artifactId>
 		    <version>${kotlin-version}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-version}</version>
+        </dependency>
+        <dependency>
+		    <groupId>com.google.code.findbugs</groupId>
+		    <artifactId>jsr305</artifactId>
+		    <version>3.0.2</version>
 		</dependency>
         <dependency>
 		    <groupId>org.jetbrains</groupId>
