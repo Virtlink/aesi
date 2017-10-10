@@ -37,12 +37,12 @@ abstract class AbstractLanguageServer : LanguageServer, LanguageClientAware, Tex
         logger.debug("Server initializing")
         this.state = ServerState.ServerInitializing
         return doInitialize(params)
-//                .thenApply { v ->
-//                    logger.info("Server initialized")
-//                    logger.debug("Client initializing")
-//                    this.state = ServerState.ClientInitializing
-//                    v
-//                }
+                .thenApply { v ->
+                    logger.info("Server initialized")
+                    logger.debug("Client initializing")
+                    this.state = ServerState.ClientInitializing
+                    v
+                }
     }
 
     open fun doInitialize(params: InitializeParams)

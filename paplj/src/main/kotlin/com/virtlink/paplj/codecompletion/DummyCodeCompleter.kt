@@ -2,10 +2,17 @@ package com.virtlink.paplj.codecompletion
 
 import com.virtlink.editorservices.*
 import com.virtlink.editorservices.codecompletion.*
+import org.slf4j.LoggerFactory
 import java.util.*
 
 class DummyCodeCompleter : ICodeCompleter {
+
+    private var logger = LoggerFactory.getLogger(DummyCodeCompleter::class.java)
+
     override fun complete(project: IProject, document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): ICompletionInfo {
+
+        logger.info("Completing for $document in $project at $caretOffset.")
+
         val proposals = listOf(
                 CompletionProposal("Hello",
                         insertionText = "hello world!",
