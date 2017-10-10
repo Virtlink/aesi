@@ -17,7 +17,7 @@ class StdioLanguageServerLauncher @Inject constructor(
         private val server: LanguageServer)
     : ILanguageServerLauncher {
 
-    override fun createLauncher(): Launcher<LanguageClient> {
+    override fun launch()  {
         val traceWriter = PrintWriter(System.err)
         System.setOut(System.err)
 
@@ -33,6 +33,6 @@ class StdioLanguageServerLauncher @Inject constructor(
             server.connect(client)
         }
 
-        return launcher
+        launcher.startListening()
     }
 }

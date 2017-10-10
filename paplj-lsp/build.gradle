@@ -101,6 +101,11 @@ allprojects {
     }
 }
 
+
+apply plugin: 'application'
+mainClassName = 'com.virtlink.paplj.lsp.ProgramKt'
+defaultTasks 'run'
+
 dependencies {
     compile project(":paplj")
     compile project(":aesi-lsp")

@@ -8,7 +8,7 @@ import org.eclipse.lsp4j.services.*
 import org.slf4j.LoggerFactory
 import java.util.concurrent.CompletableFuture
 
-open class AbstractLanguageServer : LanguageServer, LanguageClientAware, TextDocumentService, WorkspaceService {
+abstract class AbstractLanguageServer : LanguageServer, LanguageClientAware, TextDocumentService, WorkspaceService {
 
     private var logger = LoggerFactory.getLogger(AbstractLanguageServer::class.java)
 
@@ -37,12 +37,12 @@ open class AbstractLanguageServer : LanguageServer, LanguageClientAware, TextDoc
         logger.debug("Server initializing")
         this.state = ServerState.ServerInitializing
         return doInitialize(params)
-                .thenApply { v ->
-                    logger.info("Server initialized")
-                    logger.debug("Client initializing")
-                    this.state = ServerState.ClientInitializing
-                    v
-                }
+//                .thenApply { v ->
+//                    logger.info("Server initialized")
+//                    logger.debug("Client initializing")
+//                    this.state = ServerState.ClientInitializing
+//                    v
+//                }
     }
 
     open fun doInitialize(params: InitializeParams)
@@ -63,10 +63,13 @@ open class AbstractLanguageServer : LanguageServer, LanguageClientAware, TextDoc
 
 
     final override fun shutdown(): CompletableFuture<Any> {
-        assertReady()
-        logger.debug("Shutting down")
-        this.state = ServerState.Shutdown
-        return doShutdown()
+        return CompletableFuture
+                .runAsync {
+                    assertReady()
+                    logger.debug("Shutting down")
+                    this.state = ServerState.Shutdown
+                }
+                .thenCompose { doShutdown() }
                 .thenApply { v ->
                     logger.info("Shut down")
                     v
@@ -75,15 +78,23 @@ open class AbstractLanguageServer : LanguageServer, LanguageClientAware, TextDoc
 
     open fun doShutdown()
             : CompletableFuture<Any>
-    { return CompletableFuture.completedFuture(null) }
+    {
+        // We need to return some non-empty result for VS Code to send an exit() notification,
+        // which in our case means non-null. So we'll just reply `true`.
+        return CompletableFuture.completedFuture(true)
+    }
 
 
     final override fun exit() {
         logger.info("Exiting")
-        exited()
+        doExit()
     }
 
-    open fun exited() { /* Nothing to do. */ }
+    open fun doExit() {
+        val exitCode = if (this.state == ServerState.Shutdown) 0 else 1
+
+        System.exit(exitCode)
+    }
 
     ///////////////
     // Workspace //

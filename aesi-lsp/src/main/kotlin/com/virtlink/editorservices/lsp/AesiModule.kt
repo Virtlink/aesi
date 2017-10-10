@@ -6,6 +6,6 @@ import org.eclipse.lsp4j.services.LanguageServer
 
 open class AesiModule : AbstractModule() {
     override fun configure() {
-        bind(LanguageServer::class.java).to(AbstractLanguageServer::class.java)
+        bind(LanguageServer::class.java).to(AesiLanguageServer::class.java)
     }
 }
