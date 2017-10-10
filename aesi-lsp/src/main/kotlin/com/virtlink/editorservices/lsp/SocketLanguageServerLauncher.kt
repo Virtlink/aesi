@@ -36,6 +36,13 @@ class SocketLanguageServerLauncher @Inject constructor(
         val outputStream = Channels.newOutputStream(socketChannel)
         val traceWriter = PrintWriter(System.out)
 
+//        val launcher = Launcher.createLauncher<LanguageClient>(
+//                LanguageServerEndpoint(server),
+//                LanguageClient::class.java,
+//                inputStream,
+//                outputStream,
+//                true,
+//                traceWriter)
         val launcher = LSPLauncher.createServerLauncher(
                 server,
                 inputStream,

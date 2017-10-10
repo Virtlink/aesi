@@ -27,6 +27,7 @@ sourceSets {
 repositories {
     mavenLocal()
     mavenCentral()
+    jcenter()
     maven { url 'https://jitpack.io' }
 }
 
@@ -34,7 +35,7 @@ dependencies {
     compile     "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
 }
 
 dokka {
@@ -54,11 +55,11 @@ dokka {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "$javaVersion"
+    kotlinOptions.jvmTarget = java_version
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "$javaVersion"
+    kotlinOptions.jvmTarget = java_version
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
