@@ -1,9 +1,6 @@
 package com.virtlink.editorservices.lsp
 
 import com.google.inject.Inject
-import com.virtlink.editorservices.ICancellationToken
-import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.codecompletion.ICodeCompleter
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import org.eclipse.lsp4j.*
@@ -15,14 +12,10 @@ class AesiLanguageServer @Inject constructor(
         private val codeCompletionService: ICodeCompleter
 ) : AbstractLanguageServer() {
 
-    override fun doInitialize(params: InitializeParams): CompletableFuture<InitializeResult> //{
-        // FIXME: Async computation of result prevents initialized() notification from being received.
-        // E.g. when using CompletableFutures.computeAsync() or CompletableFuture.supplyAsync()
-        // instead of CompletableFuture.completedFuture().
+    override fun doInitialize(params: InitializeParams): CompletableFuture<InitializeResult>
     = CompletableFutures.computeAsync {
         val capabilities = ServerCapabilities()
         capabilities.completionProvider = CompletionOptions(false, listOf(".", " "))
-//        return CompletableFuture.completedFuture(InitializeResult(capabilities))
         InitializeResult(capabilities)
     }
 
