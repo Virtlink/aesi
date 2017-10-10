@@ -12,7 +12,7 @@ import java.net.URI
  * Represents an in-memory document.
  * The document may or may not exist on disk.
  */
-class VirtualDocument(val uri: URI): IDocument {
+class VirtualDocument(val uri: URI): ILspDocument {
 
     private data class Line(val text: String) {
         val length get() = this.text.length
@@ -61,7 +61,7 @@ class VirtualDocument(val uri: URI): IDocument {
             // Construct the new lines
             val newLines = mutableListOf<Line>()
             var currentLineOffset = 0
-            var nextLineOffset = findNextLineOffset(newText, currentLineOffset)
+            var nextLineOffset = newText.indexAfterNextNewline(currentLineOffset)
             if (nextLineOffset != null) {
                 // Construct the first line
                 val newFirstLineText = prefix + newText.substring(currentLineOffset, nextLineOffset)
@@ -69,13 +69,13 @@ class VirtualDocument(val uri: URI): IDocument {
                 currentLineOffset = nextLineOffset
 
                 // Construct the intermediate lines
-                nextLineOffset = findNextLineOffset(newText, currentLineOffset)
+                nextLineOffset = newText.indexAfterNextNewline(currentLineOffset)
                 while (nextLineOffset != null) {
                     val newLineText = newText.substring(currentLineOffset, nextLineOffset)
                     newLines.add(Line(newLineText))
                     currentLineOffset = nextLineOffset
 
-                    nextLineOffset = findNextLineOffset(newText, currentLineOffset)
+                    nextLineOffset = newText.indexAfterNextNewline(currentLineOffset)
                 }
 
                 // Construct the last line
@@ -103,7 +103,7 @@ class VirtualDocument(val uri: URI): IDocument {
      * @return The zero-based offset from the start of the document;
      * or null when the line or character are out of bounds.
      */
-    fun getOffset(line: Int, character: Int): Int? {
+    override fun getOffset(line: Int, character: Int): Int? {
         if (line < 0)
             throw IllegalArgumentException("Line must be greater than or equal to 0.")
         if (character < 0)
@@ -141,7 +141,7 @@ class VirtualDocument(val uri: URI): IDocument {
      * @return The zero-based line number and zero-based character offset from the start of the line,
      * or null when the offset is out of bounds.
      */
-    fun getLineCharacterOffset(offset: Int): Position? {
+    override fun getLineCharacterOffset(offset: Int): Position? {
         if (offset < 0)
             throw IllegalArgumentException("Offset must be greater than or equal to 0.")
 
@@ -157,37 +157,6 @@ class VirtualDocument(val uri: URI): IDocument {
             if (currentOffset > offset) return null
 
             return Position(currentLine, offset - currentOffset)
-        }
-    }
-
-    /**
-     * Find the offset of the next line in a string. This may be the end of the string
-     * if the string ends with a newline.
-     *
-     * @param text The text to search through.
-     * @param startOffset The zero-based offset at which to start searching.
-     * @return The zero-based offset of the start of the next line,
-     * which may be at the end of the string; or null when no next line was found.
-     */
-    private fun findNextLineOffset(text: CharSequence, startOffset: Int): Int? {
-        if (startOffset >= text.length) {
-            // No more characters in the text.
-            return null
-        }
-
-        val nextOffset = text.indexOfAny(charArrayOf('\r', '\n'), startOffset)
-        return if (nextOffset == -1) {
-            // Not found.
-            null
-        } else if (nextOffset == text.length - 1) {
-            // Last character of the file
-            nextOffset + 1
-        } else if (text[nextOffset] == '\r' && text[nextOffset + 1] == '\n') {
-            // CRLF (Windows newline)
-            nextOffset + 2
-        } else {
-            // LF (Unix newline) or CR (old Mac newline)
-            nextOffset + 1
         }
     }
 

@@ -14,7 +14,7 @@ class DocumentManager {
 
     private val documentMap = ConcurrentHashMap<URI, VirtualDocument>()
 
-    fun getDocument(uri: URI): VirtualDocument {
+    fun getDocument(uri: URI): ILspDocument {
         return documentMap.computeIfAbsent(uri, {
             val document = VirtualDocument(it)
             // FIXME: Character set is probably not always UTF8,
@@ -28,5 +28,13 @@ class DocumentManager {
 
             document
         })
+    }
+
+    fun openDocument(uri: URI, text: String?) {
+        TODO()
+    }
+
+    fun closeDocument(uri: URI) {
+        TODO()
     }
 }

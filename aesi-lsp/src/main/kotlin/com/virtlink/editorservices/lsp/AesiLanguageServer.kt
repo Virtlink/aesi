@@ -27,11 +27,21 @@ class AesiLanguageServer @Inject constructor(
         capabilities.completionProvider = CompletionOptions(false, listOf(".", " "))
         val documentSync = TextDocumentSyncOptions()
         documentSync.change = TextDocumentSyncKind.Incremental
+        documentSync.openClose = true
+        documentSync.save = SaveOptions(true)
+        documentSync.willSave = true
+//        documentSync.willSaveWaitUntil = true
         capabilities.textDocumentSync = Either.forRight<TextDocumentSyncKind, TextDocumentSyncOptions>(documentSync)
         InitializeResult(capabilities)
     }
 
+    override fun opened(params: DidOpenTextDocumentParams) {
+        logger.info("Opened ${params.textDocument}")
+        super.opened(params)
+    }
+
     override fun changed(params: DidChangeTextDocumentParams) {
+        logger.info("Changed ${params.textDocument}")
         val document = this.documentManager.getDocument(URI(params.textDocument.uri))
         params.contentChanges.forEach {
             val offset = document.getOffset(it.range.start.line, it.range.start.character)!!
@@ -40,6 +50,21 @@ class AesiLanguageServer @Inject constructor(
             document.update(offset, length, newText)
         }
         logger.info("Applied ${params.contentChanges.size} changes to document ${document.uri}:\n" + document.text)
+    }
+
+    override fun saving(params: WillSaveTextDocumentParams) {
+        logger.info("Saving ${params.textDocument} because ${params.reason}.")
+        super.saving(params)
+    }
+
+    override fun saved(params: DidSaveTextDocumentParams) {
+        logger.info("Saved ${params.textDocument}:\n${params.text}")
+        super.saved(params)
+    }
+
+    override fun closed(params: DidCloseTextDocumentParams) {
+        logger.info("Closed ${params.textDocument}")
+        super.closed(params)
     }
 
     override fun doCompletion(position: TextDocumentPositionParams)
