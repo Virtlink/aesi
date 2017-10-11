@@ -2,6 +2,7 @@ package com.virtlink.editorservices.lsp
 
 import com.google.inject.Inject
 import com.google.inject.assistedinject.Assisted
+import com.virtlink.logging.LogWriter
 import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageClientAware
 import org.eclipse.lsp4j.services.LanguageServer
@@ -39,7 +40,7 @@ class SocketLanguageServerLauncher @Inject constructor(
 
         val inputStream = Channels.newInputStream(socketChannel)
         val outputStream = Channels.newOutputStream(socketChannel)
-        val traceWriter = PrintWriter(System.out)
+        val traceWriter = PrintWriter(LogWriter(LoggerFactory.getLogger("JSON"), LogWriter.LogLevel.Trace))
 
         val launcher = LSPLauncher.createServerLauncher(
                 server,
