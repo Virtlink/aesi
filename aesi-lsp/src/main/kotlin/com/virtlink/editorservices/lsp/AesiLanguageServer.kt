@@ -36,35 +36,37 @@ class AesiLanguageServer @Inject constructor(
     }
 
     override fun opened(params: DidOpenTextDocumentParams) {
-        logger.info("Opened ${params.textDocument}")
-        super.opened(params)
+        this.documentManager.openDocument(URI(params.textDocument.uri), params.textDocument.text)
     }
 
     override fun changed(params: DidChangeTextDocumentParams) {
         logger.info("Changed ${params.textDocument}")
-        val document = this.documentManager.getDocument(URI(params.textDocument.uri))
+        val documentUri = URI(params.textDocument.uri)
+        val document = this.documentManager.getDocument(documentUri)
+        if (document !is VirtualDocument) {
+            logger.error("Document was not opened, changes ignored to: $documentUri")
+            return
+        }
         params.contentChanges.forEach {
             val offset = document.getOffset(it.range.start.line, it.range.start.character)!!
             val length = it.rangeLength
             val newText = it.text
             document.update(offset, length, newText)
         }
-        logger.info("Applied ${params.contentChanges.size} changes to document ${document.uri}:\n" + document.text)
+        logger.debug("Applied ${params.contentChanges.size} changes to document ${document.uri}")
+        logger.trace("Content:\n${document.text}")
     }
 
     override fun saving(params: WillSaveTextDocumentParams) {
-        logger.info("Saving ${params.textDocument} because ${params.reason}.")
-        super.saving(params)
+        logger.info("Saving ${params.textDocument.uri} because ${params.reason}.")
     }
 
     override fun saved(params: DidSaveTextDocumentParams) {
-        logger.info("Saved ${params.textDocument}:\n${params.text}")
-        super.saved(params)
+        logger.info("Saved ${params.textDocument.uri}:\n${params.text}")
     }
 
     override fun closed(params: DidCloseTextDocumentParams) {
-        logger.info("Closed ${params.textDocument}")
-        super.closed(params)
+        this.documentManager.closeDocument(URI(params.textDocument.uri))
     }
 
     override fun doCompletion(position: TextDocumentPositionParams)
@@ -72,7 +74,7 @@ class AesiLanguageServer @Inject constructor(
     = CompletableFutures.computeAsync {
         val project = this.projectManager.getProject()
         val document = this.documentManager.getDocument(URI(position.textDocument.uri))
-        val offset = position.position.toOffset(document)
+        val offset = document.getOffset(position.position.line, position.position.character)
                 ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                 "Position not found within document.", position.position))
         val info = this.codeCompletionService.complete(project, document, offset, it.toCancellationToken())

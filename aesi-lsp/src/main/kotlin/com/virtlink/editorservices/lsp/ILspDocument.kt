@@ -8,6 +8,11 @@ import kotlin.concurrent.write
 interface ILspDocument : IDocument {
 
     /**
+     * Gets the length of the document.
+     */
+    val length: Int
+
+    /**
      * Gets the offset of the specified line:character within the document.
      *
      * @param line The zero-based line number.

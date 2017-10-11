@@ -9,10 +9,13 @@ import kotlin.concurrent.write
 import java.net.URI
 
 /**
- * Represents an in-memory document.
+ * Represents a document whose truth is with the editor.
  * The document may or may not exist on disk.
  */
 class VirtualDocument(val uri: URI): ILspDocument {
+
+    override val length: Int
+        get() = this.lines.sumBy { it.length }
 
     private data class Line(val text: String) {
         val length get() = this.text.length
@@ -42,6 +45,14 @@ class VirtualDocument(val uri: URI): ILspDocument {
      * Lock.
      */
     private var lock = ReentrantReadWriteLock()
+
+    /**
+     * Updates the document to reflect the given text.
+     *
+     * @param newText The next text of the document, which may be an empty string when the document was cleared.
+     */
+    fun updateAll(newText: String)
+        = update(0, this.length, newText)
 
     /**
      * Updates the document to include the specified change.
@@ -91,6 +102,7 @@ class VirtualDocument(val uri: URI): ILspDocument {
                 val sublist = this.lines.subList(start.line, end.line + 1)
                 sublist.clear()
                 sublist.addAll(newLines)
+
             }
         }
     }

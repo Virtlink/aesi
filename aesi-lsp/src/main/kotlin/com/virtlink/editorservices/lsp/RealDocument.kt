@@ -8,7 +8,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
-
+/**
+ * Represents a document whose truth is with the file system.
+ */
 class RealDocument(val uri: URI): ILspDocument {
 
     private var cachedText: String? = null
@@ -21,12 +23,6 @@ class RealDocument(val uri: URI): ILspDocument {
     private var lock = ReentrantReadWriteLock()
 
     override val text: String
-        // FIXME: Character set is probably not always UTF8,
-        // but we have no way of knowing the correct character set.
-        // In any case, this should be the same character set as used
-        // by the editor, as otherwise the character to offset conversions
-        // and line-ending detections would not work correctly.
-        // So UTF8 is our best guess here.
         get() {
             this.lock.read {
                 if (this.cachedText == null) {
@@ -35,6 +31,9 @@ class RealDocument(val uri: URI): ILspDocument {
                 return this.cachedText!!
             }
         }
+
+    override val length: Int
+        get() = this.text.length
 
     /**
      * Invalidates the in-memory representation of the document.
@@ -50,13 +49,7 @@ class RealDocument(val uri: URI): ILspDocument {
      */
     fun refresh() {
         this.lock.write {
-            // FIXME: Character set is probably not always UTF8,
-            // but we have no way of knowing the correct character set.
-            // In any case, this should be the same character set as used
-            // by the editor, as otherwise the character to offset conversions
-            // and line-ending detections would not work correctly.
-            // So UTF8 is our best guess here.
-            this.cachedText = File(uri).readText(Charsets.UTF_8)
+            this.cachedText = DocumentManager.readTextFromDisk(this.uri)
             this.lines = getLineOffsets()
         }
     }
