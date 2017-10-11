@@ -4,6 +4,7 @@ import com.virtlink.editorservices.Kind
 import com.virtlink.editorservices.IVisibility
 import java.util.*
 
+@Deprecated("Replaced by CompletionProposal2")
 class CompletionProposal(override val label: String,
                          override val description: String? = null,
                          override val documentation: String? = null,

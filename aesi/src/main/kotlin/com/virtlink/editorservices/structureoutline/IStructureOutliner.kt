@@ -6,6 +6,7 @@ import com.virtlink.editorservices.IDocumentLocation
 import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 
+@Deprecated("Replaced by IStructureOutlineService")
 interface IStructureOutliner {
 
     /**

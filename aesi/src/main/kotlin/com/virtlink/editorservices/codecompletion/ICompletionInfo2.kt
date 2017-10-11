@@ -3,8 +3,7 @@ package com.virtlink.editorservices.codecompletion
 /**
  * Completion info.
  */
-@Deprecated("Replaced by ICompletionInfo2")
-interface ICompletionInfo {
+interface ICompletionInfo2 {
     /**
      * Gets the prefix up to the cursor that is being completed.
      *
@@ -21,5 +20,5 @@ interface ICompletionInfo {
      * When there is only one proposal, the editor MAY insert
      * that proposal without displaying the list of choices to the user.
      */
-    val proposals: List<ICompletionProposal>
+    val proposals: List<ICompletionProposal2>
 }

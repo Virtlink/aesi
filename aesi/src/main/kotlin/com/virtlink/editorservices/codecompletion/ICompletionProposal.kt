@@ -7,6 +7,7 @@ import java.util.*
 /**
  * A completion proposal.
  */
+@Deprecated("Replaced by ICompletionProposal2")
 interface ICompletionProposal {
 
     /**

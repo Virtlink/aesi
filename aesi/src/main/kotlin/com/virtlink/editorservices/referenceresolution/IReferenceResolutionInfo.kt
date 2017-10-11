@@ -5,6 +5,7 @@ import com.virtlink.editorservices.Span
 /**
  * Resolution information.
  */
+@Deprecated("Replaced")
 interface IReferenceResolutionInfo {
 //    /**
 //     * The range of the reference name in the document.

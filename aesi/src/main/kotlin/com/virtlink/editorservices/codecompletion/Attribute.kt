@@ -1,5 +1,6 @@
 package com.virtlink.editorservices.codecompletion
 
+@Deprecated("Removed")
 enum class Attribute {
     /**
      * The member is external to this project.

@@ -7,6 +7,7 @@ import com.virtlink.editorservices.Span
 /**
  * A definition.
  */
+@Deprecated("Replaced")
 interface IDefinition {
     /**
      * The project with the definition.

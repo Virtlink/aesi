@@ -7,6 +7,7 @@ import com.virtlink.editorservices.IProject
 /**
  * Resolves a definition to its references.
  */
+@Deprecated("Replaced")
 interface IDefinitionResolver {
     /**
      * Returns references for the definition at the current caret position in the text in a document.

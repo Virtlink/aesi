@@ -1,17 +1,16 @@
-package com.virtlink.editorservices.codecompletion
+package com.virtlink.editorservices.symbols
 
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IDocumentLocation
 import com.virtlink.editorservices.IProject
 
-@Deprecated("Replaced by ICodeCompletionService")
-interface ICodeCompleter {
+/**
+ * Provides the references to the symbol under the caret.
+ */
+interface IReferenceProviderService {
+
     /**
-     * Returns completion proposals for the current caret position in the text in a document.
-     *
-     * The completion proposals must be returned in the order they must be displayed to the user.
-     * This function should filter the returned proposals by the prefix that the user has typed.
+     * Returns the references to the definition at the current caret position in the text in a document.
      *
      * The cancellation token is used to abort a long-running operation when the result is no longer needed.
      * Implementations should listen to the cancellation event and abort, for example by throwing an
@@ -19,14 +18,15 @@ interface ICodeCompleter {
      * this may negatively impact performance.
      *
      * @param project The project that contains the document.
-     * @param document The document for which to provide completions.
+     * @param document The document for which to provide definition resolution.
      * @param caretOffset The offset of the caret in the document.
      * @param cancellationToken The cancellation token; or `null` when not supported.
-     * @return The completion info.
+     * @return A list of references.
      */
-    fun complete(
+    fun getReferences(
             project: IProject,
             document: IDocument,
             caretOffset: Int,
-            cancellationToken: ICancellationToken?): ICompletionInfo
+            cancellationToken: ICancellationToken?)
+            : List<ISymbol>
 }

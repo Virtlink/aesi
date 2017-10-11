@@ -7,6 +7,7 @@ import com.virtlink.editorservices.Span
 /**
  * A reference.
  */
+@Deprecated("Replaced")
 interface IReference {
     /**
      * The project with the reference.

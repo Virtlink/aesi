@@ -7,6 +7,7 @@ import com.virtlink.editorservices.Span
 /**
  * Resolution information.
  */
+@Deprecated("Replaced")
 interface IDefinitionResolutionInfo {
 //    /**
 //     * The range of the definition name in the document.

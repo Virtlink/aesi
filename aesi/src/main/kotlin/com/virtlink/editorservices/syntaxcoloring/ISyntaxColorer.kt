@@ -2,6 +2,7 @@ package com.virtlink.editorservices.syntaxcoloring
 
 import com.virtlink.editorservices.*
 
+@Deprecated("Replaced by ISyntaxColoringService")
 interface ISyntaxColorer {
     /**
      * Colorizes (part of) a document.
