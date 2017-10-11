@@ -13,12 +13,11 @@ import java.nio.channels.Channels
 import java.nio.channels.ServerSocketChannel
 
 class StdioLanguageServerLauncher @Inject constructor(
-        @Assisted val port: Int,
         private val server: LanguageServer)
-    : ILanguageServerLauncher {
+    : LanguageServerLauncherBase() {
 
     override fun launch()  {
-        val traceWriter = PrintWriter(System.err)
+        val traceWriter = createTraceWriter()
         System.setOut(System.err)
 
         val launcher = LSPLauncher.createServerLauncher(

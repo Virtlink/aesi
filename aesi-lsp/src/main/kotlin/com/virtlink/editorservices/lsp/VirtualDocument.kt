@@ -12,7 +12,10 @@ import java.net.URI
  * Represents a document whose truth is with the editor.
  * The document may or may not exist on disk.
  */
-class VirtualDocument(val uri: URI): ILspDocument {
+class VirtualDocument(override val project: Project, override val uri: URI): ILspDocument {
+
+    override val relativeUri: URI
+        get() = this.project.uri.relativize(this.uri)
 
     override val length: Int
         get() = this.lines.sumBy { it.length }
@@ -172,4 +175,6 @@ class VirtualDocument(val uri: URI): ILspDocument {
         }
     }
 
+    override fun toString(): String
+            = this.relativeUri.toString()
 }

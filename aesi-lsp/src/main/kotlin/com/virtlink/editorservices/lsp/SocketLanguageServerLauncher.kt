@@ -17,7 +17,7 @@ import java.util.concurrent.TimeoutException
 class SocketLanguageServerLauncher @Inject constructor(
         @Assisted val port: Int,
         private val server: LanguageServer)
-    : ILanguageServerLauncher {
+    : LanguageServerLauncherBase() {
 
     var logger = LoggerFactory.getLogger(SocketLanguageServerLauncher::class.java)
 
@@ -40,7 +40,7 @@ class SocketLanguageServerLauncher @Inject constructor(
 
         val inputStream = Channels.newInputStream(socketChannel)
         val outputStream = Channels.newOutputStream(socketChannel)
-        val traceWriter = PrintWriter(LogWriter(LoggerFactory.getLogger("JSON"), LogWriter.LogLevel.Trace))
+        val traceWriter = createTraceWriter()
 
         val launcher = LSPLauncher.createServerLauncher(
                 server,

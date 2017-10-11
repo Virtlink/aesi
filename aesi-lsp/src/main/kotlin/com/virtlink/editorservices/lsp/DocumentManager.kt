@@ -11,35 +11,36 @@ import java.util.concurrent.ConcurrentMap
 /**
  * Manages the documents.
  */
-class DocumentManager {
+class DocumentManager(private val project: Project) {
 
-    private var logger = LoggerFactory.getLogger(DocumentManager::class.java)
+    private val logger = LoggerFactory.getLogger(DocumentManager::class.java)
 
     private val documentMap = ConcurrentHashMap<URI, ILspDocument>()
 
     fun getDocument(uri: URI): ILspDocument {
         return this.documentMap.computeIfAbsent(uri, {
-            logger.info("Unknown document discovered: $it")
-            RealDocument(it)
+            val doc = RealDocument(this.project, it)
+            logger.info("${doc.relativeUri}: Unknown document discovered.")
+            doc
         })
     }
 
     fun openDocument(uri: URI, text: String?) {
         this.documentMap.compute(uri, { key, doc ->
             if (doc is VirtualDocument) {
-                logger.warn("Document already opened: $key")
+                logger.warn("${doc.relativeUri}: Document already opened.")
                 doc
             } else {
                 if (doc == null) {
-                    logger.info("Unknown document opened: $key")
+                    logger.info("${this.project.uri.relativize(uri)}: Unknown document opened.")
                 }
                 // Get the given text, or the text of the document on disk if no text was given.
                 val documentText = text ?: readTextFromDisk(key)
                 // Create a VirtualDocument to represent the opened document,
                 // and update it with the document text.
-                val newDoc = VirtualDocument(key)
+                val newDoc = VirtualDocument(this.project, key)
                 newDoc.updateAll(documentText)
-                logger.info("Opened document: $key")
+                logger.info("${newDoc.relativeUri}: Document opened.")
                 newDoc
             }
         })
@@ -47,15 +48,15 @@ class DocumentManager {
 
     fun closeDocument(uri: URI) {
         this.documentMap.compute(uri, { key, doc ->
-            if (doc !is VirtualDocument) {
-                logger.warn("Document already closed: $key")
+            if (doc is RealDocument) {
+                logger.warn("${doc.relativeUri}: Document already closed.")
                 doc
             } else {
                 if (doc == null) {
-                    logger.warn("Unknown document closed: $key")
+                    logger.warn("${this.project.uri.relativize(uri)}: Unknown document closed.")
                 }
-                val newDoc = RealDocument(key)
-                logger.info("Closed document: $key")
+                val newDoc = RealDocument(this.project, key)
+                logger.info("${newDoc.relativeUri}: Document closed.")
                 newDoc
             }
         })
@@ -72,12 +73,12 @@ class DocumentManager {
         val doc = this.documentMap[uri]
 
         if (doc == null) {
-            logger.warn("Update ignored, document was unknown: $uri")
+            logger.warn("${this.project.uri.relativize(uri)}: Update ignored, document was unknown.")
         } else if (doc !is VirtualDocument) {
-            logger.warn("Update ignored, document was not opened: $uri")
+            logger.warn("${doc.relativeUri}: Update ignored, document was not opened.")
         } else {
             doc.update(offset, length, newText)
-            logger.trace("Updated $offset-${offset+length} ($length) to be ${newText.length} characters in document: $uri")
+            logger.trace("${doc.relativeUri}: Updated $offset-${offset+length} ($length) to be ${newText.length} characters in document.")
         }
     }
 

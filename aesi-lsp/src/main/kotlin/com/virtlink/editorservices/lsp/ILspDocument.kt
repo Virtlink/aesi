@@ -3,9 +3,15 @@ package com.virtlink.editorservices.lsp
 import com.virtlink.editorservices.IDocument
 import org.eclipse.lsp4j.Position
 import java.io.File
+import java.net.URI
 import kotlin.concurrent.write
 
 interface ILspDocument : IDocument {
+
+    val project: Project
+    val uri: URI
+
+    val relativeUri: URI
 
     /**
      * Gets the length of the document.

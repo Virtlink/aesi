@@ -15,7 +15,6 @@ import java.util.concurrent.CompletableFuture
 
 class AesiLanguageServer @Inject constructor(
         private val codeCompletionService: ICodeCompleter,
-        private val documentManager: DocumentManager,
         private val projectManager: ProjectManager
 ) : AbstractLanguageServer() {
 
@@ -23,6 +22,8 @@ class AesiLanguageServer @Inject constructor(
 
     override fun doInitialize(params: InitializeParams): CompletableFuture<InitializeResult>
     = CompletableFutures.computeAsync {
+        this.projectManager.openProject(URI(params.rootUri))
+
         val capabilities = ServerCapabilities()
         capabilities.completionProvider = CompletionOptions(false, listOf(".", " "))
         val documentSync = TextDocumentSyncOptions()
@@ -36,15 +37,15 @@ class AesiLanguageServer @Inject constructor(
     }
 
     override fun opened(params: DidOpenTextDocumentParams) {
-        this.documentManager.openDocument(URI(params.textDocument.uri), params.textDocument.text)
+        val project = this.projectManager.getProject()
+        project.documents.openDocument(URI(params.textDocument.uri), params.textDocument.text)
     }
 
     override fun changed(params: DidChangeTextDocumentParams) {
-        logger.info("Changed ${params.textDocument}")
-        val documentUri = URI(params.textDocument.uri)
-        val document = this.documentManager.getDocument(documentUri)
+        val project = this.projectManager.getProject()
+        val document = project.documents.getDocument(URI(params.textDocument.uri))
         if (document !is VirtualDocument) {
-            logger.error("Document was not opened, changes ignored to: $documentUri")
+            logger.error("${document.relativeUri}: Document was not opened, changes ignored.")
             return
         }
         params.contentChanges.forEach {
@@ -53,27 +54,32 @@ class AesiLanguageServer @Inject constructor(
             val newText = it.text
             document.update(offset, length, newText)
         }
-        logger.debug("Applied ${params.contentChanges.size} changes to document ${document.uri}")
-        logger.trace("Content:\n${document.text}")
+        logger.debug("${document.relativeUri}: Applied ${params.contentChanges.size} changes.")
+        logger.trace("${document.relativeUri}:\n${document.text}")
     }
 
     override fun saving(params: WillSaveTextDocumentParams) {
-        logger.info("Saving ${params.textDocument.uri} because ${params.reason}.")
+        val project = this.projectManager.getProject()
+        val document = project.documents.getDocument(URI(params.textDocument.uri))
+        logger.info("${document.relativeUri}: Saving because ${params.reason}.")
     }
 
     override fun saved(params: DidSaveTextDocumentParams) {
-        logger.info("Saved ${params.textDocument.uri}:\n${params.text}")
+        val project = this.projectManager.getProject()
+        val document = project.documents.getDocument(URI(params.textDocument.uri))
+        logger.info("${document.relativeUri}: Saved.")
     }
 
     override fun closed(params: DidCloseTextDocumentParams) {
-        this.documentManager.closeDocument(URI(params.textDocument.uri))
+        val project = this.projectManager.getProject()
+        project.documents.closeDocument(URI(params.textDocument.uri))
     }
 
     override fun doCompletion(position: TextDocumentPositionParams)
             : CompletableFuture<Either<MutableList<CompletionItem>, CompletionList>>
     = CompletableFutures.computeAsync {
         val project = this.projectManager.getProject()
-        val document = this.documentManager.getDocument(URI(position.textDocument.uri))
+        val document = project.documents.getDocument(URI(position.textDocument.uri))
         val offset = document.getOffset(position.position.line, position.position.character)
                 ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                 "Position not found within document.", position.position))

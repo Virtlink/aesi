@@ -11,11 +11,14 @@ import kotlin.concurrent.write
 /**
  * Represents a document whose truth is with the file system.
  */
-class RealDocument(val uri: URI): ILspDocument {
+class RealDocument(override val project: Project, override val uri: URI): ILspDocument {
 
     private var cachedText: String? = null
 
     private var lines: List<Int> = emptyList()
+
+    override val relativeUri: URI
+        get() = this.project.uri.relativize(this.uri)
 
     /**
      * Lock.
@@ -133,4 +136,7 @@ class RealDocument(val uri: URI): ILspDocument {
             return lines
         }
     }
+
+    override fun toString(): String
+        = this.relativeUri.toString()
 }

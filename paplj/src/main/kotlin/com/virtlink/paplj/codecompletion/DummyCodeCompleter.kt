@@ -11,7 +11,7 @@ class DummyCodeCompleter : ICodeCompleter {
 
     override fun complete(project: IProject, document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): ICompletionInfo {
 
-        logger.info("Completing for $document in $project at $caretOffset.")
+        logger.info("$document: Completing at $caretOffset.")
 
         val proposals = listOf(
                 CompletionProposal("Hello",
