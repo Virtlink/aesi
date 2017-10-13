@@ -5,6 +5,7 @@
 
 dependencies {
     compile project(":aesi")
+    compile project(":aesi-utils")
 
     compile "org.metaborg:pie.runtime.core:$pie_version"
     compile "org.metaborg:pie.runtime.builtin:$pie_version"

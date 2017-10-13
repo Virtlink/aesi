@@ -1,26 +1,44 @@
 package com.virtlink.editorservices
 
 /**
- * A document span.
+ * A range in a document.
  *
- * @property start The start offset of the span.
- * @property end The end offset of the span.
+ * @property start The inclusive start offset of the span.
+ * @property end The exclusive end offset of the span.
  */
-data class Span(val startOffset: Int, val endOffset: Int) {
+data class Span(override val start: Offset, val end: Offset): ClosedRange<Offset>, Iterable<Offset> {
 
     init {
-        if (endOffset < startOffset)
-            throw IllegalArgumentException("The start offset must be at or before the end offset.")
+        if (end < start)
+            throw IllegalArgumentException("The end offset must be at or after the start offset.")
     }
+
+    override val endInclusive: Offset
+        get() = this.end - 1
 
     /**
-     * Gets whether the span is empty.
+     * Gets the length of the span.
      */
-    val isEmpty: Boolean
-        get() = this.startOffset == this.endOffset
+    val length get() = this.end - this.start
 
-    override fun toString(): String {
-        return "(${this.startOffset}-${this.endOffset})"
-    }
+    override fun isEmpty(): Boolean
+        = this.start == this.end
+
+    override fun iterator(): Iterator<Offset>
+        = object : Iterator<Offset> {
+
+            var current = start
+
+            override fun hasNext(): Boolean = current < end
+
+            override fun next(): Offset {
+                val next = this.current
+                current += 1
+                return next
+            }
+        }
+
+    override fun toString(): String
+        = "(${this.start}-${this.end})"
 
 }

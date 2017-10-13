@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.lsp
+package com.virtlink.editorservices
 
 /**
  * Finds the offset after the next newline in a string.
@@ -28,4 +28,17 @@ fun CharSequence.indexAfterNextNewline(startOffset: Int): Int? {
         // LF (Unix newline) or CR (old Mac newline)
         nextOffset + 1
     }
+}
+
+/**
+ * Finds the offset after the next newline in a string.
+ * This may be the end of the string if the string ends with a newline.
+ *
+ * @param start The offset at which to start searching.
+ * @return The offset of the start of the next line,
+ * which may be at the end of the string; or null when no next line was found.
+ */
+fun CharSequence.indexAfterNextNewline(start: Offset): Offset? {
+    val result = indexAfterNextNewline(start.offset)
+    return if (result != null) Offset(result) else null
 }

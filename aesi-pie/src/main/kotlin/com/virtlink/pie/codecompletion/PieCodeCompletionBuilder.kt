@@ -8,6 +8,7 @@ import com.virtlink.editorservices.codecompletion.CompletionProposal2
 import com.virtlink.editorservices.codecompletion.ICompletionInfo2
 import mb.pie.runtime.core.BuildContext
 import mb.pie.runtime.core.Builder
+import mb.vfs.path.PPathImpl
 import org.slf4j.LoggerFactory
 import java.io.Serializable
 
@@ -22,8 +23,7 @@ class PieCodeCompletionBuilder
 
     data class Input(val project: IProject,
                      val document: IDocument,
-                     val caretOffset: Int,
-                     val cancellationToken: ICancellationToken?)
+                     val caretOffset: Int)
         : Serializable
 
     private val logger = LoggerFactory.getLogger(PieCodeCompletionBuilder::class.java)
@@ -33,7 +33,7 @@ class PieCodeCompletionBuilder
             input.project,
             input.document,
             input.caretOffset,
-            input.cancellationToken)
+            null)
 
     @Suppress("UNUSED_PARAMETER", "unused")
     private fun BuildContext.getCompletionInfo(
@@ -42,6 +42,8 @@ class PieCodeCompletionBuilder
             caretOffset: Int,
             cancellationToken: ICancellationToken?):
             ICompletionInfo2 {
+
+        require(PPathImpl(document.uri))
 
         logger.info("$document: Completing at $caretOffset.")
 

@@ -1,5 +1,4 @@
-// Non-standalone build, part of:
-// * paplj-lsp
+// Non-standalone build
 
 dependencies {
     compile project(":aesi")
@@ -8,6 +7,4 @@ dependencies {
     compile "com.google.inject:guice:$guice_version"
     compile "com.google.inject.extensions:guice-assistedinject:$guice_version"
     compile "com.google.inject.extensions:guice-multibindings:$guice_version"
-    compile "com.xenomachina:kotlin-argparser:$argparser_version"
-    compile "org.eclipse.lsp4j:org.eclipse.lsp4j:$lsp4j_version"
 }

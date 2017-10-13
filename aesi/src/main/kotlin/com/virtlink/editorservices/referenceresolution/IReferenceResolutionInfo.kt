@@ -1,7 +1,5 @@
 package com.virtlink.editorservices.referenceresolution
 
-import com.virtlink.editorservices.Span
-
 /**
  * Resolution information.
  */

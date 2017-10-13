@@ -1,5 +1,13 @@
 package com.virtlink.editorservices
 
+import java.net.URI
+
+/**
+ * A document.
+ */
 interface IDocument {
-    val text : String
+    /**
+     * The document's URI.
+     */
+    val uri: URI
 }

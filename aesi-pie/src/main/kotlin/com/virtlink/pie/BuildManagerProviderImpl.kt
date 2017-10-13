@@ -27,20 +27,20 @@ class BuildManagerProviderImpl @Inject constructor(
     private val buildManagers = ConcurrentHashMap<IProject, BuildManager>()
 
     override fun getBuildManager(project: IProject): BuildManager {
-        return buildManagers.getOrPut(project) {
+        return this.buildManagers.getOrPut(project) {
             val store = createStore(project)
-            val cache = cacheFactory.get()
-            buildManagerFactory.create(store, cache)
+            val cache = this.cacheFactory.get()
+            this.buildManagerFactory.create(store, cache)
         }
     }
 
     private fun createStore(project: IProject): BuildStore {
-        val projectRootDir = PPathImpl(project.uri)
+        val projectRootDir = this.pathSrv.resolve(project.uri)
         val storeDir = projectRootDir.resolve(".pie")
-        val localStoreDir = pathSrv.localPath(storeDir)
+        val localStoreDir = this.pathSrv.localPath(storeDir)
         val store: BuildStore
         if (localStoreDir != null) {
-            store = storeFactory.create(localStoreDir)
+            store = this.storeFactory.create(localStoreDir)
             logger.debug("Created PIE LMDB store at $storeDir for project $project.")
         } else {
             store = InMemoryBuildStore()

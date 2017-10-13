@@ -2,7 +2,9 @@ package com.virtlink.editorservices.lsp
 
 import com.google.inject.Inject
 import com.virtlink.editorservices.codecompletion.ICodeCompleter
+import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
+import com.virtlink.editorservices.codecompletion.ICompletionProposal2
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.CompletableFutures
 import org.eclipse.lsp4j.jsonrpc.ResponseErrorException
@@ -14,7 +16,7 @@ import java.net.URI
 import java.util.concurrent.CompletableFuture
 
 class AesiLanguageServer @Inject constructor(
-        private val codeCompletionService: ICodeCompleter,
+        private val codeCompletionService: ICodeCompletionService,
         private val projectManager: ProjectManager
 ) : AbstractLanguageServer() {
 
@@ -83,13 +85,13 @@ class AesiLanguageServer @Inject constructor(
         val offset = document.getOffset(position.position.line, position.position.character)
                 ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                 "Position not found within document.", position.position))
-        val info = this.codeCompletionService.complete(project, document, offset, it.toCancellationToken())
+        val info = this.codeCompletionService.getCompletionInfo(project, document, offset, it.toCancellationToken())
         val proposals = info.proposals.map { toCompletionItem(it) }
         val list = CompletionList(proposals)
         Either.forRight<MutableList<CompletionItem>, CompletionList>(list)
     }
 
-    private fun toCompletionItem(proposal: ICompletionProposal): CompletionItem {
+    private fun toCompletionItem(proposal: ICompletionProposal2): CompletionItem {
         val item = CompletionItem(proposal.label)
         item.insertText = proposal.insertionText
         item.detail = proposal.description

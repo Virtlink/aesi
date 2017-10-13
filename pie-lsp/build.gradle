@@ -105,7 +105,7 @@ allprojects {
 
 
 apply plugin: 'application'
-mainClassName = 'com.virtlink.paplj.lsp.ProgramKt'
+mainClassName = 'com.virtlink.pie.lsp.ProgramKt'
 defaultTasks 'run'
 
 dependencies {

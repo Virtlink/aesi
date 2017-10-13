@@ -1,6 +1,5 @@
 package com.virtlink.editorservices.codefolding
 
-import com.virtlink.editorservices.Span
 import java.io.Serializable
 
 /**

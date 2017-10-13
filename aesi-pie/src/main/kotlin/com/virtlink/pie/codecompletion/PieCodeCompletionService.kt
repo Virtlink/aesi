@@ -1,5 +1,6 @@
 package com.virtlink.pie.codecompletion
 
+import com.google.inject.Inject
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
@@ -8,7 +9,7 @@ import com.virtlink.editorservices.codecompletion.ICompletionInfo2
 import com.virtlink.pie.IBuildManagerProvider
 import mb.pie.runtime.core.BuildApp
 
-class PieCodeCompletionService(
+class PieCodeCompletionService @Inject constructor(
         private val buildManagerProvider: IBuildManagerProvider
 ) : ICodeCompletionService {
 
@@ -21,7 +22,7 @@ class PieCodeCompletionService(
 
         val builderId = PieCodeCompletionBuilder.id
         val input = PieCodeCompletionBuilder.Input(
-                project, document, caretOffset, cancellationToken
+                project, document, caretOffset
         )
         val app = BuildApp<PieCodeCompletionBuilder.Input, ICompletionInfo2>(builderId, input)
         val manager = buildManagerProvider.getBuildManager(project)

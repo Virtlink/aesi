@@ -1,7 +1,8 @@
 rootProject.name = 'pie-lsp'
 
-include ":aesi-lsp", ":aesi-pie", ":aesi"
+include ":aesi-lsp", ":aesi-pie", ":aesi-utils", ":aesi"
 
+project(":aesi-utils").projectDir = file("../aesi-utils")
 project(":aesi-lsp").projectDir = file("../aesi-lsp")
 project(":aesi-pie").projectDir = file("../aesi-pie")
 project(":aesi").projectDir = file("../aesi")

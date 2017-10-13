@@ -5,7 +5,10 @@ import com.google.inject.multibindings.MapBinder
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.pie.codecompletion.PieCodeCompletionBuilder
 import com.virtlink.pie.codecompletion.PieCodeCompletionService
+import mb.pie.runtime.builtin.util.LoggerBuildReporter
 import mb.pie.runtime.core.*
+import mb.pie.runtime.core.impl.BuildCache
+import mb.pie.runtime.core.impl.MapBuildCache
 
 open class PieImplModule : PieModule() {
 
@@ -17,6 +20,7 @@ open class PieImplModule : PieModule() {
 
     open fun Binder.bindPie() {
         bind<IBuildManagerProvider>().to<BuildManagerProviderImpl>().asSingleton()
+        bind<BuildCache>().to<MapBuildCache>()
     }
 
     open fun Binder.bindCodeCompletion() {

@@ -2,7 +2,6 @@ package com.virtlink.editorservices.codecompletion
 
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
-import com.virtlink.editorservices.Span
 
 class CompletionProposal2(
         override val label: String,
