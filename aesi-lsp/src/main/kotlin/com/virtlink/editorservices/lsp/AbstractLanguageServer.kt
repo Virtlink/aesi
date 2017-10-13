@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture
 
 abstract class AbstractLanguageServer : LanguageServer, LanguageClientAware, TextDocumentService, WorkspaceService {
 
-    private var logger = LoggerFactory.getLogger(AbstractLanguageServer::class.java)
+    private val logger = LoggerFactory.getLogger(AbstractLanguageServer::class.java)
 
     private var state: ServerState = ServerState.NewBorn
     protected var client: LanguageClient? = null

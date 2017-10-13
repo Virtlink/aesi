@@ -23,7 +23,7 @@ interface ICodeCompletionService {
      * @param cancellationToken The cancellation token; or `null` when not supported.
      * @return The completion info.
      */
-    fun complete(
+    fun getCompletionInfo(
             project: IProject,
             document: IDocument,
             caretOffset: Int,

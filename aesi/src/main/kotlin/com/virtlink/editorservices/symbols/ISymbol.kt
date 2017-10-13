@@ -3,11 +3,12 @@ package com.virtlink.editorservices.symbols
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.Span
+import java.io.Serializable
 
 /**
  * A symbol.
  */
-interface ISymbol {
+interface ISymbol: Serializable {
 
     /**
      * Gets the project that contains the symbol.

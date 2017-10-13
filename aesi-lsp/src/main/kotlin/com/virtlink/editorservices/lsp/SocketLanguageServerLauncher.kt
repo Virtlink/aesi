@@ -19,7 +19,7 @@ class SocketLanguageServerLauncher @Inject constructor(
         private val server: LanguageServer)
     : LanguageServerLauncherBase() {
 
-    var logger = LoggerFactory.getLogger(SocketLanguageServerLauncher::class.java)
+    val logger = LoggerFactory.getLogger(SocketLanguageServerLauncher::class.java)
 
     override fun launch() {
         val serverSocket = AsynchronousServerSocketChannel.open()

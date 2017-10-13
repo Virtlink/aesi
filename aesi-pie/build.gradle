@@ -1,0 +1,13 @@
+// Non-standalone build, part of:
+// * pie-intellij
+// * pie-eclipse
+// * pie-lsp
+
+dependencies {
+    compile project(":aesi")
+
+    compile "org.metaborg:pie.runtime.core:$pie_version"
+    compile "org.metaborg:pie.runtime.builtin:$pie_version"
+    compile "org.metaborg:log:$metaborg_version"
+    compile "org.metaborg:vfs:$metaborg_version"
+}

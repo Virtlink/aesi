@@ -1,11 +1,12 @@
 package com.virtlink.editorservices.syntaxcoloring
 
 import com.virtlink.editorservices.Span
+import java.io.Serializable
 
 /**
  * A coloring token.
  */
-interface IToken2 {
+interface IToken2: Serializable {
     /**
      * The span in the document that is being colored.
      */

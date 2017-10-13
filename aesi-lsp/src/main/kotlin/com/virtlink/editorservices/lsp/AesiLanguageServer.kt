@@ -18,7 +18,7 @@ class AesiLanguageServer @Inject constructor(
         private val projectManager: ProjectManager
 ) : AbstractLanguageServer() {
 
-    private var logger = LoggerFactory.getLogger(AesiLanguageServer::class.java)
+    private val logger = LoggerFactory.getLogger(AesiLanguageServer::class.java)
 
     override fun doInitialize(params: InitializeParams): CompletableFuture<InitializeResult>
     = CompletableFutures.computeAsync {

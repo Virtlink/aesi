@@ -1,9 +1,11 @@
 package com.virtlink.editorservices.codefolding
 
+import java.io.Serializable
+
 /**
  * Folding information.
  */
-interface IFoldingInfo {
+interface IFoldingInfo: Serializable {
     /**
      * Gets a list of foldable regions.
      *

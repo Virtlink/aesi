@@ -3,12 +3,13 @@ package com.virtlink.editorservices.codecompletion
 import com.virtlink.editorservices.IVisibility
 import com.virtlink.editorservices.Kind
 import com.virtlink.editorservices.symbols.ISymbol
+import java.io.Serializable
 import java.util.*
 
 /**
  * A completion proposal.
  */
-interface ICompletionProposal2 : ISymbol {
+interface ICompletionProposal2 : ISymbol, Serializable {
 
     /**
      * Gets the text to insert when the completion is accepted.

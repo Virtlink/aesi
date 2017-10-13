@@ -8,27 +8,7 @@ all: paplj-eclipse paplj-intellij
 clean: clean.paplj-eclipse clean.paplj-intellij
 docs: docs.paplj-eclipse docs.paplj-intellij
 run-intellij: paplj-intellij
-	paplj-intellij/gradlew runIde $(GARGS) -p paplj-intellij/
-
-# aesi
-aesi:
-	aesi/gradlew install $(GARGS) -p aesi/
-
-docs.aesi:
-	aesi/gradlew dokka $(GARGS) -p aesi/
-
-clean.aesi:
-	aesi/gradlew clean $(GARGS) -p aesi/
-
-# aesi-intellij
-aesi-intellij: aesi
-	aesi-intellij/gradlew install $(GARGS) -p aesi-intellij/
-
-docs.aesi-intellij: docs.aesi
-	aesi-intellij/gradlew dokka $(GARGS) -p aesi-intellij/
-
-clean.aesi-intellij: clean.aesi
-	aesi-intellij/gradlew clean $(GARGS) -p aesi-intellij/
+	./gradlew runIde $(GARGS) -p paplj-intellij/
 
 # aesi-eclipse
 aesi-eclipse: aesi
@@ -46,25 +26,25 @@ clean.aesi-eclipse: clean.aesi
 	mvn clean $(MARGS) -f releng/aesi-eclipse/pom.xml
 	mvn clean $(MARGS) -f releng/pom.xml
 
-# paplj
-paplj: aesi
-	paplj/gradlew install $(GARGS) -p paplj/
-
-docs.paplj: docs.aesi
-	paplj/gradlew dokka $(GARGS) -p paplj/
-
-clean.paplj: clean.aesi
-	paplj/gradlew clean $(GARGS) -p paplj/
-
 # paplj-intellij
-paplj-intellij: paplj aesi-intellij
-	paplj-intellij/gradlew check $(GARGS) -p paplj-intellij/
+paplj-intellij:
+	./gradlew check $(GARGS) -p paplj-intellij/
 
-docs.paplj-intellij: docs.paplj docs.aesi-intellij
-	paplj-intellij/gradlew dokka $(GARGS) -p paplj-intellij/
+docs.paplj-intellij:
+	./gradlew dokka $(GARGS) -p paplj-intellij/
 
-clean.paplj-intellij: clean.paplj clean.aesi-intellij
-	paplj-intellij/gradlew clean $(GARGS) -p paplj-intellij/
+clean.paplj-intellij:
+	./gradlew clean $(GARGS) -p paplj-intellij/
+
+# paplj-lsp
+paplj-lsp:
+	./gradlew check $(GARGS) -p paplj-lsp/
+
+docs.paplj-lsp:
+	./gradlew dokka $(GARGS) -p paplj-lsp/
+
+clean.paplj-lsp:
+	./gradlew clean $(GARGS) -p paplj-lsp/
 
 # paplj-eclipse
 paplj-eclipse: paplj aesi-eclipse
