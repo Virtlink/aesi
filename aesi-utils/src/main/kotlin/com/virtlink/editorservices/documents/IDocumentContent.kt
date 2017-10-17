@@ -2,6 +2,7 @@ package com.virtlink.editorservices.documents
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
+import com.virtlink.editorservices.Span
 
 /**
  * Represents the content of a document.
@@ -26,6 +27,17 @@ interface IDocumentContent {
      * (empty) line is treated as a line as well.
      */
     val lineCount: Int
+
+    /**
+     * Updates the document to include the specified change.
+     *
+     * To change the document, it must be opened.
+     *
+     * @param span The span of changed text.
+     * @param newText The next text of the specified span,
+     * which may be an empty string when text was only removed.
+     */
+    fun update(span: Span, newText: String)
 
     /**
      * Gets the offset of the specified line:character position within the document.

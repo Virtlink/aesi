@@ -3,6 +3,7 @@
 
 dependencies {
     compile project(":aesi")
+    compile project(":aesi-utils")
 
     compile "com.google.guava:guava:$guava_version"
     compile "com.google.inject:guice:$guice_version"

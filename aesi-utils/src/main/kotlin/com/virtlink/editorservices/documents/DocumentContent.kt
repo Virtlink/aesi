@@ -9,16 +9,13 @@ import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 /**
- * Maintains a document's remote content.
+ * Maintains a document's content.
  *
  * When the truth of the document is maintained remotely
  * (e.g. by the editor), then the manager would send the
  * changes to the document, which are recorded in this object.
- *
- * When the truth of the document lies with the local file system,
- * then the document is managed by AESI.
  */
-class RemoteDocumentContent : IUpdatableDocumentContent {
+class DocumentContent : IDocumentContent {
 
     override val length: Int
         get() = this.lines.sumBy { it.length }

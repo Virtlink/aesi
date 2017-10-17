@@ -1,16 +1,15 @@
 package com.virtlink.editorservices
 
-import java.net.URI
-
 /**
- * A document.
+ * A version of a document.
  */
-interface IDocument {
+@Deprecated("Removed")
+interface IDocumentVersion {
 
     /**
-     * Gets the document's URI.
+     * Gets the document to which this version belongs.
      */
-    val uri: URI
+    val document: IDocument
 
     /**
      * Gets the document's version.

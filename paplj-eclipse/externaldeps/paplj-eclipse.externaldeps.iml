@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Osmorc" name="OSGi">
+      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="paplj-eclipse.externaldeps-0.0.1-SNAPSHOT.jar" outputPathType="CompilerOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="paplj-eclipse.externaldeps" bundleVersion="$(replace;0.0.1-SNAPSHOT;-SNAPSHOT;.qualifier)" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="false">
+        <additionalProperties>
+          <property key="Bundle-Vendor" value="Delft University of Technology" />
+          <property key="Bundle-DocURL" value="http://www.ewi.tudelft.nl/en" />
+          <property key="Bundle-Name" value="paplj-eclipse.externaldeps" />
+          <property key="Embed-Dependency" value="paplj" />
+          <property key="Export-Package" value="*;provider=metaborg;mandatory:=provider" />
+          <property key="Import-Package" value="!*" />
+          <property key="-nouses" value="true" />
+          <property key="-nodefaultversion" value="true" />
+          <property key="Eclipse-BuddyPolicy" value="registered" />
+          <property key="Bundle-ClassPath" value=".,paplj-0.0.1-SNAPSHOT.jar" />
+          <property key="Include-Resource" value="paplj-0.0.1-SNAPSHOT.jar=$MAVEN_REPOSITORY$/com/virtlink/paplj/0.0.1-SNAPSHOT/paplj-0.0.1-SNAPSHOT.jar" />
+          <property key="Embedded-Artifacts" value="paplj-0.0.1-SNAPSHOT.jar;g=&quot;com.virtlink&quot;;a=&quot;paplj&quot;;v=&quot;0.0.1-SNAPSHOT&quot;" />
+        </additionalProperties>
+        <additionalJARContents />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.virtlink:paplj:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.1.4-3" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="Maven: com.virtlink:aesi:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.antlr:antlr4-runtime:4.5.3" level="project" />
+  </component>
+</module>

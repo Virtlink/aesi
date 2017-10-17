@@ -1,5 +1,6 @@
 package com.virtlink.editorservices.syntaxcoloring
 
+import com.virtlink.editorservices.Span
 import java.io.Serializable
 
 /**

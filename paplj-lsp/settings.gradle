@@ -1,7 +1,8 @@
 rootProject.name = 'paplj-lsp'
 
-include ":aesi-lsp", ":paplj", ":aesi"
+include ":aesi-lsp", ":paplj", ":aesi-utils", ":aesi"
 
 project(":aesi-lsp").projectDir = file("../aesi-lsp")
 project(":paplj").projectDir = file("../paplj")
+project(":aesi-utils").projectDir = file("../aesi-utils")
 project(":aesi").projectDir = file("../aesi")

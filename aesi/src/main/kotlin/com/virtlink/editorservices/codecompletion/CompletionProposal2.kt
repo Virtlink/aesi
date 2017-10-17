@@ -2,10 +2,10 @@ package com.virtlink.editorservices.codecompletion
 
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
+import com.virtlink.editorservices.Span
 
 class CompletionProposal2(
         override val label: String,
-        override val project: IProject,
         override val document: IDocument? = null,
         override val range: Span? = null,
         override val description: String? = null,

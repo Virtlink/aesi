@@ -9,47 +9,27 @@ import java.io.File
 
 
 /**
- * Manages the content of the documents.
- *
- * This class provides the most up-to-date content of a document.
+ * Manages the content of opened documents.
  */
 class DocumentContentManager @Inject constructor(
         private val documentContentFactory: IDocumentContentFactory
-) {
-
+) : IDocumentContentManager {
 
     private val logger = LoggerFactory.getLogger(DocumentContentManager::class.java)
 
     /**
      * A map of currently opened documents.
      */
-    private val openedDocuments: MutableMap<IDocument, IUpdatableDocumentContent> = HashMap()
+    private val openedDocuments: MutableMap<IDocument, IDocumentContent> = HashMap()
 
-    /**
-     * A cache of documents, not currently opened.
-     */
-    private val cachedDocuments = CacheBuilder.newBuilder()
-            .maximumSize(1000)
-            .build(object : CacheLoader<IDocument, IDocumentContent>() {
-                        override fun load(key: IDocument): IDocumentContent = documentContentFactory.create(key, false)
-                    })
-
-    /**
-     * Gets the content for the specified document.
-     */
-    fun getContent(document: IDocument): IDocumentContent {
-        return openedDocuments[document] ?: cachedDocuments.get(document)
+    override fun getContent(document: IDocument): IDocumentContent? {
+        return this.openedDocuments[document]
     }
 
-    /**
-     * Opens the specified document.
-     */
-    fun openDocument(document: IDocument): IUpdatableDocumentContent {
-        var content = this.openedDocuments[document]
+    override fun openDocument(document: IDocument): IDocumentContent {
+        var content = getContent(document)
         if (content == null) {
-            val cachedContent = this.cachedDocuments.getIfPresent(document)
-            this.cachedDocuments.invalidate(document)
-            content = this.documentContentFactory.createUpdatable(document)
+            content = this.documentContentFactory.create(document)
             this.openedDocuments.put(document, content)
             logger.info("$document: Opened")
         } else {
@@ -58,11 +38,8 @@ class DocumentContentManager @Inject constructor(
         return content
     }
 
-    /**
-     * Closes the specified document.
-     */
-    fun closeDocument(document: IDocument) {
-        val content = this.openedDocuments[document]
+    override fun closeDocument(document: IDocument) {
+        val content = getContent(document)
         if (content != null) {
             this.openedDocuments.remove(document)
             logger.info("$document: Closed")

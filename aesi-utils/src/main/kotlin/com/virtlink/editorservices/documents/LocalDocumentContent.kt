@@ -2,6 +2,7 @@ package com.virtlink.editorservices.documents
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
+import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.indexAfterNextNewline
 import java.io.File
 import java.nio.charset.Charset
@@ -14,7 +15,12 @@ import java.nio.charset.Charset
  * document's content, and every call to its methods retrieves the
  * latest version of the document from disk.
  */
+@Deprecated("Unused")
 class LocalDocumentContent(private val file: File, private val charset: Charset) : IDocumentContent {
+
+    override fun update(span: Span, newText: String) {
+        TODO("not implemented")
+    }
 
     override val length: Int
         get() = this.text.length

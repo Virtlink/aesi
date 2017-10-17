@@ -3,6 +3,7 @@ package com.virtlink.editorservices.symbols
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
+import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.referenceresolution.IDefinitionResolutionInfo
 
 /**
@@ -18,16 +19,14 @@ interface IDefinitionProviderService {
      * exception or returning a dummy result. It is allowed to ignore the cancellation event, but
      * this may negatively impact performance.
      *
-     * @param project The project that contains the document.
      * @param document The document for which to provide definition resolution.
      * @param caretOffset The offset of the caret in the document.
      * @param cancellationToken The cancellation token; or `null` when not supported.
      * @return A list of definitions.
      */
     fun getDefinitions(
-            project: IProject,
             document: IDocument,
-            caretOffset: Int,
+            caretOffset: Offset,
             cancellationToken: ICancellationToken?)
             : List<ISymbol>
 }

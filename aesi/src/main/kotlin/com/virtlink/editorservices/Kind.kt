@@ -1,5 +1,6 @@
 package com.virtlink.editorservices
 
+@Deprecated("Removed")
 enum class Kind {
     Unknown,
 

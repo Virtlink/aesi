@@ -1,10 +1,13 @@
 package com.virtlink.editorservices.lsp
 
 import com.google.inject.Inject
+import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.codecompletion.ICodeCompleter
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import com.virtlink.editorservices.codecompletion.ICompletionProposal2
+import com.virtlink.editorservices.documents.IDocumentContentManager
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.CompletableFutures
 import org.eclipse.lsp4j.jsonrpc.ResponseErrorException
@@ -17,7 +20,8 @@ import java.util.concurrent.CompletableFuture
 
 class AesiLanguageServer @Inject constructor(
         private val codeCompletionService: ICodeCompletionService,
-        private val projectManager: ProjectManager
+        private val projectManager: ProjectManager,
+        private val documentContentManager: IDocumentContentManager
 ) : AbstractLanguageServer() {
 
     private val logger = LoggerFactory.getLogger(AesiLanguageServer::class.java)
@@ -40,7 +44,9 @@ class AesiLanguageServer @Inject constructor(
 
     override fun opened(params: DidOpenTextDocumentParams) {
         val project = this.projectManager.getProject()
-        project.documents.openDocument(URI(params.textDocument.uri), params.textDocument.text)
+        val document = project.documents.getDocument(URI(params.textDocument.uri))
+        val content = this.documentContentManager.openDocument(document)
+        content.update(Span(Offset(0), Offset(document.length)), params.textDocument.text)
     }
 
     override fun changed(params: DidChangeTextDocumentParams) {

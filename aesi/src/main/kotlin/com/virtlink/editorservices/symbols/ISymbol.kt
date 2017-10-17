@@ -2,6 +2,7 @@ package com.virtlink.editorservices.symbols
 
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
+import com.virtlink.editorservices.Span
 import java.io.Serializable
 
 /**
@@ -10,16 +11,11 @@ import java.io.Serializable
 interface ISymbol: Serializable {
 
     /**
-     * Gets the project that contains the symbol.
-     */
-    val project: IProject
-
-    /**
      * Gets the document that contains this symbol.
      *
      * Can be `null` when the symbol is not tied to a particular document.
      */
-    val document: IDocument?
+    val document: IDocument
 
     /**
      * Gets the range of the symbol's name in the document, if any.
