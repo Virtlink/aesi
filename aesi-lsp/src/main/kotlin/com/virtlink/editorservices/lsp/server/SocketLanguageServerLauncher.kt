@@ -1,13 +1,11 @@
-package com.virtlink.editorservices.lsp
+package com.virtlink.editorservices.lsp.server
 
 import com.google.inject.Inject
 import com.google.inject.assistedinject.Assisted
-import com.virtlink.logging.LogWriter
 import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageClientAware
 import org.eclipse.lsp4j.services.LanguageServer
 import org.slf4j.LoggerFactory
-import java.io.PrintWriter
 import java.net.InetSocketAddress
 import java.nio.channels.AsynchronousServerSocketChannel
 import java.nio.channels.AsynchronousSocketChannel

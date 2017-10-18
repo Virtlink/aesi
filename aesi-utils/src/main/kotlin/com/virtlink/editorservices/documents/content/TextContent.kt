@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.documents
+package com.virtlink.editorservices.documents.content
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
@@ -10,7 +10,10 @@ import com.virtlink.editorservices.indexAfterNextNewline
  * @param text The full text of the document.
  * @param lines The list of lines in the document.
  */
-open class TextContent private constructor(override val text: String, private val lines: List<Offset>): IDocumentContent {
+open class TextContent protected constructor(
+        override val text: String,
+        protected val lines: List<Offset>)
+    : IDocumentContent {
 
     /**
      * Initializes a new instance of the [TextContent] class.
@@ -67,6 +70,14 @@ open class TextContent private constructor(override val text: String, private va
         if (currentLine >= this.lines.size)
             return null
         return Position(currentLine, offset - this.lines[currentLine])
+    }
+
+    override fun update(changes: List<DocumentChange>): IDocumentContent {
+        val text = StringBuilder(this.text)
+        for (change in changes.asReversed()) {
+            text.replace(change.span.start.offset, change.span.end.offset, change.newText)
+        }
+        return TextContent(text.toString())
     }
 
     override fun equals(other: Any?): Boolean {

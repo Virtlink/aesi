@@ -1,11 +1,13 @@
-package com.virtlink.editorservices.lsp
+package com.virtlink.editorservices.lsp.server
 
 import com.google.inject.Inject
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
-import com.virtlink.editorservices.documents.IDocumentContentManager
+import com.virtlink.editorservices.documents.content.IDocumentContentManager
+import com.virtlink.editorservices.lsp.ProjectManager
+import com.virtlink.editorservices.lsp.toCancellationToken
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.CompletableFutures
 import org.eclipse.lsp4j.jsonrpc.ResponseErrorException
@@ -43,7 +45,7 @@ class AesiLanguageServer @Inject constructor(
     override fun opened(params: DidOpenTextDocumentParams) {
         val project = this.projectManager.getProject()
         val document = project.documents.getDocument(URI(params.textDocument.uri))
-        val content = this.documentContentManager.openDocument(document)
+        val content = this.documentContentManager.getContent(document)
         content.update(Span(Offset(0), Offset(document.length)), params.textDocument.text)
     }
 

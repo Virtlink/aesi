@@ -1,16 +1,9 @@
-package com.virtlink.editorservices.lsp
+package com.virtlink.editorservices.lsp.server
 
 import com.google.inject.Inject
-import com.google.inject.assistedinject.Assisted
-import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.launch.LSPLauncher
-import org.eclipse.lsp4j.services.LanguageClient
 import org.eclipse.lsp4j.services.LanguageClientAware
 import org.eclipse.lsp4j.services.LanguageServer
-import java.io.PrintWriter
-import java.net.InetSocketAddress
-import java.nio.channels.Channels
-import java.nio.channels.ServerSocketChannel
 
 class StdioLanguageServerLauncher @Inject constructor(
         private val server: LanguageServer)

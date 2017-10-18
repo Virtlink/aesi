@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.lsp
+package com.virtlink.editorservices.lsp.server
 
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.ResponseErrorException

@@ -1,8 +1,7 @@
-package com.virtlink.editorservices.documents
+package com.virtlink.editorservices.documents.content
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
-import com.virtlink.editorservices.documents.DocumentChange
 
 /**
  * Represents the content of a document.
@@ -47,4 +46,12 @@ interface IDocumentContent {
      * or null when the offset is not in the document.
      */
     fun getPosition(offset: Offset): Position?
+
+    /**
+     * Returns a new document content object with the specified changes applied.
+     *
+     * @param changes The changes to apply, in terms of this content.
+     * @return The resulting content.
+     */
+    fun update(changes: List<DocumentChange>): IDocumentContent
 }

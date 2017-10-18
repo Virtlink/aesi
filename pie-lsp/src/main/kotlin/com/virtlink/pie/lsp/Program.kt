@@ -2,7 +2,7 @@ package com.virtlink.pie.lsp
 
 import com.google.inject.Guice
 import com.virtlink.editorservices.lsp.CommandLineArgs
-import com.virtlink.editorservices.lsp.SocketLanguageServerLauncher
+import com.virtlink.editorservices.lsp.server.SocketLanguageServerLauncher
 import org.eclipse.lsp4j.services.LanguageServer
 
 /**

@@ -1,9 +1,7 @@
-package com.virtlink.editorservices.documents
+package com.virtlink.editorservices.documents.content
 
 import com.virtlink.editorservices.IDocument
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
@@ -52,12 +50,8 @@ class FileSystemContentSource(override val document: IDocument)
     }
 
     private fun readFileContent(): IDocumentContent {
-        FileInputStream(getFile()).use {
-            InputStreamReader(it, getCharset()).use {
-                val text = it.readText()
-                return TextContent(text)
-            }
-        }
+        val text = getFile().readText(getCharset())
+        return TextContent(text)
     }
 
 }

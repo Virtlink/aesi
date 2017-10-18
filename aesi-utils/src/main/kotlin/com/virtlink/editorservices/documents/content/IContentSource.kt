@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.documents
+package com.virtlink.editorservices.documents.content
 
 import com.virtlink.editorservices.IDocument
 
