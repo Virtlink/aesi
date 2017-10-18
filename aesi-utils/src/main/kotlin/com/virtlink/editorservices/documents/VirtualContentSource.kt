@@ -1,8 +1,6 @@
-package com.virtlink.editorservices.documents2
+package com.virtlink.editorservices.documents
 
 import com.virtlink.editorservices.*
-import com.virtlink.editorservices.documents.DocumentChange
-import com.virtlink.editorservices.documents.DocumentContent
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write

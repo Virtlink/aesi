@@ -1,11 +1,12 @@
 package com.virtlink.editorservices.referenceresolution
 
 import com.virtlink.editorservices.Span
+import java.io.Serializable
 
 /**
  * Resolution information.
  */
-interface IDefinitionResolutionInfo {
+interface IDefinitionResolutionInfo : Serializable {
 
     /**
      * Gets the range of the definition name in the document.

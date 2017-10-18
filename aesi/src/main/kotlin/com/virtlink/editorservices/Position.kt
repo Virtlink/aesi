@@ -1,12 +1,14 @@
 package com.virtlink.editorservices
 
+import java.io.Serializable
+
 /**
  * A line:character position in a document.
  *
  * @property line The zero-based line number.
  * @property character The zero-based character offset from the start of the line.
  */
-data class Position(val line: Int, val character: Int): Comparable<Position> {
+data class Position(val line: Int, val character: Int): Comparable<Position>, Serializable {
 
     init {
         if (line < 0)

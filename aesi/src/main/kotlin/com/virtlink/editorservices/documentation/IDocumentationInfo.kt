@@ -1,5 +1,7 @@
 package com.virtlink.editorservices.documentation
 
-interface IDocumentationInfo {
+import java.io.Serializable
+
+interface IDocumentationInfo : Serializable {
     val text: String
 }

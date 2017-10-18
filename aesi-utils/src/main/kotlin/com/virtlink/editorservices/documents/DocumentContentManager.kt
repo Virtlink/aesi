@@ -1,66 +1,29 @@
 package com.virtlink.editorservices.documents
 
-import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
-import com.google.inject.Inject
 import com.virtlink.editorservices.IDocument
 import org.slf4j.LoggerFactory
-import java.io.File
+import com.google.common.cache.CacheBuilder
 
-
-/**
- * Manages the content of opened documents.
- */
-class DocumentContentManager @Inject constructor(
-        private val documentContentFactory: IDocumentContentFactory
-) : IDocumentContentManager {
+abstract class DocumentContentManager: IDocumentContentManager {
 
     private val logger = LoggerFactory.getLogger(DocumentContentManager::class.java)
 
     /**
-     * A map of currently opened documents.
+     * A cache of sources for known but unopened documents.
      */
-    private val openedDocuments: MutableMap<IDocument, IDocumentContent> = HashMap()
+    private val documents = CacheBuilder.newBuilder()
+            .maximumSize(1000)
+            .build(object : CacheLoader<IDocument, IContentSource>() {
+                        override fun load(doc: IDocument): IContentSource {
+                            return getContentSource(doc)
+                        }
+                    })
 
-    override fun getLatestContent(document: IDocument): IDocumentContent? {
-        return this.openedDocuments[document]
+    override fun getContent(document: IDocument): IDocumentContent {
+        val source = this.documents.get(document)
+        return source.getLatestContent()
     }
 
-    override fun openDocument(document: IDocument): IDocumentContent {
-        return this.openedDocuments.compute(document, {d, c ->
-            if (c != null) {
-                logger.warn("$d: Already opened")
-                c
-            } else {
-                val newContent = this.documentContentFactory.create(document)
-                logger.info("$d: Opened")
-                newContent
-            }
-        })!!
-    }
-
-    override fun closeDocument(document: IDocument) {
-        this.openedDocuments.compute(document, {d, c ->
-            if (c == null) {
-                logger.warn("$d: Already closed")
-                null
-            } else {
-                logger.info("$d: Closed")
-                null
-            }
-        })
-    }
-
-    override fun updateDocument(document: IDocument, content: IDocumentContent) {
-        this.openedDocuments.compute(document, { d, c ->
-            if (c == null) {
-                logger.warn("$d: Update ignored, document not opened")
-                null
-            } else {
-                logger.debug("$d: Update document with new content:\n$content")
-                content
-            }
-        })
-    }
-
+    protected abstract fun getContentSource(document: IDocument): IContentSource
 }

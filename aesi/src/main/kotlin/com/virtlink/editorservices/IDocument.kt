@@ -1,11 +1,12 @@
 package com.virtlink.editorservices
 
+import java.io.Serializable
 import java.net.URI
 
 /**
  * A document.
  */
-interface IDocument {
+interface IDocument : Serializable {
 
     /**
      * Gets the project to which this document belongs.

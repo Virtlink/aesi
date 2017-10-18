@@ -1,11 +1,12 @@
 package com.virtlink.editorservices.referenceresolution
 
 import com.virtlink.editorservices.Span
+import java.io.Serializable
 
 /**
  * Resolution information.
  */
-interface IReferenceResolutionInfo {
+interface IReferenceResolutionInfo : Serializable {
 
     /**
      * Gets the range of the reference name in the document.

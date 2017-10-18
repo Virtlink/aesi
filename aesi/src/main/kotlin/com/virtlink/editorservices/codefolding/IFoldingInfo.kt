@@ -5,7 +5,7 @@ import java.io.Serializable
 /**
  * Folding information.
  */
-interface IFoldingInfo: Serializable {
+interface IFoldingInfo : Serializable {
     /**
      * Gets a list of foldable regions.
      *

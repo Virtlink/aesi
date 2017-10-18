@@ -1,11 +1,13 @@
 package com.virtlink.editorservices
 
+import java.io.Serializable
+
 /**
  * An offset from the start of a document.
  *
  * @property The zero-based offset.
  */
-data class Offset(val offset: Int): Comparable<Offset> {
+data class Offset(val offset: Int): Comparable<Offset>, Serializable {
 
     init {
         if (offset < 0)

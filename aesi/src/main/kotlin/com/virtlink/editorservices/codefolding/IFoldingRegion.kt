@@ -6,7 +6,7 @@ import java.io.Serializable
 /**
  * Describes a foldable region of code.
  */
-interface IFoldingRegion: Serializable {
+interface IFoldingRegion : Serializable {
 
     /**
      * Gets the region of code that can be collapsed.

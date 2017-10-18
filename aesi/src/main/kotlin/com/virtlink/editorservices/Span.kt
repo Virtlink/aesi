@@ -1,12 +1,14 @@
 package com.virtlink.editorservices
 
+import java.io.Serializable
+
 /**
  * A range in a document.
  *
  * @property start The inclusive start offset of the span.
  * @property end The exclusive end offset of the span.
  */
-data class Span(override val start: Offset, val end: Offset): ClosedRange<Offset>, Iterable<Offset> {
+data class Span(override val start: Offset, val end: Offset): ClosedRange<Offset>, Iterable<Offset>, Serializable {
 
     init {
         if (end < start)

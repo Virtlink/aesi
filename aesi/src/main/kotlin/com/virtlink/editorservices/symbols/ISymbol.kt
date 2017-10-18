@@ -8,7 +8,7 @@ import java.io.Serializable
 /**
  * A symbol.
  */
-interface ISymbol: Serializable {
+interface ISymbol : Serializable {
 
     // Open question: add project for when document is null? Either<Project, Document>?
 

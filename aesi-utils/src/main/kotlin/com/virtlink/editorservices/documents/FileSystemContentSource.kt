@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.documents2
+package com.virtlink.editorservices.documents
 
 import com.virtlink.editorservices.IDocument
 import java.io.File
