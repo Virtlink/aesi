@@ -1,10 +1,11 @@
 package com.virtlink.editorservices.codecompletion
 
+import java.io.Serializable
+
 /**
  * Completion info.
  */
-@Deprecated("Replaced by ICompletionInfo2")
-interface ICompletionInfo {
+interface ICompletionInfo : Serializable {
     /**
      * Gets the prefix up to the cursor that is being completed.
      *

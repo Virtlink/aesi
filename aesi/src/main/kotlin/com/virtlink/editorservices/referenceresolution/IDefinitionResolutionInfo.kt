@@ -1,16 +1,20 @@
 package com.virtlink.editorservices.referenceresolution
 
+import com.virtlink.editorservices.Span
+
 /**
  * Resolution information.
  */
-@Deprecated("Replaced")
 interface IDefinitionResolutionInfo {
-//    /**
-//     * The range of the definition name in the document.
-//     */
-//    val definitionRange: Span?
+
     /**
-     * The list of references to the definition.
+     * Gets the range of the definition name in the document.
+     */
+    val definitionRange: Span?
+
+    /**
+     * Gets the list of references to the definition.
      */
     val references: List<IReference>
+
 }

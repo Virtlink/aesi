@@ -35,7 +35,7 @@ class DocumentContent : IDocumentContent {
     /**
      * A line in the document.
      */
-    private data class Line(val text: String) {
+    private data class Line(val offset: Offset, val text: String) {
         val length get() = this.text.length
     }
 

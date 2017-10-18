@@ -1,7 +1,8 @@
 package com.virtlink.editorservices.referenceresolution
 
-@Deprecated("Replaced")
+import com.virtlink.editorservices.Span
+
 class DefinitionResolutionInfo(
-//        override val definitionRange: Span?,
+        override val definitionRange: Span?,
         override val references: List<IReference>)
     : IDefinitionResolutionInfo

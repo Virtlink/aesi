@@ -8,15 +8,13 @@ import java.net.URI
 interface IDocument {
 
     /**
+     * Gets the project to which this document belongs.
+     */
+    val project: IProject
+
+    /**
      * Gets the document's URI.
      */
     val uri: URI
-
-    /**
-     * Gets the document's version.
-     *
-     * A higher number indicates a newer version.
-     */
-    val version: Int
 
 }

@@ -1,75 +1,49 @@
 package com.virtlink.editorservices.codecompletion
 
-import com.virtlink.editorservices.Kind
-import com.virtlink.editorservices.IVisibility
-import java.util.*
+import java.io.Serializable
 
 /**
  * A completion proposal.
  */
-@Deprecated("Replaced by ICompletionProposal2")
-interface ICompletionProposal {
+interface ICompletionProposal : Serializable {
 
     /**
-     * The label displayed to the user.
+     * Gets the display name of the proposal.
      */
     val label: String
 
     /**
-     * Description of the proposal.
+     * Gets the description of the proposal.
      */
     val description: String?
 
     /**
-     * Documentation of the proposal.
+     * Gets the kind of proposal.
+     *
+     * For example: "meta.function" to indicate a function.
      */
-    val documentation: String?
+    val kind: String?
 
     /**
-     * Whether the text match is case-sensitive.
+     * Gets the attributes that apply to the proposal.
+     *
+     * This is an unordered list of names, each of which
+     * indicates an attribute of the completion proposal.
+     * For example "meta.static" and "meta.public" to
+     * indicate the element is public and static, for
+     * example a public static function.
      */
-    val caseSensitive: Boolean
+    val attributes: List<String>
 
     /**
-     * The text to insert when the completion is accepted.
+     * Gets the text to insert when the completion is accepted.
      */
     val insertionText: String?
 
     /**
-     * The offset of the caret after the text has been inserted,
+     * Gets the offset of the caret after the text has been inserted,
      * relative to the start of the inserted text;
      * or null to put the caret after the inserted text.
      */
     val caret: Int?
-
-    /**
-     * The postfix label displayed after the main label in the proposal list.
-     */
-    val postfix: String?
-
-    /**
-     * The type displayed next to the label in the proposal list.
-     */
-    val type: String?
-
-    /**
-     * The completion priority.
-     */
-    val priority: Int
-
-    /**
-     * The completion kind.
-     */
-    val kind: Kind
-
-    /**
-     * The completion visibility.
-     */
-    val visibility: IVisibility?
-
-    /**
-     * Completion attributes.
-     */
-    val attributes: EnumSet<Attribute>
 }
-

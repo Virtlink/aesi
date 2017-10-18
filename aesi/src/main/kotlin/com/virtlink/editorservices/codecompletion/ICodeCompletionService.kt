@@ -2,7 +2,6 @@ package com.virtlink.editorservices.codecompletion
 
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.Offset
 
 /**
@@ -27,5 +26,5 @@ interface ICodeCompletionService {
             document: IDocument,
             caretOffset: Offset,
             cancellationToken: ICancellationToken?)
-            : ICompletionInfo2
+            : ICompletionInfo
 }

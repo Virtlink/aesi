@@ -1,6 +1,9 @@
-package com.virtlink.editorservices.documents
+package com.virtlink.editorservices.documents2
 
-import com.virtlink.editorservices.*
+import com.virtlink.editorservices.IDocument
+import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.Position
+import com.virtlink.editorservices.documents.DocumentChange
 
 /**
  * Represents the content of a document.
@@ -27,16 +30,6 @@ interface IDocumentContent {
      * (empty) line is treated as a line as well.
      */
     val lineCount: Int
-
-    /**
-     * Applies updates to this document content, resulting in a new document content.
-     *
-     * All changes must be specified in terms of the document content being changed.
-     * Changes must not overlap.
-     *
-     * @param changes The changes to apply in parallel.
-     */
-    fun update(changes: List<DocumentChange>): IDocumentContent
 
     /**
      * Gets the offset of the specified line:character position within the document.

@@ -3,7 +3,7 @@ package com.virtlink.editorservices
 /**
  * A version of a document.
  */
-@Deprecated("Removed")
+@Deprecated("")
 interface IDocumentVersion {
 
     /**

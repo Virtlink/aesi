@@ -4,8 +4,12 @@ import com.google.inject.Binder
 import com.google.inject.assistedinject.FactoryModuleBuilder
 import com.google.inject.multibindings.MapBinder
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
+<<<<<<< Updated upstream
 import com.virtlink.editorservices.documents.*
 import com.virtlink.pie.codecompletion.PieCodeCompletionBuilder
+=======
+import com.virtlink.dummy.DummyCodeCompletionBuilder
+>>>>>>> Stashed changes
 import com.virtlink.pie.codecompletion.PieCodeCompletionService
 import mb.pie.runtime.builtin.util.LoggerBuildReporter
 import mb.pie.runtime.core.*
@@ -32,9 +36,5 @@ open class PieImplModule : PieModule() {
 
     open fun Binder.bindCodeCompletion() {
         bind<ICodeCompletionService>().toSingleton<PieCodeCompletionService>()
-    }
-
-    override fun Binder.bindBuilders(builders: MapBinder<String, UBuilder>) {
-        bindBuilder<PieCodeCompletionBuilder>(builders, PieCodeCompletionBuilder.id)
     }
 }

@@ -3,7 +3,7 @@ package com.virtlink.pie
 import com.google.inject.Inject
 import com.google.inject.Provider
 import com.virtlink.editorservices.IProject
-import com.virtlink.pie.codecompletion.PieCodeCompletionBuilder
+import com.virtlink.dummy.DummyCodeCompletionBuilder
 import mb.pie.runtime.core.BuildManager
 import mb.pie.runtime.core.BuildManagerFactory
 import mb.pie.runtime.core.impl.BuildCache
@@ -22,7 +22,7 @@ class BuildManagerProviderImpl @Inject constructor(
         private val cacheFactory: Provider<BuildCache>)
     : IBuildManagerProvider {
 
-    private val logger = LoggerFactory.getLogger(PieCodeCompletionBuilder::class.java)
+    private val logger = LoggerFactory.getLogger(DummyCodeCompletionBuilder::class.java)
 
     private val buildManagers = ConcurrentHashMap<IProject, BuildManager>()
 

@@ -10,39 +10,28 @@ import java.io.Serializable
  */
 interface ISymbol: Serializable {
 
+    // Open question: add project for when document is null? Either<Project, Document>?
+
     /**
-     * Gets the document that contains this symbol.
-     *
-     * Can be `null` when the symbol is not tied to a particular document.
+     * Gets the document that contains this symbol;
+     * or null when the symbol is not in this project.
      */
-    val document: IDocument
+    val document: IDocument?
 
     /**
      * Gets the range of the symbol's name in the document, if any.
      */
-    val range: Span?
+    val nameRange: Span?
 
     /**
      * Gets the display name of the symbol.
      */
     val label: String
 
-    /**
-     * Gets a short description of the symbol, if any.
-     */
-    val description: String?
-
-    /**
-     * Gets the documentation of the symbol, if any.
-     */
-    val documentation: String?
-
-    /**
-     * Gets the type of the symbol.
-     *
-     * This is, for example, the type of a field or variable.
-     */
-    val type: String?
+    // Open questions: kind a string and attributes a list of strings
+    // or kind a list of strings (attribures and kind)
+    // or kind a space-separated list of strings (attribures and kind) as a string
+    // or leave out attributes completely (but how to encode visibility, extensibility)
 
     /**
      * Gets the kind of symbol.

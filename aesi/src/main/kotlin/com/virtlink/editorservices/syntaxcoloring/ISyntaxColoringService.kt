@@ -2,7 +2,6 @@ package com.virtlink.editorservices.syntaxcoloring
 
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.Span
 
 /**
@@ -22,5 +21,5 @@ interface ISyntaxColoringService {
             document: IDocument,
             span: Span,
             cancellationToken: ICancellationToken?)
-            : List<IToken2>
+            : List<IToken>
 }

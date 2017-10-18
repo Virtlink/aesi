@@ -3,10 +3,8 @@ package com.virtlink.editorservices.lsp
 import com.google.inject.Inject
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Span
-import com.virtlink.editorservices.codecompletion.ICodeCompleter
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
-import com.virtlink.editorservices.codecompletion.ICompletionProposal2
 import com.virtlink.editorservices.documents.IDocumentContentManager
 import org.eclipse.lsp4j.*
 import org.eclipse.lsp4j.jsonrpc.CompletableFutures
@@ -97,7 +95,7 @@ class AesiLanguageServer @Inject constructor(
         Either.forRight<MutableList<CompletionItem>, CompletionList>(list)
     }
 
-    private fun toCompletionItem(proposal: ICompletionProposal2): CompletionItem {
+    private fun toCompletionItem(proposal: ICompletionProposal): CompletionItem {
         val item = CompletionItem(proposal.label)
         item.insertText = proposal.insertionText
         item.detail = proposal.description

@@ -22,30 +22,45 @@ class DocumentContentManager @Inject constructor(
      */
     private val openedDocuments: MutableMap<IDocument, IDocumentContent> = HashMap()
 
-    override fun getContent(document: IDocument): IDocumentContent? {
+    override fun getLatestContent(document: IDocument): IDocumentContent? {
         return this.openedDocuments[document]
     }
 
     override fun openDocument(document: IDocument): IDocumentContent {
-        var content = getContent(document)
-        if (content == null) {
-            content = this.documentContentFactory.create(document)
-            this.openedDocuments.put(document, content)
-            logger.info("$document: Opened")
-        } else {
-            logger.warn("$document: Already opened")
-        }
-        return content
+        return this.openedDocuments.compute(document, {d, c ->
+            if (c != null) {
+                logger.warn("$d: Already opened")
+                c
+            } else {
+                val newContent = this.documentContentFactory.create(document)
+                logger.info("$d: Opened")
+                newContent
+            }
+        })!!
     }
 
     override fun closeDocument(document: IDocument) {
-        val content = getContent(document)
-        if (content != null) {
-            this.openedDocuments.remove(document)
-            logger.info("$document: Closed")
-        } else {
-            logger.warn("$document: Already closed")
-        }
+        this.openedDocuments.compute(document, {d, c ->
+            if (c == null) {
+                logger.warn("$d: Already closed")
+                null
+            } else {
+                logger.info("$d: Closed")
+                null
+            }
+        })
+    }
+
+    override fun updateDocument(document: IDocument, content: IDocumentContent) {
+        this.openedDocuments.compute(document, { d, c ->
+            if (c == null) {
+                logger.warn("$d: Update ignored, document not opened")
+                null
+            } else {
+                logger.debug("$d: Update document with new content:\n$content")
+                content
+            }
+        })
     }
 
 }

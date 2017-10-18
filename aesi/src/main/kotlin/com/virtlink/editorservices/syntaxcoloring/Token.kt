@@ -1,4 +1,9 @@
 package com.virtlink.editorservices.syntaxcoloring
 
-@Deprecated("Replaced by Token2")
-data class Token(override val location: Span, override val scope: String) : IToken
+import com.virtlink.editorservices.Span
+
+data class Token(
+        override val location: Span,
+        override val name: String,
+        override val attributes: List<String> = emptyList())
+    : IToken

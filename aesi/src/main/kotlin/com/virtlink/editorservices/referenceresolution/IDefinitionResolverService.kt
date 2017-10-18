@@ -7,8 +7,7 @@ import com.virtlink.editorservices.IProject
 /**
  * Resolves a definition to its references.
  */
-@Deprecated("Replaced")
-interface IDefinitionResolver {
+interface IDefinitionResolverService {
     /**
      * Returns references for the definition at the current caret position in the text in a document.
      *
@@ -17,14 +16,12 @@ interface IDefinitionResolver {
      * exception or returning a dummy result. It is allowed to ignore the cancellation event, but
      * this may negatively impact performance.
      *
-     * @param project The project that contains the document.
      * @param document The document for which to provide definition resolution.
      * @param caretOffset The offset of the caret in the document.
      * @param cancellationToken The cancellation token; or `null` when not supported.
      * @return The reference info.
      */
     fun resolve(
-            project: IProject,
             document: IDocument,
             caretOffset: Int,
             cancellationToken: ICancellationToken?)

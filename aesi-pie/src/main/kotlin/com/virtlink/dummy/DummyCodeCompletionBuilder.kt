@@ -1,19 +1,17 @@
-package com.virtlink.pie.codecompletion
+package com.virtlink.dummy
 
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
-import com.virtlink.editorservices.codecompletion.CompletionInfo2
-import com.virtlink.editorservices.codecompletion.CompletionProposal2
-import com.virtlink.editorservices.codecompletion.ICompletionInfo2
+import com.virtlink.editorservices.codecompletion.CompletionInfo
+import com.virtlink.editorservices.codecompletion.CompletionProposal
+import com.virtlink.editorservices.codecompletion.ICompletionInfo
 import mb.pie.runtime.core.BuildContext
 import mb.pie.runtime.core.Builder
-import mb.vfs.path.PPathImpl
 import org.slf4j.LoggerFactory
-import java.io.Serializable
 
-class PieCodeCompletionBuilder
-    : Builder<PieCodeCompletionBuilder.Input, ICompletionInfo2> {
+class DummyCodeCompletionBuilder
+    : Builder<DummyCodeCompletionBuilder.Input, ICompletionInfo> {
 
     companion object {
         @JvmField val id: String = "getCompletionInfo"
@@ -21,19 +19,14 @@ class PieCodeCompletionBuilder
 
     override val id = Companion.id
 
-    data class Input(val project: IProject,
-                     val document: IDocument,
-                     val caretOffset: Int)
-        : Serializable
+    private val logger = LoggerFactory.getLogger(DummyCodeCompletionBuilder::class.java)
 
-    private val logger = LoggerFactory.getLogger(PieCodeCompletionBuilder::class.java)
-
-    override fun BuildContext.build(input: Input): ICompletionInfo2
+    override fun BuildContext.build(input: Input): ICompletionInfo
         = this.getCompletionInfo(
             input.project,
             input.document,
             input.caretOffset,
-            null)
+            input.cancellationToken)
 
     @Suppress("UNUSED_PARAMETER", "unused")
     private fun BuildContext.getCompletionInfo(
@@ -41,14 +34,12 @@ class PieCodeCompletionBuilder
             document: IDocument,
             caretOffset: Int,
             cancellationToken: ICancellationToken?):
-            ICompletionInfo2 {
-
-        require(PPathImpl(document.uri))
+            ICompletionInfo {
 
         logger.info("$document: Completing at $caretOffset.")
 
         val proposals = listOf(
-                CompletionProposal2("Hello",
+                CompletionProposal("Hello",
                         project = project,
                         document = document,
                         description = "Description string",
@@ -57,14 +48,14 @@ class PieCodeCompletionBuilder
                         type = "MyType",
                         kind = "meta.field",
                         attributes = listOf("meta.static")),
-                CompletionProposal2("Local variable",
+                CompletionProposal("Local variable",
                         project = project,
                         document = document,
                         insertionText = "local var",
                         type = "String",
                         kind = "meta.variable",
                         attributes = listOf("meta.internal")),
-                CompletionProposal2("Method",
+                CompletionProposal("Method",
                         project = project,
                         document = document,
                         insertionText = "method()",
@@ -72,12 +63,12 @@ class PieCodeCompletionBuilder
                         type = "String",
                         kind = "meta.method",
                         attributes = listOf("meta.abstract", "meta.deprecated", "meta.package")),
-                CompletionProposal2("if (then else)",
+                CompletionProposal("if (then else)",
                         project = project,
                         document = document)
         )
 
         // TODO: Determine prefix according to language rules.
-        return CompletionInfo2("", proposals)
+        return CompletionInfo("", proposals)
     }
 }
