@@ -4,13 +4,12 @@ import com.google.inject.Inject
 import com.google.inject.Provider
 import com.virtlink.editorservices.IProject
 import com.virtlink.dummy.DummyCodeCompletionBuilder
+import mb.pie.runtime.core.BuildCache
 import mb.pie.runtime.core.BuildManager
 import mb.pie.runtime.core.BuildManagerFactory
-import mb.pie.runtime.core.impl.BuildCache
-import mb.pie.runtime.core.impl.store.BuildStore
+import mb.pie.runtime.core.BuildStore
 import mb.pie.runtime.core.impl.store.InMemoryBuildStore
 import mb.pie.runtime.core.impl.store.LMDBBuildStoreFactory
-import mb.vfs.path.PPathImpl
 import mb.vfs.path.PathSrv
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap

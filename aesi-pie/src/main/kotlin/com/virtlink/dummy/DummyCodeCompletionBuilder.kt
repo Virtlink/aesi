@@ -2,16 +2,17 @@ package com.virtlink.dummy
 
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
+import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.codecompletion.CompletionInfo
 import com.virtlink.editorservices.codecompletion.CompletionProposal
 import com.virtlink.editorservices.codecompletion.ICompletionInfo
+import com.virtlink.pie.codecompletion.PieCodeCompletionService
 import mb.pie.runtime.core.BuildContext
 import mb.pie.runtime.core.Builder
 import org.slf4j.LoggerFactory
 
 class DummyCodeCompletionBuilder
-    : Builder<DummyCodeCompletionBuilder.Input, ICompletionInfo> {
+    : Builder<PieCodeCompletionService.Input, ICompletionInfo> {
 
     companion object {
         @JvmField val id: String = "getCompletionInfo"
@@ -21,18 +22,16 @@ class DummyCodeCompletionBuilder
 
     private val logger = LoggerFactory.getLogger(DummyCodeCompletionBuilder::class.java)
 
-    override fun BuildContext.build(input: Input): ICompletionInfo
+    override fun BuildContext.build(input: PieCodeCompletionService.Input): ICompletionInfo
         = this.getCompletionInfo(
-            input.project,
             input.document,
             input.caretOffset,
             input.cancellationToken)
 
     @Suppress("UNUSED_PARAMETER", "unused")
     private fun BuildContext.getCompletionInfo(
-            project: IProject,
             document: IDocument,
-            caretOffset: Int,
+            caretOffset: Offset,
             cancellationToken: ICancellationToken?):
             ICompletionInfo {
 
@@ -40,32 +39,20 @@ class DummyCodeCompletionBuilder
 
         val proposals = listOf(
                 CompletionProposal("Hello",
-                        project = project,
-                        document = document,
                         description = "Description string",
-                        documentation = "Extensive documentation",
                         insertionText = "hello world!",
-                        type = "MyType",
                         kind = "meta.field",
                         attributes = listOf("meta.static")),
                 CompletionProposal("Local variable",
-                        project = project,
-                        document = document,
                         insertionText = "local var",
-                        type = "String",
                         kind = "meta.variable",
                         attributes = listOf("meta.internal")),
                 CompletionProposal("Method",
-                        project = project,
-                        document = document,
                         insertionText = "method()",
                         caret = 7,
-                        type = "String",
                         kind = "meta.method",
                         attributes = listOf("meta.abstract", "meta.deprecated", "meta.package")),
-                CompletionProposal("if (then else)",
-                        project = project,
-                        document = document)
+                CompletionProposal("if (then else)")
         )
 
         // TODO: Determine prefix according to language rules.

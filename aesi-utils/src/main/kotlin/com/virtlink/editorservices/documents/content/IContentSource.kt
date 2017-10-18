@@ -24,4 +24,14 @@ interface IContentSource {
      */
     fun invalidate()
 
+    /**
+     * Applies updates to the latest content.
+     *
+     * All changes must be specified in terms of the document content being changed.
+     * Changes must not overlap, and be specified in the order they occur in the document.
+     *
+     * @param changes The changes to apply to the content in parallel.
+     * @return The resulting document content; or null when the changes were not applied.
+     */
+    fun update(changes: List<DocumentChange>): IDocumentContent?
 }

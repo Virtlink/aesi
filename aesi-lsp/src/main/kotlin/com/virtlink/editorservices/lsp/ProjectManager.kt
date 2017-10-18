@@ -1,5 +1,8 @@
 package com.virtlink.editorservices.lsp
 
+import com.google.inject.Inject
+import com.virtlink.editorservices.Project
+import com.virtlink.editorservices.documents.IDocumentManagerFactory
 import org.slf4j.LoggerFactory
 import java.net.URI
 import java.util.concurrent.ConcurrentHashMap
@@ -7,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap
 /**
  * Manages the projects.
  */
-class ProjectManager {
+class ProjectManager @Inject constructor(private val documentManagerFactory: IDocumentManagerFactory) {
 
     private val logger = LoggerFactory.getLogger(ProjectManager::class.java)
 
@@ -20,7 +23,7 @@ class ProjectManager {
     }
 
     fun openProject(uri: URI) {
-        val project = projectMap.computeIfAbsent(uri, { Project(it) })
+        val project = projectMap.computeIfAbsent(uri, { Project(it, documentManagerFactory) })
         this.project = project
     }
 

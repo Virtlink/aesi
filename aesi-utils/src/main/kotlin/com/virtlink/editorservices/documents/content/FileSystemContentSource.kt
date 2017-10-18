@@ -10,30 +10,12 @@ import kotlin.concurrent.write
 /**
  * Content source for a document in the local file system.
  */
-class FileSystemContentSource(override val document: IDocument)
-    : IContentSource {
+class FileSystemContentSource(document: IDocument)
+    : ContentSource(document) {
 
-    private var latestContent: IDocumentContent? = null
-
-    private var lock = ReentrantReadWriteLock()
-
-    override fun invalidate() {
-        this.lock.write {
-            this.latestContent = null
-        }
-    }
-
-    override fun getLatestContent(): IDocumentContent {
-        this.lock.read {
-            var content = this.latestContent
-            if (content == null) {
-                content = readFileContent()
-                this.lock.write {
-                    this.latestContent = content
-                }
-            }
-            return content
-        }
+    override fun retrieveContent(): IDocumentContent {
+        val text = getFile().readText(getCharset())
+        return TextContent(text)
     }
 
     private fun getFile(): File {
@@ -47,11 +29,6 @@ class FileSystemContentSource(override val document: IDocument)
         // For example, use the same character set as the editor
         // as otherwise line offsets might not match up.
         return Charsets.UTF_8
-    }
-
-    private fun readFileContent(): IDocumentContent {
-        val text = getFile().readText(getCharset())
-        return TextContent(text)
     }
 
 }

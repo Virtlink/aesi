@@ -34,6 +34,12 @@ open class VirtualContent protected constructor(
     constructor(text: String) : this(getLines(text))
 
     companion object {
+
+        /**
+         * Empty content.
+         */
+        val empty = VirtualContent("")
+
         /**
          * Gets the length from the specified lines.
          *

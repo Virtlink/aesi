@@ -23,6 +23,12 @@ open class TextContent protected constructor(
     constructor(text: String) : this(text, getLines(text))
 
     companion object {
+
+        /**
+         * Empty content.
+         */
+        val empty = TextContent("")
+
         private fun getLines(text: String): List<Offset> {
             val lines = mutableListOf<Offset>()
             var currentLine = 0
