@@ -1,6 +1,5 @@
 package com.virtlink.dummy
 
-import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.codecompletion.CompletionInfo
@@ -25,14 +24,12 @@ class DummyCodeCompletionBuilder
     override fun BuildContext.build(input: PieCodeCompletionService.Input): ICompletionInfo
         = this.getCompletionInfo(
             input.document,
-            input.caretOffset,
-            input.cancellationToken)
+            input.caretOffset)
 
     @Suppress("UNUSED_PARAMETER", "unused")
     private fun BuildContext.getCompletionInfo(
             document: IDocument,
-            caretOffset: Offset,
-            cancellationToken: ICancellationToken?):
+            caretOffset: Offset):
             ICompletionInfo {
 
         logger.info("$document: Completing at $caretOffset.")

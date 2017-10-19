@@ -1,11 +1,14 @@
 package com.virtlink.editorservices.lsp.server
 
 import com.google.inject.Inject
+import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import com.virtlink.editorservices.documents.content.DocumentChange
+import com.virtlink.editorservices.documents.content.IDocumentContent
 import com.virtlink.editorservices.lsp.ProjectManager
 import com.virtlink.editorservices.lsp.documents.LspDocumentContentManager
+import com.virtlink.editorservices.lsp.documents.VersionedContent
 import com.virtlink.editorservices.lsp.toCancellationToken
 import com.virtlink.editorservices.lsp.toOffset
 import com.virtlink.editorservices.lsp.toSpan
@@ -45,13 +48,13 @@ class AesiLanguageServer @Inject constructor(
 
     override fun opened(params: DidOpenTextDocumentParams) {
         val project = this.projectManager.getProject()
-        val document = project.documents.getDocument(URI(params.textDocument.uri))
+        val document = this.projectManager.getDocuments(project).getDocument(URI(params.textDocument.uri))
         this.documentContentManager.openDocument(document, params.textDocument.text, params.textDocument.version)
     }
 
     override fun changed(params: DidChangeTextDocumentParams) {
         val project = this.projectManager.getProject()
-        val document = project.documents.getDocument(URI(params.textDocument.uri))
+        val document = this.projectManager.getDocuments(project).getDocument(URI(params.textDocument.uri))
         val content = this.documentContentManager.getContent(document)
         val changes = params.contentChanges.map { DocumentChange(it.range.toSpan(content)!!, it.text) }
         this.documentContentManager.updateDocument(document, changes, params.textDocument.version)
@@ -59,28 +62,26 @@ class AesiLanguageServer @Inject constructor(
 
     override fun saving(params: WillSaveTextDocumentParams) {
         val project = this.projectManager.getProject()
-        val document = project.documents.getDocument(URI(params.textDocument.uri))
-        logger.info("${document}: Saving because ${params.reason}")
+        val document = this.projectManager.getDocuments(project).getDocument(URI(params.textDocument.uri))
+        logger.info("$document: Saving because ${params.reason}")
     }
 
     override fun saved(params: DidSaveTextDocumentParams) {
         val project = this.projectManager.getProject()
-        val document = project.documents.getDocument(URI(params.textDocument.uri))
-        logger.info("${document}: Saved")
+        val document = this.projectManager.getDocuments(project).getDocument(URI(params.textDocument.uri))
+        logger.info("$document: Saved")
     }
 
     override fun closed(params: DidCloseTextDocumentParams) {
         val project = this.projectManager.getProject()
-        val document = project.documents.getDocument(URI(params.textDocument.uri))
+        val document = this.projectManager.getDocuments(project).getDocument(URI(params.textDocument.uri))
         this.documentContentManager.closeDocument(document)
     }
 
     override fun doCompletion(position: TextDocumentPositionParams)
             : CompletableFuture<Either<MutableList<CompletionItem>, CompletionList>>
     = CompletableFutures.computeAsync {
-        val project = this.projectManager.getProject()
-        val document = project.documents.getDocument(URI(position.textDocument.uri))
-        val content = this.documentContentManager.getContent(document)
+        val (document, content) = getDocumentData(URI(position.textDocument.uri))
         val offset = position.position.toOffset(content)
                 ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                 "Position not found within document.", position.position))
@@ -98,5 +99,14 @@ class AesiLanguageServer @Inject constructor(
 //        item.documentation = proposal.documentation
         // TODO: Kind
         return item
+    }
+
+    private fun getDocumentData(uri: URI): Pair<IDocument, IDocumentContent> {
+        val project = this.projectManager.getProject()
+        val document = this.projectManager.getDocuments(project).getDocument(uri)
+        val content = this.documentContentManager.getContent(document)
+        val version = (content as? VersionedContent)?.version
+        // TODO: Do something with the version
+        return Pair(document, content)
     }
 }

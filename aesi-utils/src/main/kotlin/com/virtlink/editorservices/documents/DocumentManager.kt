@@ -1,5 +1,7 @@
 package com.virtlink.editorservices.documents
 
+import com.google.inject.assistedinject.Assisted
+import com.google.inject.Inject
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.Project
@@ -10,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap
 /**
  * Manages the documents of a project.
  */
-open class DocumentManager(private val project: IProject): IDocumentManager {
+open class DocumentManager @Inject constructor(@Assisted private val project: IProject): IDocumentManager {
 
     private val logger = LoggerFactory.getLogger(DocumentManager::class.java)
 
