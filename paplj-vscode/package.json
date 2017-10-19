@@ -4,14 +4,14 @@
     "description": "PAPLJ language support.",
     "version": "0.0.1",
     "publisher": "Virtlink",
-	"license": "Apache-2.0",
+    "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/virtlink/aesi.git"
     },
     "bugs": {
         "url": "https://github.com/virtlink/aesi/issues"
-	},
+    },
     "engines": {
         "vscode": "^1.16.0"
     },
@@ -24,21 +24,32 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "languages": [{
-            "id": "paplj",
-            "aliases": ["PAPLJ", "paplj"],
-            "extensions": [".pj"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "paplj",
-            "scopeName": "source.paplj",
-            "path": "./syntaxes/paplj.tmLanguage.json"
-        }],
-        "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
+        "languages": [
+            {
+                "id": "paplj",
+                "aliases": [
+                    "PAPLJ",
+                    "paplj"
+                ],
+                "extensions": [
+                    ".pj"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "paplj",
+                "scopeName": "source.paplj",
+                "path": "./syntaxes/paplj.tmLanguage.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "extension.sayHello",
+                "title": "Hello World"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -49,7 +60,7 @@
     },
     "dependencies": {
         "vscode-languageclient": "^3.4.1"
-	},
+    },
     "devDependencies": {
         "typescript": "^2.5.2",
         "vscode": "^1.1.5",
