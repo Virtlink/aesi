@@ -2,6 +2,7 @@ package com.virtlink.editorservices.lsp.server
 
 import com.google.inject.Inject
 import com.virtlink.editorservices.IDocument
+import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.ISessionManager
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
@@ -19,7 +20,7 @@ import org.eclipse.lsp4j.jsonrpc.messages.ResponseErrorCode
 import java.net.URI
 import java.util.concurrent.CompletableFuture
 import com.virtlink.editorservices.lsp.content.RemoteContentSource
-import com.virtlink.editorservices.lsp.content.VersionedContent
+import com.virtlink.editorservices.content.VersionedContent
 import com.virtlink.editorservices.lsp.content.DocumentContentManager
 import com.virtlink.logging.logger
 
@@ -92,12 +93,13 @@ class AesiLanguageServer @Inject constructor(
     override fun doCompletion(position: TextDocumentPositionParams)
             : CompletableFuture<Either<MutableList<CompletionItem>, CompletionList>>
     = CompletableFutures.computeAsync {
+        val project = getProject()
         val document = getDocument(position.textDocument.uri)
         val content = this.documentContentManager.getLatestContent(document)
         val offset = position.position.toOffset(content)
                 ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                 "Position not found within document.", position.position))
-        val info = this.codeCompletionService.getCompletionInfo(document, offset, it.toCancellationToken())
+        val info = this.codeCompletionService.getCompletionInfo(project, document, offset, it.toCancellationToken())
         val proposals = info.proposals.map { toCompletionItem(it) }
         val list = CompletionList(proposals)
         Either.forRight<MutableList<CompletionItem>, CompletionList>(list)
@@ -113,8 +115,11 @@ class AesiLanguageServer @Inject constructor(
         return item
     }
 
+    private fun getProject(): IProject
+            = this.projectManager.getProject()
+
     private fun getDocument(uri: String): IDocument
-        = this.projectManager.getDocuments().getDocument(URI(uri))
+            = this.projectManager.getDocuments().getDocument(URI(uri))
 
 //    private fun getDocumentData(uri: URI): Pair<IDocument, IDocumentContent> {
 //        val project = this.projectManager.getProject()

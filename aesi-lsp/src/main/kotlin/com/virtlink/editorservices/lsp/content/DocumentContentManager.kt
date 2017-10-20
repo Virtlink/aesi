@@ -3,19 +3,18 @@ package com.virtlink.editorservices.lsp.content
 import com.google.inject.Inject
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.content.IContent
+import com.virtlink.editorservices.content.IContentManager
 import com.virtlink.editorservices.content.IContentSource
 import com.virtlink.logging.logger
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.locks.ReentrantReadWriteLock
-import kotlin.concurrent.read
-import kotlin.concurrent.write
 
 /**
  * Manages the content of the documents.
  */
 class DocumentContentManager @Inject constructor(
         private val fileSystemContentSource: FileSystemContentSource,
-        private val remoteContentSource: RemoteContentSource) {
+        private val remoteContentSource: RemoteContentSource)
+    : IContentManager {
 
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
@@ -23,13 +22,7 @@ class DocumentContentManager @Inject constructor(
     /** Map of documents and their corresponding content source. */
     private val documents: ConcurrentHashMap<IDocument, IContentSource> = ConcurrentHashMap()
 
-    /**
-     * Gets the latest content of the specified document.
-     *
-     * @param document The document.
-     * @return The latest content.
-     */
-    fun getLatestContent(document: IDocument): IContent
+    override fun getLatestContent(document: IDocument): IContent
             = getContentSource(document).getLatest(document)
 
     /**

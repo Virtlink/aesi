@@ -11,7 +11,7 @@ import java.net.URI
  * @property uri The URI of the document.
  * @property project The project the document belongs to.
  */
-data class Document(val uri: URI, val project: Project): IDocument, Serializable {
+data class Document(override val uri: URI, val project: Project): IDocument, Serializable {
 
     override fun toString(): String
             = this.project.uri.relativize(this.uri).toString()

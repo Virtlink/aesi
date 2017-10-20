@@ -28,13 +28,15 @@ class PieStructureOutlineService(
     data class StructureTree(val roots: List<StructureTreeNode>): Serializable
 
     override fun getRootNodes(
+            project: IProject,
             document: IDocument,
             cancellationToken: ICancellationToken?)
             : List<IStructureTreeNode> {
-        return getTree(document).roots
+        return getTree(project, document).roots
     }
 
     override fun getChildNodes(
+            project: IProject,
             document: IDocument,
             node: IStructureTreeNode,
             cancellationToken: ICancellationToken?)
@@ -42,10 +44,10 @@ class PieStructureOutlineService(
         return (node as StructureTreeNode).children
     }
 
-    private fun getTree(document: IDocument): StructureTree {
+    private fun getTree(project: IProject, document: IDocument): StructureTree {
         val input = PieStructureOutlineService.Input(document)
         val app = BuildApp<PieStructureOutlineService.Input, StructureTree>(this.builderId, input)
-        val manager = buildManagerProvider.getBuildManager(document.project)
+        val manager = buildManagerProvider.getBuildManager(project)
         return manager.build(app)
     }
 }

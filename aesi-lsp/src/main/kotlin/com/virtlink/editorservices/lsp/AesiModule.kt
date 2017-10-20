@@ -5,6 +5,7 @@ import com.google.inject.Singleton
 import com.google.inject.assistedinject.FactoryModuleBuilder
 import com.virtlink.editorservices.ISessionManager
 import com.virtlink.editorservices.SessionManager
+import com.virtlink.editorservices.content.IContentManager
 import com.virtlink.editorservices.lsp.content.FileSystemContentSource
 import com.virtlink.editorservices.lsp.server.AesiLanguageServer
 import org.eclipse.lsp4j.services.LanguageServer
@@ -17,6 +18,7 @@ open class AesiModule : AbstractModule() {
         bind(LanguageServer::class.java).to(AesiLanguageServer::class.java).`in`(Singleton::class.java)
         bind(ISessionManager::class.java).to(SessionManager::class.java).`in`(Singleton::class.java)
         bind(DocumentContentManager::class.java).`in`(Singleton::class.java)
+        bind(IContentManager::class.java).to(DocumentContentManager::class.java)
         bind(RemoteContentSource::class.java).`in`(Singleton::class.java)
         bind(FileSystemContentSource::class.java).`in`(Singleton::class.java)
 

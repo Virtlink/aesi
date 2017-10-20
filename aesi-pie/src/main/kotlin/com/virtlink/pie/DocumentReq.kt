@@ -1,7 +1,10 @@
 package com.virtlink.pie
 
+import com.google.inject.Inject
 import com.virtlink.editorservices.IDocument
+import com.virtlink.editorservices.ISessionManager
 import com.virtlink.editorservices.SessionId
+import com.virtlink.editorservices.content.IContentManager
 import mb.pie.runtime.core.*
 import mb.pie.runtime.core.impl.Build
 import mb.pie.runtime.core.impl.Req
@@ -10,6 +13,9 @@ import mb.pie.runtime.core.impl.Req
  * A document requirement.
  */
 data class DocumentReq(val document: IDocument, val version: Int, val session: SessionId) : Req {
+
+//    @Transient @Inject private val sessionManager: ISessionManager
+//    @Transient @Inject private val contentManager: IContentManager
 
     override fun <I : In, O : Out> makeConsistent(
             requiringApp: BuildApp<I, O>,

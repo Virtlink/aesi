@@ -1,10 +1,7 @@
 package com.virtlink.editorservices.lsp.content
 
 import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.content.IContent
-import com.virtlink.editorservices.content.IContentSource
-import com.virtlink.editorservices.content.LineContent
-import com.virtlink.editorservices.content.TextChange
+import com.virtlink.editorservices.content.*
 import com.virtlink.logging.logger
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read

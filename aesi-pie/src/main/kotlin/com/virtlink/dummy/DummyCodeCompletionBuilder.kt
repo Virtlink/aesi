@@ -8,13 +8,17 @@ import com.virtlink.editorservices.SessionManager
 import com.virtlink.editorservices.codecompletion.CompletionInfo
 import com.virtlink.editorservices.codecompletion.CompletionProposal
 import com.virtlink.editorservices.codecompletion.ICompletionInfo
+import com.virtlink.editorservices.content.IContentManager
+import com.virtlink.editorservices.content.VersionedContent
 import com.virtlink.pie.DocumentReq
 import com.virtlink.pie.codecompletion.PieCodeCompletionService
 import mb.pie.runtime.core.BuildContext
 import mb.pie.runtime.core.Builder
 import org.slf4j.LoggerFactory
 
-class DummyCodeCompletionBuilder
+class DummyCodeCompletionBuilder @Inject constructor(
+        private val sessionManager: ISessionManager,
+        private val contentManager: IContentManager)
     : Builder<PieCodeCompletionService.Input, ICompletionInfo> {
 
     companion object {
@@ -37,9 +41,10 @@ class DummyCodeCompletionBuilder
 
         logger.info("$document: Completing at $caretOffset.")
 
-//        val version = null
-//        val session = null
-//        require(DocumentReq(document, version, session))
+        val content = contentManager.getLatestContent(document)
+        val version = (content as? VersionedContent)?.version ?: -1
+        val session = sessionManager.id!!
+        require(DocumentReq(document, version, session))
 
         val proposals = listOf(
                 CompletionProposal("Hello",

@@ -1,9 +1,7 @@
-package com.virtlink.editorservices.lsp.content
+package com.virtlink.editorservices.content
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
-import com.virtlink.editorservices.content.IContent
-import com.virtlink.editorservices.content.TextChange
 import java.io.LineNumberReader
 
 /**

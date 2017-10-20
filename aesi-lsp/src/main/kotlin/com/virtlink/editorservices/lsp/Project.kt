@@ -9,7 +9,7 @@ import java.net.URI
  *
  * @property uri The URI of the project.
  */
-data class Project(val uri: URI): IProject, Serializable {
+data class Project(override val uri: URI): IProject, Serializable {
 
     override fun toString(): String
             = this.uri.toString()

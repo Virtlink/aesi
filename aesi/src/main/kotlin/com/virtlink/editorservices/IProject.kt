@@ -6,4 +6,11 @@ import java.net.URI
 /**
  * A project.
  */
-interface IProject
+interface IProject : Serializable {
+
+    /**
+     * Gets the URI of the project.
+     */
+    val uri: URI
+
+}
