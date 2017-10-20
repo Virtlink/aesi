@@ -1,15 +1,16 @@
-package com.virtlink.editorservices.documents.content
+package com.virtlink.editorservices.content
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
 import com.virtlink.editorservices.indexAfterNextNewline
+import java.io.LineNumberReader
 
 /**
- * Virtual content.
+ * Line-based document content.
  */
-open class VirtualContent protected constructor(
-        protected val lines: List<Line>)
-    : IDocumentContent {
+open class LineContent constructor(
+        private val lines: List<Line>)
+    : IContent {
 
     /**
      * A line in the document.
@@ -27,7 +28,7 @@ open class VirtualContent protected constructor(
     override val length: Int = getLength(this.lines)
 
     /**
-     * Initializes a new instance of the [TextContent] class.
+     * Initializes a new instance of the [LineContent] class.
      *
      * @param text The full text of the document.
      */
@@ -38,7 +39,7 @@ open class VirtualContent protected constructor(
         /**
          * Empty content.
          */
-        val empty = VirtualContent("")
+        val empty = LineContent("")
 
         /**
          * Gets the length from the specified lines.
@@ -108,17 +109,11 @@ open class VirtualContent protected constructor(
         }
     }
 
-    override val text: String
-        get() {
-            val text = StringBuilder()
-            this.lines.forEach {
-                text.append(it.text)
-            }
-            return text.toString()
-        }
-
     override val lineCount: Int
         get() = this.lines.size
+
+    override fun createReader(): LineNumberReader
+            = TODO()
 
     override fun getOffset(position: Position): Offset? {
         if (position.line >= this.lines.size)
@@ -154,20 +149,20 @@ open class VirtualContent protected constructor(
         return Position(currentLine, offset - currentOffset)
     }
 
-    override fun update(changes: List<DocumentChange>): IDocumentContent {
+    override fun withChanges(changes: List<TextChange>): IContent {
         val lines = this.lines.toMutableList()
         for (change in changes.asReversed()) {
             val start = this.getPosition(change.span.start)!!
             val end = this.getPosition(change.span.end)!!
             applyChange(lines, start, end, change.newText)
         }
-        return VirtualContent(lines)
+        return LineContent(lines)
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (this.javaClass != other?.javaClass) return false
-        other as VirtualContent
+        other as LineContent
         return this.lines == other.lines
     }
 
@@ -177,6 +172,13 @@ open class VirtualContent protected constructor(
         return hash
     }
 
-    override fun toString(): String
-            = this.text
+    override fun toString(): String {
+        // TODO: Use reader to get whole text.
+        val text = StringBuilder()
+        this.lines.forEach {
+            text.append(it.text)
+        }
+        return text.toString()
+    }
+
 }

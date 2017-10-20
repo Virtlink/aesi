@@ -11,10 +11,19 @@ import java.io.Serializable
 interface ISymbol : Serializable {
 
     // Open question: add project for when document is null? Either<Project, Document>?
+    // Symbol founds at a specific position in a specific document version,
+    // or in a non-specific position in a document generally,
+    // or in a non-specific document in a project generally,
+    // ...
+
+    /**
+     * Gets the project that contains this symbol.
+     */
+    val project: IProject
 
     /**
      * Gets the document that contains this symbol;
-     * or null when the symbol is not in this project.
+     * or null when the symbol is not in a particular document.
      */
     val document: IDocument?
 
@@ -29,8 +38,8 @@ interface ISymbol : Serializable {
     val label: String
 
     // Open questions: kind a string and attributes a list of strings
-    // or kind a list of strings (attribures and kind)
-    // or kind a space-separated list of strings (attribures and kind) as a string
+    // or kind a list of strings (attributes and kind)
+    // or kind a space-separated list of strings (attributes and kind) as a string
     // or leave out attributes completely (but how to encode visibility, extensibility)
 
     /**

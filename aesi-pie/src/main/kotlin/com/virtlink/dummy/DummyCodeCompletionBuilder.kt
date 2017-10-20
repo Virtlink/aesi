@@ -1,10 +1,14 @@
 package com.virtlink.dummy
 
+import com.google.inject.Inject
 import com.virtlink.editorservices.IDocument
+import com.virtlink.editorservices.ISessionManager
 import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.SessionManager
 import com.virtlink.editorservices.codecompletion.CompletionInfo
 import com.virtlink.editorservices.codecompletion.CompletionProposal
 import com.virtlink.editorservices.codecompletion.ICompletionInfo
+import com.virtlink.pie.DocumentReq
 import com.virtlink.pie.codecompletion.PieCodeCompletionService
 import mb.pie.runtime.core.BuildContext
 import mb.pie.runtime.core.Builder
@@ -26,13 +30,16 @@ class DummyCodeCompletionBuilder
             input.document,
             input.caretOffset)
 
-    @Suppress("UNUSED_PARAMETER", "unused")
     private fun BuildContext.getCompletionInfo(
             document: IDocument,
             caretOffset: Offset):
             ICompletionInfo {
 
         logger.info("$document: Completing at $caretOffset.")
+
+//        val version = null
+//        val session = null
+//        require(DocumentReq(document, version, session))
 
         val proposals = listOf(
                 CompletionProposal("Hello",

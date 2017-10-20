@@ -27,6 +27,7 @@ class PieCodeCompletionService @Inject constructor(
         : Serializable
 
     override fun getCompletionInfo(
+            project: IProject,
             document: IDocument,
             caretOffset: Offset,
             cancellationToken: ICancellationToken?):
@@ -35,7 +36,7 @@ class PieCodeCompletionService @Inject constructor(
                 document, caretOffset
         )
         val app = BuildApp<PieCodeCompletionService.Input, ICompletionInfo>(this.builderId, input)
-        val manager = buildManagerProvider.getBuildManager(document.project)
+        val manager = buildManagerProvider.getBuildManager(project)
         return manager.build(app)
     }
 }

@@ -1,24 +1,20 @@
-package com.virtlink.editorservices.documents.content
+package com.virtlink.editorservices.content
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
+import java.io.LineNumberReader
 
 /**
  * Represents the content of a document.
  *
  * This object is immutable.
  */
-interface IDocumentContent {
+interface IContent {
 
     /**
      * Gets the size of the document, in characters.
      */
     val length: Int
-
-    /**
-     * Gets the full text of the document.
-     */
-    val text: String
 
     /**
      * Gets the number of lines in the document.
@@ -28,6 +24,13 @@ interface IDocumentContent {
      * (empty) line is treated as a line as well.
      */
     val lineCount: Int
+
+    /**
+     * Creates a reader for this content.
+     *
+     * Every call creates a new reader that is positioned at the start of the content.
+     */
+    fun createReader(): LineNumberReader
 
     /**
      * Gets the offset of the specified line:character position within the document.
@@ -53,5 +56,6 @@ interface IDocumentContent {
      * @param changes The changes to apply, in terms of this content.
      * @return The resulting content.
      */
-    fun update(changes: List<DocumentChange>): IDocumentContent
+    fun withChanges(changes: List<TextChange>): IContent
+
 }

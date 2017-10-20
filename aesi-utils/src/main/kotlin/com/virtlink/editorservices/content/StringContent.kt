@@ -1,8 +1,9 @@
-package com.virtlink.editorservices.documents.content
+package com.virtlink.editorservices.content
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
 import com.virtlink.editorservices.indexAfterNextNewline
+import java.io.LineNumberReader
 
 /**
  * Simple text content of a document.
@@ -10,13 +11,13 @@ import com.virtlink.editorservices.indexAfterNextNewline
  * @param text The full text of the document.
  * @param lines The list of lines in the document.
  */
-open class TextContent protected constructor(
-        override val text: String,
-        protected val lines: List<Offset>)
-    : IDocumentContent {
+class StringContent constructor(
+        private val text: String,
+        val lines: List<Offset>)
+    : IContent {
 
     /**
-     * Initializes a new instance of the [TextContent] class.
+     * Initializes a new instance of the [StringContent] class.
      *
      * @param text The full text of the document.
      */
@@ -27,7 +28,7 @@ open class TextContent protected constructor(
         /**
          * Empty content.
          */
-        val empty = TextContent("")
+        val empty = StringContent("")
 
         private fun getLines(text: String): List<Offset> {
             val lines = mutableListOf<Offset>()
@@ -54,6 +55,10 @@ open class TextContent protected constructor(
     override val lineCount: Int
         get() = this.lines.size
 
+    override fun createReader(): LineNumberReader {
+        TODO()
+    }
+
     override fun getOffset(position: Position): Offset? {
         if (position.line >= this.lines.size)
             return null
@@ -78,18 +83,18 @@ open class TextContent protected constructor(
         return Position(currentLine, offset - this.lines[currentLine])
     }
 
-    override fun update(changes: List<DocumentChange>): IDocumentContent {
+    override fun withChanges(changes: List<TextChange>): IContent {
         val text = StringBuilder(this.text)
         for (change in changes.asReversed()) {
             text.replace(change.span.start.offset, change.span.end.offset, change.newText)
         }
-        return TextContent(text.toString())
+        return StringContent(text.toString())
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (this.javaClass != other?.javaClass) return false
-        other as TextContent
+        other as StringContent
         return this.text == other.text
             && this.lines == other.lines
     }
