@@ -1,6 +1,5 @@
 package com.virtlink.logging
 
-import com.xenomachina.text.clear
 import org.slf4j.Logger
 import java.io.Writer
 
@@ -33,7 +32,7 @@ class LogWriter(private val logger: Logger, private val logLevel: LogLevel, buff
                     // CR or LF, or maybe CRLF
                     this.inCrNewline = (c == '\r')
                     log(this.buffer.toString())
-                    this.buffer.clear()
+                    this.buffer.setLength(0)
                     continue
                 }
 
@@ -58,11 +57,11 @@ class LogWriter(private val logger: Logger, private val logLevel: LogLevel, buff
 
     private fun log(message: String) {
         when (this.logLevel) {
-            LogWriter.LogLevel.Trace -> this.logger.trace(message)
-            LogWriter.LogLevel.Debug -> this.logger.debug(message)
-            LogWriter.LogLevel.Info -> this.logger.info(message)
-            LogWriter.LogLevel.Warning -> this.logger.warn(message)
-            LogWriter.LogLevel.Error -> this.logger.error(message)
+            LogLevel.Trace -> this.logger.trace(message)
+            LogLevel.Debug -> this.logger.debug(message)
+            LogLevel.Info -> this.logger.info(message)
+            LogLevel.Warning -> this.logger.warn(message)
+            LogLevel.Error -> this.logger.error(message)
         }
     }
 
