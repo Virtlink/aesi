@@ -1,6 +1,7 @@
 package com.virtlink.editorservices.lsp
 
 import com.google.inject.Inject
+import com.google.inject.assistedinject.Assisted
 import com.virtlink.logging.logger
 import java.net.URI
 import java.util.concurrent.ConcurrentHashMap
@@ -8,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap
 /**
  * Manages the documents in a project.
  */
-class DocumentManager @Inject constructor(private val project: Project) {
+class DocumentManager @Inject constructor(@Assisted private val project: Project) {
 
     @Suppress("PrivatePropertyName")
     private val LOG by logger()

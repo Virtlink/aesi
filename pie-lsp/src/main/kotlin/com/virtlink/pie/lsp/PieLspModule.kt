@@ -5,6 +5,7 @@ import com.google.inject.multibindings.MapBinder
 import com.google.inject.name.Names
 import com.virtlink.dummy.DummyCodeCompletionBuilder
 import com.virtlink.editorservices.lsp.AesiModule
+import com.virtlink.pie.DocumentReq
 import com.virtlink.pie.PieImplModule
 import mb.log.LogModule
 import mb.vfs.VFSModule
@@ -19,6 +20,8 @@ class PieLspModule : PieImplModule() {
         binder.install(AesiModule())
         binder.install(VFSModule())
         binder.install(LogModule(LoggerFactory.getLogger("root")))
+
+        binder.requestStaticInjection(DocumentReq::class.java)
     }
 
     override fun Binder.bindBuilders(builders: MapBinder<String, UBuilder>) {
