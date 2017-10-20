@@ -1,7 +1,6 @@
 package com.virtlink.editorservices.lsp
 
 import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
 import java.io.Serializable
 import java.net.URI
 

@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.ISessionManager
 import com.virtlink.editorservices.Offset
-import com.virtlink.editorservices.SessionManager
 import com.virtlink.editorservices.codecompletion.CompletionInfo
 import com.virtlink.editorservices.codecompletion.CompletionProposal
 import com.virtlink.editorservices.codecompletion.ICompletionInfo

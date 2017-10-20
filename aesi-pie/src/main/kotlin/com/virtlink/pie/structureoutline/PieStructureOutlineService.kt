@@ -4,7 +4,6 @@ import com.google.inject.name.Named
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
-import com.virtlink.editorservices.codecompletion.ICompletionInfo
 import com.virtlink.editorservices.structureoutline.IStructureOutlineService
 import com.virtlink.editorservices.structureoutline.IStructureTreeNode
 import com.virtlink.editorservices.symbols.ISymbol

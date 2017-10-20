@@ -2,7 +2,6 @@ package com.virtlink.pie.codecompletion
 
 import com.google.inject.Inject
 import com.google.inject.name.Named
-import com.virtlink.dummy.DummyCodeCompletionBuilder
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
