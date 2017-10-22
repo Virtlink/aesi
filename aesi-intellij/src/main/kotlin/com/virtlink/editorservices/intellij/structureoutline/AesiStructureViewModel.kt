@@ -12,20 +12,19 @@ import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.intellij.psi.AesiElementType
 import com.virtlink.editorservices.intellij.psi.AesiPsiElement
-import com.virtlink.editorservices.structureoutline.IStructureOutliner
-import com.virtlink.editorservices.structureoutline.ISymbol
-import com.virtlink.editorservices.structureoutline.SymbolKind
+import com.virtlink.editorservices.structureoutline.*
+import com.virtlink.editorservices.symbols.ISymbol
 import javax.swing.Icon
 
 class AesiStructureViewModel(editor: Editor?,
                              file: PsiFile,
-                             val outliner: IStructureOutliner,
+                             val outliner: IStructureOutlineService,
                              val project: IProject,
                              val document: IDocument)
     : TextEditorBasedStructureViewModel(editor, file) {
 
     override fun getRoot(): StructureViewTreeElement {
-        return createTreeElement(null)
+        return RootElement(this.psiFile, this)
     }
 
 //    override fun getPsiFile(): PapljFile = super.getPsiFile() as PapljFile
@@ -34,52 +33,72 @@ class AesiStructureViewModel(editor: Editor?,
         return PsiTreeUtil.getParentOfType(this.psiFile.findElementAt(offset), T::class.java)
     }
 
-    private fun getChildSymbols(symbol: ISymbol?): Collection<ISymbol> {
-        return this.outliner.outline(this.project, this.document, symbol, null)
+    private fun getRootNodes(): List<IStructureTreeNode> {
+        return this.outliner.getRootNodes(this.project, this.document, null)
     }
 
-    private fun createTreeElements(symbols: Collection<ISymbol>): MutableCollection<StructureViewTreeElement> {
+    private fun getChildNodes(node: IStructureTreeNode): List<IStructureTreeNode> {
+        return this.outliner.getChildNodes(this.project, this.document, node, null)
+    }
+
+    private fun createTreeElements(symbols: Collection<IStructureTreeNode>): MutableCollection<StructureViewTreeElement> {
         return symbols.map { this.createTreeElement(it) }.toMutableList()
     }
 
-    private fun createTreeElement(symbol: ISymbol?): StructureViewTreeElement {
-        val offset = symbol?.location
-        val element = (if (offset != null) findElementAt<AesiPsiElement>(offset) else null) ?: this.psiFile
-        return PapljTreeElement(element, symbol, this)
+    private fun createTreeElement(node: IStructureTreeNode): StructureViewTreeElement {
+        val offset = node.symbol.nameRange?.start
+        val element = (if (offset != null) findElementAt<AesiPsiElement>(offset.value) else null) ?: this.psiFile
+        return PapljTreeElement(element, node, this)
+    }
+
+    class RootElement<T : PsiElement>(
+            element: T,
+            val model: AesiStructureViewModel)
+        : PsiTreeElementBase<T>(element) {
+
+        override fun getIcon(open: Boolean): Icon? = null
+
+        override fun getPresentableText(): String? {
+            return "root"
+        }
+
+        override fun getChildrenBase(): MutableCollection<StructureViewTreeElement> {
+            return this.model.createTreeElements(this.model.getRootNodes())
+        }
     }
 
     class PapljTreeElement<T : PsiElement>(
             element: T,
-            val symbol: ISymbol?,
+            val node: IStructureTreeNode,
             val model: AesiStructureViewModel)
         : PsiTreeElementBase<T>(element) {
 
         override fun getIcon(open: Boolean): Icon? {
-            return when (symbol?.kind ?: SymbolKind.Constant) {
-                SymbolKind.File -> PlatformIcons.FILE_ICON
-//                SymbolKind.File -> AesiIcons.FILE
-                SymbolKind.Module -> PlatformIcons.OPENED_MODULE_GROUP_ICON
-                SymbolKind.Namespace -> PlatformIcons.PACKAGE_ICON
-                SymbolKind.Package -> PlatformIcons.PACKAGE_ICON
-                SymbolKind.Class -> PlatformIcons.CLASS_ICON
-                SymbolKind.Interface -> PlatformIcons.INTERFACE_ICON
-                SymbolKind.Enum -> PlatformIcons.ENUM_ICON
-                SymbolKind.Property -> PlatformIcons.PROPERTY_ICON
-                SymbolKind.Field -> PlatformIcons.FIELD_ICON
-                SymbolKind.Function -> PlatformIcons.FUNCTION_ICON
-                SymbolKind.Method -> PlatformIcons.METHOD_ICON
-                SymbolKind.Constructor -> PlatformIcons.METHOD_ICON
-                SymbolKind.Variable -> PlatformIcons.VARIABLE_ICON
-                SymbolKind.Constant -> PlatformIcons.VARIABLE_READ_ACCESS
+            return when (node.symbol.kind) {
+                "file" -> PlatformIcons.FILE_ICON
+                "module" -> PlatformIcons.OPENED_MODULE_GROUP_ICON
+                "namespace" -> PlatformIcons.PACKAGE_ICON
+                "package" -> PlatformIcons.PACKAGE_ICON
+                "class" -> PlatformIcons.CLASS_ICON
+                "interface" -> PlatformIcons.INTERFACE_ICON
+                "enum" -> PlatformIcons.ENUM_ICON
+                "property" -> PlatformIcons.PROPERTY_ICON
+                "field" -> PlatformIcons.FIELD_ICON
+                "function" -> PlatformIcons.FUNCTION_ICON
+                "method" -> PlatformIcons.METHOD_ICON
+                "constructor" -> PlatformIcons.METHOD_ICON
+                "variable" -> PlatformIcons.VARIABLE_ICON
+                "constant" -> PlatformIcons.VARIABLE_READ_ACCESS
+                else -> PlatformIcons.VARIABLE_READ_ACCESS
             }
         }
 
         override fun getPresentableText(): String? {
-            return symbol?.name ?: "root"
+            return node.symbol.label ?: "root"
         }
 
         override fun getChildrenBase(): MutableCollection<StructureViewTreeElement> {
-            return this.model.createTreeElements(this.model.getChildSymbols(this.symbol))
+            return this.model.createTreeElements(this.model.getChildNodes(this.node))
         }
 
     }

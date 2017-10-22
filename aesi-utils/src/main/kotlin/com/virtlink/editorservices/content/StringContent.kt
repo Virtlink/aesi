@@ -12,7 +12,7 @@ import java.io.LineNumberReader
  * @param lines The list of lines in the document.
  */
 class StringContent constructor(
-        private val text: String,
+        override val text: String,
         val lines: List<Offset>)
     : IContent {
 
@@ -86,7 +86,7 @@ class StringContent constructor(
     override fun withChanges(changes: List<TextChange>): IContent {
         val text = StringBuilder(this.text)
         for (change in changes.asReversed()) {
-            text.replace(change.span.start.offset, change.span.end.offset, change.newText)
+            text.replace(change.span.start.value, change.span.end.value, change.newText)
         }
         return StringContent(text.toString())
     }

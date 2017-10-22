@@ -3,30 +3,31 @@ package com.virtlink.paplj.structureoutline
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
-import com.virtlink.editorservices.structureoutline.IStructureOutliner
-import com.virtlink.editorservices.structureoutline.ISymbol
-import com.virtlink.editorservices.structureoutline.SymbolKind
+import com.virtlink.editorservices.structureoutline.*
+import com.virtlink.editorservices.symbols.ISymbol
+import com.virtlink.editorservices.symbols.Symbol
 
-class DummyStructureOutliner: IStructureOutliner {
-    private val rootSymbol: SymbolDef = SymbolDef("root", 0, SymbolKind.Constant, listOf(
-            SymbolDef("file1", 0, SymbolKind.File, listOf(
-                    SymbolDef("myClass0", 3, SymbolKind.Class, listOf(
-                            SymbolDef("myFunc", 7, SymbolKind.Function, listOf())
+class DummyStructureOutliner: IStructureOutlineService {
+
+    override fun getRootNodes(project: IProject, document: IDocument, cancellationToken: ICancellationToken?): List<IStructureTreeNode>
+            = listOf(rootSymbol)
+
+    override fun getChildNodes(project: IProject, document: IDocument, node: IStructureTreeNode, cancellationToken: ICancellationToken?): List<IStructureTreeNode>
+            = (node as Node).children
+
+    private val rootSymbol: Node = Node(Symbol(label="root", kind="constant"), listOf(
+            Node(Symbol(label="file1", kind="file"), listOf(
+                    Node(Symbol(label="myClass0", kind="class"), listOf(
+                            Node(Symbol(label="myFunc", kind="function"), listOf())
                     )),
-                    SymbolDef("myClass2", 45, SymbolKind.Class, listOf()),
-                    SymbolDef("myClass4", 144, SymbolKind.Class, listOf())
+                    Node(Symbol(label="myClass2", kind="class"), listOf()),
+                    Node(Symbol(label="myClass4", kind="class"), listOf())
             )),
-            SymbolDef("file2", 0, SymbolKind.File, listOf())
+            Node(Symbol(label="file2", kind="file"), listOf())
     ))
 
-    override fun outline(project: IProject, document: IDocument, symbol: ISymbol?, cancellationToken: ICancellationToken?): List<ISymbol> {
-        return if (symbol != null) (symbol as SymbolDef).children else listOf(rootSymbol)
-    }
-
-    private data class SymbolDef(
-            override val name: String,
-            override val location: Int,
-            override val kind: SymbolKind,
-            val children: List<SymbolDef>) : ISymbol
+    private data class Node(
+            override val symbol: ISymbol,
+            val children: List<Node>) : IStructureTreeNode
 
 }

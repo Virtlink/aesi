@@ -8,10 +8,10 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import com.virtlink.editorservices.intellij.DocumentManager
 import com.virtlink.editorservices.intellij.ProjectManager
-import com.virtlink.editorservices.structureoutline.IStructureOutliner
+import com.virtlink.editorservices.structureoutline.IStructureOutlineService
 
 abstract class AesiStructureViewFactory(
-        private var structureOutliner: IStructureOutliner,
+        private var structureOutliner: IStructureOutlineService,
         private var projectManager: ProjectManager,
         private var documentManager: DocumentManager
 ) : PsiStructureViewFactory {

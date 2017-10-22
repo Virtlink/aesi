@@ -15,7 +15,7 @@ open class LineContent constructor(
     /**
      * A line in the document.
      *
-     * @property offset The offset of the line.
+     * @property offset The value of the line.
      * @property text The text of the line, including the end-of-line characters.
      */
     data class Line(val offset: Offset, val text: String) {
@@ -26,6 +26,9 @@ open class LineContent constructor(
     }
 
     override val length: Int = getLength(this.lines)
+
+    override val text
+            get() = this.lines.fold(StringBuilder(), { b, l -> b.appendln(l) }).toString()
 
     /**
      * Initializes a new instance of the [LineContent] class.

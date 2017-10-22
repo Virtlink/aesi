@@ -5,14 +5,14 @@ import java.io.Serializable
 /**
  * A range in a document.
  *
- * @property start The inclusive start offset of the span.
- * @property end The exclusive end offset of the span.
+ * @property start The inclusive start value of the span.
+ * @property end The exclusive end value of the span.
  */
 data class Span(override val start: Offset, val end: Offset): ClosedRange<Offset>, Iterable<Offset>, Serializable {
 
     init {
         if (end < start)
-            throw IllegalArgumentException("The end offset must be at or after the start offset.")
+            throw IllegalArgumentException("The end value must be at or after the start value.")
     }
 
     override val endInclusive: Offset

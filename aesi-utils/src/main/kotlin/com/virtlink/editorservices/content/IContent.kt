@@ -26,6 +26,11 @@ interface IContent {
     val lineCount: Int
 
     /**
+     * Gets the text in the document.
+     */
+    val text: String
+
+    /**
      * Creates a reader for this content.
      *
      * Every call creates a new reader that is positioned at the start of the content.
@@ -33,20 +38,20 @@ interface IContent {
     fun createReader(): LineNumberReader
 
     /**
-     * Gets the offset of the specified line:character position within the document.
+     * Gets the value of the specified line:character position within the document.
      *
      * @param position The position in the document
-     * @return The offset in the document;
+     * @return The value in the document;
      * or null when the position is not in the document.
      */
     fun getOffset(position: Position): Offset?
 
     /**
-     * Gets the line:character position of the specified offset within the document.
+     * Gets the line:character position of the specified value within the document.
      *
-     * @param offset The offset in the document.
+     * @param offset The value in the document.
      * @return The position in the document;
-     * or null when the offset is not in the document.
+     * or null when the value is not in the document.
      */
     fun getPosition(offset: Offset): Position?
 

@@ -9,6 +9,9 @@ import java.io.LineNumberReader
  */
 class VersionedContent(private var content: IContent, val version: Int): IContent {
 
+    override val text
+        get() = this.content.text
+
     override val length: Int
         get() = this.content.length
 

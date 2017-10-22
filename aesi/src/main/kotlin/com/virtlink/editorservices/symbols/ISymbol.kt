@@ -19,7 +19,7 @@ interface ISymbol : Serializable {
     /**
      * Gets the project that contains this symbol.
      */
-    val project: IProject
+    val project: IProject?
 
     /**
      * Gets the document that contains this symbol;

@@ -7,16 +7,17 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.tree.IElementType
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
+import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager
-import com.virtlink.editorservices.syntaxcoloring.ISyntaxColorer
+import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
 
 class AesiLexer @Inject constructor(
         @Assisted private val project: IProject,
         @Assisted private val document: IDocument,
         private val tokenTypeManager: AesiTokenTypeManager,
-        private val colorer: ISyntaxColorer,
+        private val colorer: ISyntaxColoringService,
         private val scopeManager: ScopeManager)
     : LexerBase() {
 
@@ -45,7 +46,11 @@ class AesiLexer @Inject constructor(
             LOG.debug("Buffer is empty.")
             this.tokens = emptyList()
         } else {
-            val highlighterTokens = this.colorer.highlight(this.project, this.document, Span(startOffset, endOffset), null)
+            val highlighterTokens = this.colorer.highlight(
+                    this.project,
+                    this.document,
+                    Span(Offset(startOffset), Offset(endOffset)),
+                    null)
             LOG.debug("Highlighter returned ${highlighterTokens.size} tokens")
             this.tokens = tokenize(highlighterTokens)
         }
@@ -57,17 +62,17 @@ class AesiLexer @Inject constructor(
         var offset = 0
 
         for (token in tokens) {
-            val tokenStart = token.location.startOffset
-            val tokenEnd = token.location.endOffset
+            val tokenStart = token.location.start.value
+            val tokenEnd = token.location.end.value
 
             // We assume that tokens are non-empty. When we encounter
             // a token with an end at or before its start,
             // it gets ignored.
             if (tokenEnd <= tokenStart) continue
 
-            // We assume the list of tokens is ordered by offset.
+            // We assume the list of tokens is ordered by value.
             // When we encounter a token that's before the current
-            // `offset`, it gets ignored.
+            // `value`, it gets ignored.
             // We assume that no tokens overlap. When we encounter a
             // token that starts before the previous token ends,
             // it gets ignored.
@@ -110,8 +115,8 @@ class AesiLexer @Inject constructor(
     }
 
     private fun getTokenType(token: IToken?): IElementType {
-        val scope = this.scopeManager.getSimplifiedScope(token?.scope ?: this.scopeManager.DEFAULT_SCOPE)
-        val tokenType = this.tokenTypeManager.getTokenType(scope)
+        val name = this.scopeManager.getSimplifiedScope(token?.name ?: this.scopeManager.DEFAULT_SCOPE)
+        val tokenType = this.tokenTypeManager.getTokenType(name)
         return tokenType
     }
 

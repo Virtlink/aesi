@@ -8,6 +8,8 @@ import java.io.LineNumberReader
  * Empty content.
  */
 class EmptyContent: IContent {
+    override val text: String
+        get() = ""
     override val length: Int
         get() = 0
     override val lineCount: Int
@@ -21,7 +23,7 @@ class EmptyContent: IContent {
             = if (position == Position(0, 0)) Offset(0) else null
 
     override fun getPosition(offset: Offset): Position?
-            = if (offset.offset == 0) Position(0, 0) else null
+            = if (offset.value == 0) Position(0, 0) else null
 
     override fun withChanges(changes: List<TextChange>): IContent
             = StringContent("").withChanges(changes)

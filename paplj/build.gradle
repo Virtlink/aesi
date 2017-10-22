@@ -11,6 +11,7 @@ compileTestKotlin.dependsOn generateTestGrammarSource
 
 dependencies {
     compile project(":aesi")
+    compile project(":aesi-utils")
 
     antlr   "org.antlr:antlr4:$antlr_version"
     compile "org.antlr:antlr4-runtime:$antlr_version"

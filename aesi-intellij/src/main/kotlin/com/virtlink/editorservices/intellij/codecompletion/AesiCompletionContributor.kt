@@ -10,23 +10,21 @@ import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiFile
 import com.intellij.util.PlatformIcons
-import com.virtlink.editorservices.codecompletion.ICodeCompleter
 import com.intellij.ui.RowIcon
 import com.intellij.util.ui.EmptyIcon
 import com.virtlink.editorservices.*
-import com.virtlink.editorservices.codecompletion.Attribute
-import java.util.*
 import com.intellij.ui.LayeredIcon
 import com.intellij.util.SmartList
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import javax.swing.Icon
 import com.google.inject.Inject
+import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.intellij.DocumentManager
 import com.virtlink.editorservices.intellij.ProjectManager
 
 
 abstract class AesiCompletionContributor
-@Inject constructor(private val codeCompleter: ICodeCompleter,
+@Inject constructor(private val codeCompleter: ICodeCompletionService,
                     private val projectManager: ProjectManager,
                     private val documentManager: DocumentManager)
     : CompletionContributor() {
@@ -40,13 +38,13 @@ abstract class AesiCompletionContributor
 
         val project = this.projectManager.getProjectForFile(parameters.originalFile)
         val document = this.documentManager.getDocument(parameters.editor)
-        val offset = parameters.offset
+        val offset = Offset(parameters.offset)
 
-        val completionInfo = this.codeCompleter.complete(project, document, offset, CancellationToken())
+        val completionInfo = this.codeCompleter.getCompletionInfo(project, document, offset, null)
 
         // IntelliJ by default uses the CamelHumpMatcher to test whether a completion result
         // should be included. However, this matcher takes the start of the current element
-        // up to the current offset as the prefix. With the plain-text-like PSI file we have
+        // up to the current value as the prefix. With the plain-text-like PSI file we have
         // only a single element for the whole file, which means it will take the whole file's
         // text before the caret position as the prefix. We don't want that, so we'll use our
         // own prefix matcher.
@@ -63,17 +61,18 @@ abstract class AesiCompletionContributor
 
 
         for (proposal in completionInfo.proposals) {
-            val icon = getIcon(proposal.kind, proposal.visibility, proposal.attributes)
+            val icon = getIcon(proposal.kind, proposal.attributes)
             // TODO: Prefix?
+            // TODO: Type
             val element = LookupElementBuilder.create(proposal.label)
                     .withInsertHandler({ context, item -> proposalInsertHandler(context, item, proposal) })
-                    .withTailText(proposal.postfix, true)
-                    .withTypeText(proposal.type)
-                    .withCaseSensitivity(proposal.caseSensitive)
+//                    .withTailText(proposal.postfix, true)
+//                    .withTypeText(proposal.type)
+//                    .withCaseSensitivity(proposal.caseSensitive)
 //                    .withPresentableText(proposal.prefix + proposal.name)
                     .withIcon(icon)
-                    .withBoldness(proposal.attributes.contains(Attribute.NotInherited))
-                    .withStrikeoutness(proposal.attributes.contains(Attribute.Deprecated))
+                    .withBoldness("not-inherited" in proposal.attributes)
+                    .withStrikeoutness("deprecated" in proposal.attributes)
             // TODO: Description
             // TODO: Documentation
 //            val priorityElement = PrioritizedLookupElement.withPriority(element, proposal.priority.toDouble())
@@ -95,9 +94,9 @@ abstract class AesiCompletionContributor
         }
     }
 
-    private fun getIcon(kind: Kind, visibility: IVisibility?, attributes: EnumSet<Attribute>) : Icon? {
+    private fun getIcon(kind: String?, attributes: Collection<String>) : Icon? {
         val kindIcon = getKindIcon(kind)
-        val visibilityIcon = getVisibilityIcon(visibility)
+        val visibilityIcon = getVisibilityIcon(attributes)
         val baseIcon = getBaseIcon(kindIcon, attributes)
 
         if (baseIcon == null && visibilityIcon == null)
@@ -109,80 +108,58 @@ abstract class AesiCompletionContributor
         return resultIcon
     }
 
-    private fun getKindIcon(kind: Kind): Icon? = when (kind) {
-        Kind.Variable -> PlatformIcons.VARIABLE_ICON
-        Kind.Parameter -> PlatformIcons.PARAMETER_ICON
-        Kind.Field -> PlatformIcons.FIELD_ICON
-        Kind.Property -> PlatformIcons.PROPERTY_ICON
-        Kind.Function -> PlatformIcons.FUNCTION_ICON
-        Kind.Method -> PlatformIcons.METHOD_ICON
-        Kind.AbstractMethod -> PlatformIcons.ABSTRACT_METHOD_ICON
-        Kind.Interface -> PlatformIcons.INTERFACE_ICON
-        Kind.Class -> PlatformIcons.CLASS_ICON
-        Kind.AbstractClass -> PlatformIcons.ABSTRACT_CLASS_ICON
+    private fun getKindIcon(kind: String?): Icon? = when (kind) {
+        // TODO: Replace some of these by attributes
+        "variable" -> PlatformIcons.VARIABLE_ICON
+        "parameter" -> PlatformIcons.PARAMETER_ICON
+        "field" -> PlatformIcons.FIELD_ICON
+        "property" -> PlatformIcons.PROPERTY_ICON
+        "function" -> PlatformIcons.FUNCTION_ICON
+        "method" -> PlatformIcons.METHOD_ICON
+        "abstractMethod" -> PlatformIcons.ABSTRACT_METHOD_ICON
+        "interface" -> PlatformIcons.INTERFACE_ICON
+        "class" -> PlatformIcons.CLASS_ICON
+        "abstractClass" -> PlatformIcons.ABSTRACT_CLASS_ICON
 //        Kind.Trait -> TODO()
-        Kind.Exception -> PlatformIcons.EXCEPTION_CLASS_ICON
-        Kind.Enum -> PlatformIcons.ENUM_ICON
-        Kind.Annotation -> PlatformIcons.ANNOTATION_TYPE_ICON
-        Kind.Package -> PlatformIcons.PACKAGE_ICON
+        "exception" -> PlatformIcons.EXCEPTION_CLASS_ICON
+        "enum" -> PlatformIcons.ENUM_ICON
+        "annotation" -> PlatformIcons.ANNOTATION_TYPE_ICON
+        "package" -> PlatformIcons.PACKAGE_ICON
         else -> null
     }
 
-    private fun getVisibilityIcon(visibility: IVisibility?): Icon? {
-        if (visibility == null)
-            return null
-
-        return when (visibility.classVisiblity) {
-            ClassVisibility.Public -> when (visibility.packageVisibility) {
-                PackageVisibility.Public -> when (visibility.libraryVisibility) {
-                    LibraryVisibility.Public -> PlatformIcons.PUBLIC_ICON
-                    LibraryVisibility.Friend -> PlatformIcons.PUBLIC_ICON           // By lack of a better icon.
-                    LibraryVisibility.Internal -> PlatformIcons.PACKAGE_LOCAL_ICON  // By lack of a better icon.
-                }
-                PackageVisibility.Package -> when (visibility.libraryVisibility) {
-                    LibraryVisibility.Public -> PlatformIcons.PACKAGE_LOCAL_ICON
-                    LibraryVisibility.Friend -> PlatformIcons.PACKAGE_LOCAL_ICON    // By lack of a better icon.
-                    LibraryVisibility.Internal -> PlatformIcons.PACKAGE_LOCAL_ICON  // By lack of a better icon.
-                }
-            }
-            ClassVisibility.Protected -> when (visibility.packageVisibility) {
-                PackageVisibility.Public -> when (visibility.libraryVisibility) {
-                    LibraryVisibility.Public -> PlatformIcons.PROTECTED_ICON
-                    LibraryVisibility.Friend -> PlatformIcons.PROTECTED_ICON       // By lack of a better icon.
-                    LibraryVisibility.Internal -> PlatformIcons.PROTECTED_ICON     // By lack of a better icon.
-                }
-                PackageVisibility.Package -> when (visibility.libraryVisibility) {
-                    LibraryVisibility.Public -> PlatformIcons.PROTECTED_ICON       // By lack of a better icon.
-                    LibraryVisibility.Friend -> PlatformIcons.PROTECTED_ICON       // By lack of a better icon.
-                    LibraryVisibility.Internal -> PlatformIcons.PROTECTED_ICON     // By lack of a better icon.
-                }
-            }
-            ClassVisibility.Private -> PlatformIcons.PRIVATE_ICON
+    private fun getVisibilityIcon(attributes: Collection<String>): Icon? {
+        return when {
+            "public" in attributes -> PlatformIcons.PUBLIC_ICON
+            "package" in attributes -> PlatformIcons.PACKAGE_LOCAL_ICON
+            "protected" in attributes -> PlatformIcons.PROTECTED_ICON
+            "private" in attributes -> PlatformIcons.PRIVATE_ICON
+            else -> null
         }
     }
 
-    fun getBaseIcon(kindIcon: Icon?, attributes: EnumSet<Attribute>): Icon? {
+    private fun getBaseIcon(kindIcon: Icon?, attributes: Collection<String>): Icon? {
         if (kindIcon == null) return null
 
         val iconLayers = SmartList<Icon>()
 
-        if (attributes.contains(Attribute.External)) {
+        if ("external" in attributes) {
             iconLayers.add(PlatformIcons.LOCKED_ICON)
         }
-        if (attributes.contains(Attribute.Excluded)) {
+        if ("excluded" in attributes) {
             iconLayers.add(PlatformIcons.EXCLUDED_FROM_COMPILE_ICON)
         }
-        if (attributes.contains(Attribute.Static)) {
+        if ("static" in attributes) {
             iconLayers.add(AllIcons.Nodes.StaticMark)
         }
-        if (attributes.contains(Attribute.Test)) {
+        if ("test" in attributes) {
             // Currently has no icon.
         }
 
         return if (!iconLayers.isEmpty()) {
             val layeredIcon = LayeredIcon(1 + iconLayers.size)
             layeredIcon.setIcon(kindIcon, 0)
-            for (i in 0..iconLayers.size - 1) {
+            for (i in 0 until iconLayers.size) {
                 layeredIcon.setIcon(iconLayers[i], i + 1)
             }
             layeredIcon

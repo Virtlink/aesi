@@ -1,7 +1,6 @@
 package com.virtlink.editorservices.intellij
 
 import com.intellij.openapi.progress.ProgressIndicator
-import com.virtlink.editorservices.CancellationToken
 import com.virtlink.editorservices.ICancellationToken
 
 fun ProgressIndicator.toCancellationToken(): ICancellationToken {

@@ -5,41 +5,31 @@ import com.virtlink.editorservices.codecompletion.*
 import org.slf4j.LoggerFactory
 import java.util.*
 
-class DummyCodeCompleter : ICodeCompleter {
+class DummyCodeCompleter : ICodeCompletionService {
 
     private var logger = LoggerFactory.getLogger(DummyCodeCompleter::class.java)
 
-    override fun complete(project: IProject, document: IDocument, caretOffset: Int, cancellationToken: ICancellationToken?): ICompletionInfo {
-
+    override fun getCompletionInfo(project: IProject, document: IDocument, caretOffset: Offset, cancellationToken: ICancellationToken?): ICompletionInfo {
         logger.info("$document: Completing at $caretOffset.")
 
         val proposals = listOf(
                 CompletionProposal("Hello",
-                        insertionText = "hello world!",
-                        postfix = "(subject: World)",
-                        type = "Type",
                         description = "Description string",
-                        documentation = "Extensive documentation",
-                        kind = Kind.Method,
-                        visibility = Visibility(ClassVisibility.Protected, PackageVisibility.Public, LibraryVisibility.Public),
-                        attributes = EnumSet.of(Attribute.Static)),
+                        insertionText = "hello world!",
+                        kind = "meta.field",
+                        attributes = listOf("meta.static")),
                 CompletionProposal("Local variable",
                         insertionText = "local var",
-                        type = "String",
-                        kind = Kind.Variable,
-                        visibility = Visibility(ClassVisibility.Private, PackageVisibility.Public, LibraryVisibility.Public),
-                        attributes = EnumSet.of(Attribute.NotInherited)),
+                        kind = "meta.variable",
+                        attributes = listOf("meta.internal")),
                 CompletionProposal("Method",
                         insertionText = "method()",
                         caret = 7,
-                        type = "String",
-                        postfix = " (deprecated)",
-                        kind = Kind.AbstractMethod,
-                        visibility = Visibility(ClassVisibility.Public, PackageVisibility.Package, LibraryVisibility.Public),
-                        attributes = EnumSet.of(Attribute.Deprecated)),
-                CompletionProposal("if",
-                        postfix = " then else")
+                        kind = "meta.method",
+                        attributes = listOf("meta.abstract", "meta.deprecated", "meta.package")),
+                CompletionProposal("if (then else)")
         )
+
         // TODO: Determine prefix according to language rules.
         return CompletionInfo("", proposals)
     }

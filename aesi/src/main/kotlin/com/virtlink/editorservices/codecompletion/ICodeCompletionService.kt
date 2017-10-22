@@ -20,7 +20,7 @@ interface ICodeCompletionService {
      *
      * @param project The project that contains the document.
      * @param document The document for which to provide completions.
-     * @param caretOffset The offset of the caret in the document.
+     * @param caretOffset The value of the caret in the document.
      * @param cancellationToken The cancellation token; or `null` when not supported.
      * @return The completion info.
      */

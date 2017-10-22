@@ -1,27 +1,30 @@
 package com.virtlink.paplj.syntaxcoloring
 
-import com.virtlink.editorservices.ICancellationToken
-import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
-import com.virtlink.editorservices.Span
-import com.virtlink.editorservices.syntaxcoloring.ISyntaxColorer
+import com.google.inject.Inject
+import com.virtlink.editorservices.*
+import com.virtlink.editorservices.content.IContentManager
+import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
 import com.virtlink.editorservices.syntaxcoloring.Token
 import com.virtlink.paplj.syntax.PapljLexer
 import org.antlr.v4.runtime.ANTLRInputStream
 
-class AntlrSyntaxColorizer: ISyntaxColorer {
+class AntlrSyntaxColorizer @Inject constructor(
+        private val contentManager: IContentManager)
+    : ISyntaxColoringService {
     override fun highlight(project: IProject, document: IDocument, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
         val tokens = mutableListOf<IToken>()
 
-        val input = ANTLRInputStream(document.text)
+        val content = this.contentManager.getLatestContent(document)
+
+        val input = ANTLRInputStream(content.text)
         val lexer = PapljLexer(input)
         var token = lexer.nextToken()
         while (token.type != org.antlr.v4.runtime.Token.EOF) {
             val scope = getTokenScope(token)
             val startOffset = token.startIndex
             val endOffset = token.stopIndex + 1
-            tokens.add(Token(Span(startOffset, endOffset), scope))
+            tokens.add(Token(Span(Offset(startOffset), Offset(endOffset)), scope))
 
             token = lexer.nextToken()
         }

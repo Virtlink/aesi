@@ -3,6 +3,7 @@ package com.virtlink.editorservices.referenceresolution
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.IProject
+import com.virtlink.editorservices.Offset
 
 /**
  * Resolves a reference to its definitions.
@@ -25,7 +26,7 @@ interface IReferenceResolverService {
     fun resolve(
             project: IProject,
             document: IDocument,
-            caretOffset: Int,
+            caretOffset: Offset,
             cancellationToken: ICancellationToken?)
             : IReferenceResolutionInfo
 }
