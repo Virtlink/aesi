@@ -7,16 +7,16 @@ import org.eclipse.swt.graphics.Image;
 public class AesiLabelProvider extends LabelProvider {
     @Override
     public String getText(Object element) {
-        if (!(element instanceof AesiStructureSymbol))
+        if (!(element instanceof AesiStructureNode))
             return null;
 
-        AesiStructureSymbol symbol = (AesiStructureSymbol)element;
-        return symbol.getSymbol().getName();
+        AesiStructureNode node = (AesiStructureNode)element;
+        return node.getNode().getSymbol().getLabel();
     }
 
     @Override
     public Image getImage(Object element) {
-        if (!(element instanceof AesiStructureSymbol))
+        if (!(element instanceof AesiStructureNode))
             return null;
 
         Image icon = IconManager.getInstance().getIcon();

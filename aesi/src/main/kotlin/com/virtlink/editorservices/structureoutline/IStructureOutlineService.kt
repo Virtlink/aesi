@@ -37,4 +37,18 @@ interface IStructureOutlineService {
                       cancellationToken: ICancellationToken?)
             : List<IStructureTreeNode>
 
+    /**
+     * Returns whether the specified node has any child nodes.
+     *
+     * @param project The project that contains the document.
+     * @param document The document.
+     * @param node The structure outline tree node.
+     * @return True when the node has child nodes, false when the node has no child nodes;
+     * and null when it is currently unknown whether the node has child nodes.
+     */
+    fun hasChildren(project: IProject,
+                    document: IDocument,
+                    node: IStructureTreeNode)
+            : Boolean?
+
 }

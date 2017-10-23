@@ -1,25 +1,24 @@
 package com.virtlink.aesi.eclipse.editors;
 
-import com.virtlink.aesi.IAesiDocument;
-import com.virtlink.aesi.IAesiProject;
+import com.virtlink.editorservices.IDocument;
+import com.virtlink.editorservices.IProject;
 
 import java.net.URI;
 
 /**
  * A file-backed document.
  */
-public class AesiFileDocument implements IAesiDocument {
+public class AesiFileDocument implements IDocument {
 
-    private final IAesiProject project;
+    private final IProject project;
     private final URI uri;
 
-    @Override
-    public IAesiProject getProject() { return this.project; }
+    public IProject getProject() { return this.project; }
 
     @Override
     public URI getUri() { return this.uri; }
 
-    public AesiFileDocument(IAesiProject project, URI uri) {
+    public AesiFileDocument(IProject project, URI uri) {
         this.project = project;
         this.uri = uri;
     }

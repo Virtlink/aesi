@@ -23,13 +23,13 @@
         </repository>
     </repositories>
 
-    <dependencies>
+    <!--<dependencies>
         <dependency>
             <groupId>com.virtlink</groupId>
             <artifactId>aesi-eclipse.externaldeps</artifactId>
             <version>${project.version}</version>
         </dependency>
-    </dependencies>
+    </dependencies>-->
 
     <build>
         <plugins>

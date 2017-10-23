@@ -4,7 +4,7 @@
         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>AESI adapter for Eclipse</name>
+<!--    <name>AESI adapter for Eclipse</name>-->
     <artifactId>aesi-eclipse</artifactId>
     <packaging>eclipse-plugin</packaging>
 
@@ -18,7 +18,8 @@
     <dependencies>
         <dependency>
             <groupId>com.virtlink</groupId>
-            <artifactId>aesi-eclipse.externaldeps</artifactId>
+            <artifactId>aesi-eclipse-deps</artifactId>
+            <!--<artifactId>aesi-eclipse.externaldeps</artifactId>-->
             <version>${project.version}</version>
         </dependency>
     </dependencies>

@@ -1,0 +1,53 @@
+
+buildscript {
+    file("../releng/shared.properties").withInputStream { stream ->
+        def userProps = new Properties()
+        userProps.load(stream)
+        userProps.each { key, val ->
+            if (!project.hasProperty(key)) {
+                    project.ext.set(key, val);
+            }
+        }
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+    }
+}
+
+plugins {
+    id 'org.dm.bundle' version '0.10.0'
+}
+
+apply from: "../releng/shared.gradle"
+
+dependencies {
+    compile project(":aesi")
+
+    compile "com.google.guava:guava:$guava_version"
+    compile "com.google.inject:guice:$guice_version"
+    compile "com.google.inject.extensions:guice-assistedinject:$guice_version"
+    compile "com.google.inject.extensions:guice-multibindings:$guice_version"
+    compile "aopalliance:aopalliance:1.0"
+    compile "org.jetbrains:annotations:13.0"
+    compile "com.google.code.findbugs:jsr305:3.0.2"
+}
+
+bundle {
+    instructions << [
+        'Bundle-SymbolicName': "$project.name",
+        'Bundle-Name': "$project.name",
+        'Bundle-Version': "${project.version.replace("-SNAPSHOT", ".qualifier")}",
+        'Export-Package': '*;provider=metaborg;mandatory:=provider',
+        'Import-Package': '!*',
+        '_nouses': 'true',
+        '_nodefaultversion': 'true',
+        'Eclipse-BuddyPolicy': 'registered'
+    ]
+}
+

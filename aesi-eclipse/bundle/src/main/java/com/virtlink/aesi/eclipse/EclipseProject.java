@@ -1,9 +1,22 @@
 package com.virtlink.aesi.eclipse;
 
 import com.virtlink.editorservices.IProject;
+import org.jetbrains.annotations.NotNull;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class EclipseProject implements IProject {
-	// TODO: Store IProject
+    @NotNull
+    @Override
+    public URI getUri() {
+        try {
+            return new URI("project");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    // TODO: Store IProject
 //	private final org.eclipse.core.resources.IProject project;
 //	
 //	public EclipseProject(final org.eclipse.core.resources.IProject project) {

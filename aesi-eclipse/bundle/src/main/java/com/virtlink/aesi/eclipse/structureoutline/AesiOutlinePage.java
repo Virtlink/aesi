@@ -1,16 +1,16 @@
 package com.virtlink.aesi.eclipse.structureoutline;
 
-import com.virtlink.aesi.Span;
-import com.virtlink.aesi.eclipse.editors.AesiDocumentManager;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import com.virtlink.aesi.eclipse.editors.AesiEditor;
 
 import javax.annotation.Nullable;
 
+import com.virtlink.editorservices.Span;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -23,12 +23,18 @@ public class AesiOutlinePage extends ContentOutlinePage {
 	@Nullable private IEditorInput input;
     private final AesiEditor editor;
     private final IDocumentProvider documentProvider;
+    private final IContentProviderFactory contentProviderFactory;
 
-    public AesiOutlinePage(IDocumentProvider documentProvider, AesiEditor editor) {
+    @Inject
+    public AesiOutlinePage(
+    		@Assisted IDocumentProvider documentProvider,
+			@Assisted AesiEditor editor,
+			IContentProviderFactory contentProviderFactory) {
         super();
 
         this.editor = editor;
         this.documentProvider = documentProvider;
+        this.contentProviderFactory = contentProviderFactory;
     }
     
     @Override
@@ -41,7 +47,7 @@ public class AesiOutlinePage extends ContentOutlinePage {
         super.createControl(parent);
 
         TreeViewer viewer = getTreeViewer();
-        viewer.setContentProvider(new AesiContentProvider(this.documentProvider));
+        viewer.setContentProvider(contentProviderFactory.create(this.documentProvider));
         viewer.setLabelProvider(new AesiLabelProvider());
         viewer.addSelectionChangedListener(this);
         
@@ -56,13 +62,17 @@ public class AesiOutlinePage extends ContentOutlinePage {
     	if (selection.isEmpty())
     		this.editor.resetHighlightRange();
     	else {
-    		AesiStructureSymbol symbol = (AesiStructureSymbol)((IStructuredSelection) selection).getFirstElement();
-    		Span location = symbol.getSymbol().getLocation();
-    		try {
-    			this.editor.setHighlightRange(location.getStartOffset(), location.getLength(), true);
-    		} catch (IllegalArgumentException x) {
-    			this.editor.resetHighlightRange();
-    		}
+    		AesiStructureNode node = (AesiStructureNode)((IStructuredSelection) selection).getFirstElement();
+    		@Nullable Span range = node.getNode().getSymbol().getNameRange();
+    		if (range != null) {
+				try {
+					this.editor.setHighlightRange(range.getStart().getValue(), range.getLength(), true);
+				} catch (IllegalArgumentException x) {
+					this.editor.resetHighlightRange();
+				}
+			} else {
+				this.editor.resetHighlightRange();
+			}
     	}
     }
 
@@ -80,10 +90,10 @@ public class AesiOutlinePage extends ContentOutlinePage {
 	 * Updates the outline page.
 	 */
 	public void update() {
-		TreeViewer viewer = getTreeViewer();
+		@Nullable TreeViewer viewer = getTreeViewer();
 
 		if (viewer != null) {
-			Control control= viewer.getControl();
+			@Nullable Control control = viewer.getControl();
 			if (control != null && !control.isDisposed()) {
 				control.setRedraw(false);
 				viewer.setInput(this.input);

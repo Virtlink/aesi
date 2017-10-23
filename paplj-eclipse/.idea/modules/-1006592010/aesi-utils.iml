@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":aesi-utils" external.linked.project.path="$MODULE_DIR$/../../../../aesi-utils" external.root.project.path="$MODULE_DIR$/../../../../paplj-eclipse-deps" external.system.id="GRADLE" external.system.module.group="com.virtlink" external.system.module.version="0.0.1-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../aesi-utils">
+      <excludeFolder url="file://$MODULE_DIR$/../../../../aesi-utils/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../../aesi-utils/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../../aesi-utils/out" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

@@ -6,6 +6,5 @@
 			<accessrule kind="accessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,18 +1,22 @@
 package com.virtlink.aesi.eclipse.structureoutline;
 
-import com.virtlink.aesi.IAesiDocument;
-import com.virtlink.aesi.structureoutline.DummyStructureOutliner;
-import com.virtlink.aesi.structureoutline.IStructureOutliner;
-import com.virtlink.aesi.structureoutline.ISymbol;
+import com.google.inject.Inject;
 
+import com.google.inject.assistedinject.Assisted;
+import com.virtlink.editorservices.IDocument;
+import com.virtlink.editorservices.IProject;
+import com.virtlink.editorservices.structureoutline.IStructureOutlineService;
+import com.virtlink.editorservices.structureoutline.IStructureTreeNode;
+import com.virtlink.editorservices.symbols.ISymbol;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.DefaultPositionUpdater;
-import org.eclipse.jface.text.IDocument;
+//import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IPositionUpdater;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,45 +27,52 @@ public class AesiContentProvider implements ITreeContentProvider {//implements I
 	private final static String SEGMENTS = "__aesi_editor_segments";
 	private IPositionUpdater positionUpdater = new DefaultPositionUpdater(SEGMENTS);
 	private final IDocumentProvider documentProvider;
-    private final IStructureOutliner structureOutliner = new DummyStructureOutliner();
-    private final Map<ISymbol, AesiStructureSymbol> symbols = new HashMap<>();
-    
-    public AesiContentProvider(IDocumentProvider documentProvider) {
+    private final IStructureOutlineService structureOutliner;
+    private final Map<IStructureTreeNode, AesiStructureNode> nodes = new HashMap<>();
+
+    @Inject
+    public AesiContentProvider(@Assisted IDocumentProvider documentProvider,
+                               IStructureOutlineService structureOutliner) {
     	this.documentProvider = documentProvider;
+    	this.structureOutliner = structureOutliner;
     }
 
     @Override
     public Object[] getElements(Object element) {
         // TODO: read element, determine document?
-        IAesiDocument document = null;
-        List<? extends ISymbol> children = this.structureOutliner.getRoots(document, null);
-        return children.stream().map(s -> new AesiStructureSymbol(document, s, null)).toArray(AesiStructureSymbol[]::new);
+        IProject project = null;
+        IDocument document = null;
+        List<? extends IStructureTreeNode> children = this.structureOutliner.getRootNodes(project, document, null);
+        return children.stream().map(s -> new AesiStructureNode(project, document, s, null)).toArray(AesiStructureNode[]::new);
     }
 
     @Override
     public Object[] getChildren(Object element) {
-        if (!(element instanceof AesiStructureSymbol))
+        if (!(element instanceof AesiStructureNode))
             return new Object[0];
-        AesiStructureSymbol parent = (AesiStructureSymbol)element;
-        IAesiDocument document = parent.getDocument();
-        List<? extends ISymbol> children = this.structureOutliner.getChildren(document, parent.getSymbol(), null);
-        return children.stream().map(s -> new AesiStructureSymbol(document, s, parent)).toArray(AesiStructureSymbol[]::new);
+        AesiStructureNode parent = (AesiStructureNode)element;
+        IProject project = parent.getProject();
+        IDocument document = parent.getDocument();
+        List<? extends IStructureTreeNode> children = this.structureOutliner.getChildNodes(project, document, parent.getNode(), null);
+        return children.stream().map(s -> new AesiStructureNode(project, document, s, parent)).toArray(AesiStructureNode[]::new);
     }
 
     @Override
+    @Nullable
     public Object getParent(Object element) {
-        if (!(element instanceof AesiStructureSymbol))
+        if (!(element instanceof AesiStructureNode))
             return null;
-        AesiStructureSymbol symbol = (AesiStructureSymbol)element;
-        return symbol.getParent();
+        AesiStructureNode node = (AesiStructureNode)element;
+        return node.getParent();
     }
 
     @Override
     public boolean hasChildren(Object element) {
-        if (!(element instanceof AesiStructureSymbol))
+        if (!(element instanceof AesiStructureNode))
             return false;
-        AesiStructureSymbol symbol = (AesiStructureSymbol)element;
-        return this.structureOutliner.hasChildren(symbol.getDocument(), symbol.getSymbol(), null);
+        AesiStructureNode node = (AesiStructureNode)element;
+        @Nullable Boolean b = this.structureOutliner.hasChildren(node.getProject(), node.getDocument(), node.getNode());
+        return b == null || b;
     }
 
     @Override
@@ -73,7 +84,7 @@ public class AesiContentProvider implements ITreeContentProvider {//implements I
     @Override
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
         if (oldInput != null) {
-			IDocument document = this.documentProvider.getDocument(oldInput);
+            org.eclipse.jface.text.IDocument document = this.documentProvider.getDocument(oldInput);
 			if (document != null) {
 				try {
 					document.removePositionCategory(SEGMENTS);
@@ -87,7 +98,7 @@ public class AesiContentProvider implements ITreeContentProvider {//implements I
         // Content.
 	
 		if (newInput != null) {
-			IDocument document= this.documentProvider.getDocument(newInput);
+            org.eclipse.jface.text.IDocument document = this.documentProvider.getDocument(newInput);
 			if (document != null) {
 				document.addPositionCategory(SEGMENTS);
 				document.addPositionUpdater(this.positionUpdater);

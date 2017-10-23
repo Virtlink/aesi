@@ -20,11 +20,11 @@
     </parent>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
 		    <groupId>com.virtlink</groupId>
 		    <artifactId>aesi</artifactId>
 		    <version>${project.version}</version>
-		</dependency>
+		</dependency>-->
         <dependency>
 		    <groupId>org.jetbrains.kotlin</groupId>
 		    <artifactId>kotlin-stdlib</artifactId>

@@ -18,10 +18,16 @@ public abstract class AesiEditor extends TextEditor {
 
 	private ColorManager colorManager;
 	@Nullable private AesiOutlinePage outlinePage;
+	private final IOutlinePageFactory outlinePageFactory;
 
-	public AesiEditor(ColorManager colorManager, AesiSourceViewerConfiguration sourceViewerConfiguration) {
+	public AesiEditor(
+			ColorManager colorManager,
+			AesiSourceViewerConfiguration sourceViewerConfiguration,
+			IOutlinePageFactory outlinePageFactory
+	) {
 		super();
 		this.colorManager = colorManager;
+		this.outlinePageFactory = outlinePageFactory;
 
 		setSourceViewerConfiguration(sourceViewerConfiguration);
 //		this.colorManager = new ColorManager();
@@ -36,7 +42,7 @@ public abstract class AesiEditor extends TextEditor {
 			return super.getAdapter(requested);
 
 		if (this.outlinePage == null) {
-			this.outlinePage = new AesiOutlinePage(this.getDocumentProvider(), this);
+			this.outlinePage = outlinePageFactory.create(this.getDocumentProvider(), this);
 			@Nullable IEditorInput input = this.getEditorInput();
 			if (input != null)
 				this.outlinePage.setInput(input);

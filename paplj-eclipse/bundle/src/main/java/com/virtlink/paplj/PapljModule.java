@@ -12,6 +12,7 @@ public class PapljModule extends AesiModule {
 	@Override
 	protected void bindCodeCompletion() {
 		bind(ICodeCompleter.class).to(DummyCodeCompleter.class);
+		// TODO: Add other dependencies
 		super.bindCodeCompletion();
 	}
 }

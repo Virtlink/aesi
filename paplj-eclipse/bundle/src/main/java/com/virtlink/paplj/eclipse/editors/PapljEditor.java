@@ -10,7 +10,9 @@ public class PapljEditor extends AesiEditor {
 	public PapljEditor() {
 		super(
 				PapljPlugin.getInjector().getInstance(ColorManager.class),
-				PapljPlugin.getInjector().getInstance(AesiSourceViewerConfiguration.class));
+				PapljPlugin.getInjector().getInstance(AesiSourceViewerConfiguration.class),
+				PapljPlugin.getInjector().getInstance(IOutlinePageFactory.class)
+		);
 	}
 
 }

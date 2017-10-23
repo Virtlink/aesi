@@ -11,7 +11,7 @@ import com.virtlink.editorservices.Span
 interface ISyntaxColoringService {
 
     /**
-     * Colorizes (part of) a document.
+     * Colors (part of) a document.
      *
      * @param project The project that contains the document.
      * @param document The document to color.
@@ -19,7 +19,7 @@ interface ISyntaxColoringService {
      * @param cancellationToken The cancellation token; or `null` when not supported.
      * @return A list of tokens.
      */
-    fun highlight(
+    fun getTokens(
             project: IProject,
             document: IDocument,
             span: Span,

@@ -1,0 +1,5 @@
+rootProject.name = 'aesi-eclipse-deps'
+
+include ":aesi"
+
+project(":aesi").projectDir = file("../aesi")

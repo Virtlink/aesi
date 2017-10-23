@@ -2,22 +2,23 @@ package com.virtlink.aesi.eclipse.editors;
 
 import java.util.List;
 
-import com.virtlink.aesi.Span;
+import com.google.inject.Inject;
 import com.virtlink.aesi.eclipse.logging.LoggerFactory;
+import com.virtlink.editorservices.IDocument;
+import com.virtlink.editorservices.IProject;
+import com.virtlink.editorservices.Offset;
+import com.virtlink.editorservices.Span;
+import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.jface.text.rules.ITokenScanner;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.swt.graphics.RGB;
 
-import com.virtlink.aesi.Span2;
 import com.virtlink.aesi.eclipse.AesiPlugin;
-import com.virtlink.aesi.eclipse.AesiUtils;
-import com.virtlink.aesi.syntaxhighlighting.DummySyntaxColorizer;
-import com.virtlink.aesi.syntaxhighlighting.ISyntaxColorizer;
-import com.virtlink.aesi.syntaxhighlighting.IToken;
+import com.virtlink.editorservices.syntaxcoloring.IToken;
 import org.slf4j.Logger;
 
-import static com.virtlink.aesi.eclipse.AesiUtils.*;
+import javax.annotation.Nullable;
 
 public class AesiSourceScanner implements ITokenScanner {
 
@@ -25,7 +26,7 @@ public class AesiSourceScanner implements ITokenScanner {
 	private static final ILog log2 = AesiPlugin.getDefault().getLog();
 
 	private final ColorManager colorManager = new ColorManager();
-	private final ISyntaxColorizer colorizer = new DummySyntaxColorizer();
+	private final ISyntaxColoringService colorizer;
 	
 	private final TextStyle style1 = new TextStyle(new RGB(0, 0, 255));
 	private final org.eclipse.jface.text.rules.IToken style1Token;
@@ -40,8 +41,11 @@ public class AesiSourceScanner implements ITokenScanner {
 	private int currentTokenStart;
 	private int currentTokenEnd;
 	private org.eclipse.jface.text.rules.IToken currentToken;
-	
-	public AesiSourceScanner() {
+
+	@Inject
+	public AesiSourceScanner(ISyntaxColoringService colorizer) {
+		this.colorizer = colorizer;
+
 		style1Token = new Token(style1.createTextAttribute(this.colorManager));
 		style2Token = new Token(style2.createTextAttribute(this.colorManager));
 	}
@@ -58,9 +62,11 @@ public class AesiSourceScanner implements ITokenScanner {
 		this.bufferEnd = offset + length;
 		
 		// TODO: Determine AESI project and AESI document.
+		IProject project = null;
+		IDocument document2 = null;
 //		Span2 span = new Span2(AesiUtils.offsetToLocation(document, offset), AesiUtils.offsetToLocation(document, offset + length));
-		Span span = Span.of(offset, length);
-		this.aesiTokens = colorizer.colorize(null, null, span, null);
+		Span span = new Span(new Offset(this.bufferStart), new Offset(this.bufferEnd));
+		this.aesiTokens = colorizer.getTokens(project, document2, span, null);
 		this.currentAesiTokenIndex = 0;
 		this.currentTokenStart = offset;
 		this.currentTokenEnd = offset;
@@ -93,12 +99,12 @@ public class AesiSourceScanner implements ITokenScanner {
         IToken currentAesiToken = tryGetToken(this.currentAesiTokenIndex);
         int currentAesiTokenOffset;
         if (currentAesiToken != null) {
-        	currentAesiTokenOffset = currentAesiToken.getLocation().getStartOffset();
+        	currentAesiTokenOffset = currentAesiToken.getLocation().getStart().getValue();
         } else {
         	currentAesiTokenOffset = this.bufferEnd;
         }
 
-		log.debug("token [{}] @ {} = {}", this.currentAesiTokenIndex, currentAesiTokenOffset, currentAesiToken != null ? currentAesiToken.getScope() : "-");
+		log.debug("token [{}] @ {} = {}", this.currentAesiTokenIndex, currentAesiTokenOffset, currentAesiToken != null ? currentAesiToken.getName() : "-");
         
         if (currentAesiTokenOffset > this.currentTokenStart) {
             // Either there is no new Aesi token, or the new current Aesi token's start offset
@@ -112,7 +118,7 @@ public class AesiSourceScanner implements ITokenScanner {
         } else if (currentAesiToken != null){
             // The new current Aesi token starts right at the current token offset,
             // so we produce a corresponding IntelliJ token type to represent it.
-            this.currentTokenEnd = Integer.min(currentAesiToken.getLocation().getEndOffset(), this.bufferEnd);
+            this.currentTokenEnd = Integer.min(currentAesiToken.getLocation().getEnd().getValue(), this.bufferEnd);
             this.currentToken = createToken(currentAesiToken);
 			log.debug("> new     token @ {}-{}", this.currentTokenStart, this.currentTokenEnd);
 
@@ -125,7 +131,7 @@ public class AesiSourceScanner implements ITokenScanner {
     private void advanceAesiTokensUntil(int offset) {
         while (this.currentAesiTokenIndex >= 0
                 && this.currentAesiTokenIndex < this.aesiTokens.size()
-                && this.aesiTokens.get(this.currentAesiTokenIndex).getLocation().getStartOffset() < offset)
+                && this.aesiTokens.get(this.currentAesiTokenIndex).getLocation().getStart().getValue() < offset)
         {
             this.currentAesiTokenIndex += 1;
         }
@@ -133,7 +139,8 @@ public class AesiSourceScanner implements ITokenScanner {
         // or the start offset of the `aesiTokens[currentAesiTokenIndex]`
         // is equal to or greater than the desired offset.
     }
-    
+
+    @Nullable
     private IToken tryGetToken(int index) {
         if (index >= 0 && index < this.aesiTokens.size())
             return this.aesiTokens.get(index);

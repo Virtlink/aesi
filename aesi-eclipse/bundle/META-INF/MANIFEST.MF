@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface.text,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
- aesi-eclipse.externaldeps
+ aesi-eclipse-deps
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: com.virtlink.aesi,
@@ -36,7 +36,7 @@ Export-Package: com.virtlink.aesi,
  com.virtlink.editorservices.eclipse
 Bundle-Vendor: Virtlink
 Eclipse-RegisterBuddy: 
- aesi-eclipse.externaldeps
+ aesi-eclipse-deps
 Import-Package: javax.annotation,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,

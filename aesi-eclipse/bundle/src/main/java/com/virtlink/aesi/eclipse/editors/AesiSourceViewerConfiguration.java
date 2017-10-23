@@ -1,38 +1,41 @@
 package com.virtlink.aesi.eclipse.editors;
 
 import com.google.inject.Inject;
-import com.virtlink.aesi.eclipse.AesiPlugin;
-import com.virtlink.aesi.eclipse.codecompletion.AesiCompletionProcessor;
-import com.virtlink.aesi.eclipse.syntaxcoloring.AsyncPresentationReconciler;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
-import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
-import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
+
+import javax.annotation.Nullable;
 
 /**
  * The AESI source viewer configuration.
  */
 public class AesiSourceViewerConfiguration extends TextSourceViewerConfiguration {
-	private XMLDoubleClickStrategy doubleClickStrategy;
+
+	@Nullable private XMLDoubleClickStrategy doubleClickStrategy;
 //	private XMLTagScanner tagScanner;
 //	private XMLScanner scanner;
 	private AesiSourceScanner scanner;
 	private final ColorManager colorManager;
+	private final ISourceScannerFactory sourceScannerFactory;
 	private final IContentAssistProcessorFactory contentAssistProcessorFactory;
 
 	@Inject
-	public AesiSourceViewerConfiguration(ColorManager colorManager, IContentAssistProcessorFactory contentAssistProcessorFactory) {
+	public AesiSourceViewerConfiguration(
+			ISourceScannerFactory sourceScannerFactory,
+			ColorManager colorManager,
+			IContentAssistProcessorFactory contentAssistProcessorFactory
+	) {
 		this.colorManager = colorManager;
 		this.contentAssistProcessorFactory = contentAssistProcessorFactory;
+		this.sourceScannerFactory = sourceScannerFactory;
 	}
 
 //	@Override
@@ -54,7 +57,7 @@ public class AesiSourceViewerConfiguration extends TextSourceViewerConfiguration
 	
 	protected AesiSourceScanner getScanner() {
 		if (scanner == null) {
-			scanner = new AesiSourceScanner();
+			scanner = this.sourceScannerFactory.create();
 		}
 		return scanner;
 	}

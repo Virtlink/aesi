@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.virtlink</groupId>
-            <artifactId>paplj-eclipse.externaldeps</artifactId>
+            <artifactId>paplj-eclipse-deps</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

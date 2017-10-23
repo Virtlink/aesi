@@ -1,5 +1,9 @@
 package com.virtlink.editorservices.eclipse;
 
+import com.virtlink.aesi.eclipse.editors.*;
+import com.virtlink.aesi.eclipse.structureoutline.AesiContentProvider;
+import com.virtlink.aesi.eclipse.structureoutline.AesiOutlinePage;
+import com.virtlink.aesi.eclipse.structureoutline.IContentProviderFactory;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 
 import com.google.inject.AbstractModule;
@@ -8,9 +12,6 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.virtlink.aesi.eclipse.DocumentManager;
 import com.virtlink.aesi.eclipse.ProjectManager;
 import com.virtlink.aesi.eclipse.codecompletion.AesiCompletionProcessor;
-import com.virtlink.aesi.eclipse.editors.AesiSourceViewerConfiguration;
-import com.virtlink.aesi.eclipse.editors.ColorManager;
-import com.virtlink.aesi.eclipse.editors.IContentAssistProcessorFactory;
 
 public class AesiModule extends AbstractModule {
 
@@ -25,6 +26,18 @@ public class AesiModule extends AbstractModule {
 		install(new FactoryModuleBuilder()
 				.implement(IContentAssistProcessor.class, AesiCompletionProcessor.class)
 				.build(IContentAssistProcessorFactory.class));
+		install(new FactoryModuleBuilder()
+				.implement(AesiSourceScanner.class, AesiSourceScanner.class)
+				.build(ISourceScannerFactory.class));
+		install(new FactoryModuleBuilder()
+				.implement(AesiContentProvider.class, AesiContentProvider.class)
+				.build(IContentProviderFactory.class));
+		install(new FactoryModuleBuilder()
+				.implement(AesiOutlinePage.class, AesiOutlinePage.class)
+				.build(IOutlinePageFactory.class));
+
+
+
 		bind(ColorManager.class).toInstance(new ColorManager());
 		bind(AesiSourceViewerConfiguration.class);
 	}
