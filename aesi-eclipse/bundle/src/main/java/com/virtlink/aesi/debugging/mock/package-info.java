@@ -1,4 +1,4 @@
 @NonNullByDefault
 package com.virtlink.aesi.debugging.mock;
 
-import com.virtlink.aesi.NonNullByDefault;
+import com.virtlink.editorservices.eclipse.NonNullByDefault;

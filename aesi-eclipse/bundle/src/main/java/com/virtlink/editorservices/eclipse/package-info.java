@@ -1,4 +1,4 @@
 @NonNullByDefault
-package com.virtlink.aesi.eclipse.logging;
+package com.virtlink.editorservices.eclipse;
 
 import com.virtlink.editorservices.eclipse.NonNullByDefault;

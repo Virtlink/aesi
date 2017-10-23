@@ -1,4 +1,4 @@
-package com.virtlink.aesi;
+package com.virtlink.editorservices.eclipse;
 
 import javax.annotation.Nonnull;
 import javax.annotation.meta.TypeQualifierDefault;
