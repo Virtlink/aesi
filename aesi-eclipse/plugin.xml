@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            file-extensions="pj"
+            base-type="org.eclipse.core.runtime.text"
+            name="com.virtlink.editorservices.eclipse.pj"
+            id="com.virtlink.editorservices.eclipse.pj">
+      </content-type>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editorContentTypeBinding
+            contentTypeId="com.virtlink.editorservices.eclipse.pj"
+            editorId="org.eclipse.ui.genericeditor.GenericEditor">
+      </editorContentTypeBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.genericeditor.presentationReconcilers">
+      <presentationReconciler
+            class="com.virtlink.editorservices.eclipse.PjReconciler"
+            contentType="com.virtlink.editorservices.eclipse.pj">
+      </presentationReconciler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.genericeditor.hoverProviders">
+      <hoverProvider
+            class="com.virtlink.editorservices.eclipse.PjHoverProvider"
+            contentType="com.virtlink.editorservices.eclipse.pj">
+      </hoverProvider>
+   </extension>
+   <extension
+         point="org.eclipse.ui.genericeditor.contentAssistProcessors">
+      <contentAssistProcessor
+            class="com.virtlink.editorservices.eclipse.PjContentAssistProcessor"
+            contentType="com.virtlink.editorservices.eclipse.pj">
+      </contentAssistProcessor>
+   </extension>
+   <extension
+         point="org.eclipse.core.filebuffers.documentSetup">
+      <participant
+            contentTypeId="com.virtlink.editorservices.eclipse.pj"
+            extensions="pj"
+            class="com.virtlink.editorservices.eclipse.ValidatorDocumentSetupParticipant">
+      </participant>
+   </extension>
+
+</plugin>
