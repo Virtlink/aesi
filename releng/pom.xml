@@ -97,8 +97,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>${java-version}</source>
-                    <target>${java-version}</target>
+                    <source>${java_version}</source>
+                    <target>${java_version}</target>
                 </configuration>
             </plugin>
             <plugin>
