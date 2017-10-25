@@ -21,7 +21,7 @@
    <extension
          point="org.eclipse.ui.genericeditor.presentationReconcilers">
       <presentationReconciler
-            class="com.virtlink.editorservices.PjReconciler"
+            class="com.virtlink.editorservices.eclipse.syntaxcoloring.AesiReconciler"
             contentType="com.virtlink.editorservices.pj">
       </presentationReconciler>
    </extension>

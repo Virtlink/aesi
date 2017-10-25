@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: aesi-eclipse
 Bundle-SymbolicName: aesi-eclipse;singleton:=true
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: com.virtlink.editorservices.Activator
+Bundle-Activator: com.virtlink.editorservices.eclipse.AesiPlugin
 Bundle-Vendor: Virtlink
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.filesystem,

@@ -1,26 +1,27 @@
-package com.virtlink.editorservices;
+package com.virtlink.editorservices.eclipse;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.virtlink.Hello;
+import javax.annotation.Nullable;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class AesiPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "aesi-eclipse"; //$NON-NLS-1$
 
 	// The shared instance
-	private static Activator plugin;
+	@Nullable
+	private static AesiPlugin plugin;
 	
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public AesiPlugin() {
 	}
 
 	/*
@@ -46,7 +47,7 @@ public class Activator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static AesiPlugin getDefault() {
 		return plugin;
 	}
 
