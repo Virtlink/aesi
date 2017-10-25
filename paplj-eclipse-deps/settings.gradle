@@ -1,7 +1,0 @@
-rootProject.name = 'paplj-eclipse-deps'
-
-include ":paplj", ":aesi-utils", ":aesi"
-
-project(":paplj").projectDir = file("../paplj")
-project(":aesi-utils").projectDir = file("../aesi-utils")
-project(":aesi").projectDir = file("../aesi")

@@ -1,0 +1,6 @@
+rootProject.name = 'aesi-utils'
+
+boolean inComposite = gradle.parent != null
+if (!inComposite) {
+    includeBuild '../aesi'
+}

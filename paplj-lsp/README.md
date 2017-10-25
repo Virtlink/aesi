@@ -1,5 +1,5 @@
 # PAPLJ for LSP
-PAPLJ language implementation for LSP.
+Language Server for the PAPLJ language.
 
 ## Development
 Import `settings.gradle` in your IDE (e.g. IntelliJ) and open the `paplj-vscode`

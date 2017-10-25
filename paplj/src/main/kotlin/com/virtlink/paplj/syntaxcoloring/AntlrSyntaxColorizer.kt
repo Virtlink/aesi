@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.ANTLRInputStream
 class AntlrSyntaxColorizer @Inject constructor(
         private val contentManager: IContentManager)
     : ISyntaxColoringService {
-    override fun highlight(project: IProject, document: IDocument, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
+    override fun getTokens(project: IProject, document: IDocument, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
         val tokens = mutableListOf<IToken>()
 
         val content = this.contentManager.getLatestContent(document)

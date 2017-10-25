@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>aesi-eclipse.externaldeps</artifactId>
+    <packaging>bundle</packaging>
+
+    <properties>
+        <forceContextQualifier>qualifier</forceContextQualifier>
+    </properties>
+
+    <parent>
+        <groupId>com.virtlink</groupId>
+        <artifactId>aesi.externaldeps.configuration.parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../releng/externaldeps/</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>aesi</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
+        <dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>aesi-utils</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
+        <!-- aesi - transitive dependencies -->
+        <dependency>
+		    <groupId>org.jetbrains.kotlin</groupId>
+		    <artifactId>kotlin-stdlib</artifactId>
+		    <version>${kotlin-version}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-version}</version>
+        </dependency>
+        <!-- aesi-utils - transitive dependencies -->
+		<dependency>
+		    <groupId>com.google.inject</groupId>
+		    <artifactId>guice</artifactId>
+		    <version>${guice-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.inject.extensions</groupId>
+		    <artifactId>guice-assistedinject</artifactId>
+		    <version>${guice-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.inject.extensions</groupId>
+		    <artifactId>guice-multibindings</artifactId>
+		    <version>${guice-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>19.0</version>
+		</dependency>
+        <!-- misc dependencies -->
+        <dependency>
+		    <groupId>com.google.code.findbugs</groupId>
+		    <artifactId>jsr305</artifactId>
+		    <version>3.0.2</version>
+		</dependency>
+        <dependency>
+		    <groupId>org.jetbrains</groupId>
+		    <artifactId>annotations</artifactId>
+		    <version>13.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>aopalliance</groupId>
+		    <artifactId>aopalliance</artifactId>
+		    <version>1.0</version>
+		</dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Embed-Dependency>
+                            aesi,
+                            aesi-utils,
+                            kotlin-stdlib,
+                            slf4j-api,
+                            guice,
+                            guice-assistedinject,
+                            guice-multibindings,
+                            guava,
+                            jsr305,
+                            annotations,
+                            aopalliance
+                        </Embed-Dependency>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

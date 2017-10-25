@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>paplj-eclipse</artifactId>
+    <packaging>eclipse-plugin</packaging>
+
+    <parent>
+        <groupId>com.virtlink</groupId>
+        <artifactId>aesi.plugin.configuration.parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../releng/plugin/</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>aesi-eclipse</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>paplj-eclipse.externaldeps</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <configuration>
+                    <outputDir>${project.basedir}/../../docs/</outputDir>
+        
+                    <sourceLinks>
+                        <link>
+                            <dir>${project.basedir}/src/main/kotlin</dir>
+                            <url>https://github.com/Virtlink/aesi/tree/master/paplj-eclipse/bundles/paplj-eclipse/src/main/kotlin</url>
+                            <urlSuffix>#L</urlSuffix>
+                        </link>
+                    </sourceLinks>
+        
+                    <externalDocumentationLinks>
+                        <link>
+                            <url>https://virtlink.com/aesi/paplj-java/</url>
+                            <packageListUrl>https://raw.githubusercontent.com/Virtlink/aesi/master/docs/paplj-java/package-list</packageListUrl>
+                        </link>
+                    </externalDocumentationLinks>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

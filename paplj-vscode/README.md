@@ -1,4 +1,6 @@
-# VS Code Extension
+# PAPLJ for VS Code
+VS Code plugin for the PAPLJ language.
+
 
 ## Requirements
 - [VS Code](https://code.visualstudio.com/)

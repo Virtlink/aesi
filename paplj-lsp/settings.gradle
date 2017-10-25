@@ -1,8 +1,11 @@
 rootProject.name = 'paplj-lsp'
 
-include ":aesi-lsp", ":paplj", ":aesi-utils", ":aesi"
-
-project(":aesi-lsp").projectDir = file("../aesi-lsp")
-project(":paplj").projectDir = file("../paplj")
-project(":aesi-utils").projectDir = file("../aesi-utils")
-project(":aesi").projectDir = file("../aesi")
+// Nested composite builds are not (yet) supported.
+// Workaround: only the top-level build is a true composite build,
+// and it must include its sub-builds _and_ their transitive build dependencies.
+if (gradle.parent == null) {
+    includeBuild '../aesi'
+    includeBuild '../aesi-utils'
+    includeBuild '../aesi-lsp'
+    includeBuild '../paplj'
+}

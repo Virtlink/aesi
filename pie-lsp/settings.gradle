@@ -1,8 +1,11 @@
 rootProject.name = 'pie-lsp'
 
-include ":aesi-lsp", ":aesi-pie", ":aesi-utils", ":aesi"
-
-project(":aesi-utils").projectDir = file("../aesi-utils")
-project(":aesi-lsp").projectDir = file("../aesi-lsp")
-project(":aesi-pie").projectDir = file("../aesi-pie")
-project(":aesi").projectDir = file("../aesi")
+// Nested composite builds are not (yet) supported.
+// Workaround: only the top-level build is a true composite build,
+// and it must include its sub-builds _and_ their transitive build dependencies.
+if (gradle.parent == null) {
+    includeBuild '../aesi'
+    includeBuild '../aesi-utils'
+    includeBuild '../aesi-lsp'
+    includeBuild '../pie'
+}

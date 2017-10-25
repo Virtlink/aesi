@@ -1,9 +1,32 @@
-// Non-standalone build, part of:
-// * paplj-intellij
+////////////////////////////////////////////////////////////////////////////////
+buildscript {
+    file("../releng/shared.properties").withInputStream { stream ->
+        def userProps = new Properties()
+        userProps.load(stream)
+        userProps.each { key, val ->
+            if (!project.hasProperty(key)) {
+                    project.ext.set(key, val);
+            }
+        }
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+        classpath "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:$intellij_plugin_version"
+    }
+}
+apply from: "../releng/shared.gradle"
+////////////////////////////////////////////////////////////////////////////////
 
 dependencies {
-    compile project(":aesi")
-    compile project(":aesi-utils")
+    compile "$project.group:aesi:$project.version"
+    compile "$project.group:aesi-utils:$project.version"
 
     compile "com.google.inject:guice:$guice_version"
     compile "com.google.inject.extensions:guice-assistedinject:$guice_version"

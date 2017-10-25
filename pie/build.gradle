@@ -25,19 +25,11 @@ apply from: "../releng/shared.gradle"
 ////////////////////////////////////////////////////////////////////////////////
 
 dependencies {
-    compile "$project.group:aesi-paplj:$project.version"
-    compile "$project.group:aesi-intellij:$project.version"
+    compile "$project.group:aesi:$project.version"
+    compile "$project.group:aesi-utils:$project.version"
 
-    compile "com.google.inject:guice:$guice_version"
-    compile "com.google.inject.extensions:guice-assistedinject:$guice_version"
-    compile "com.google.inject.extensions:guice-multibindings:$guice_version"
-}
-
-apply plugin: 'org.jetbrains.intellij'
-
-intellij {
-    version idea_version
-    downloadSources Boolean.valueOf(downloadIdeaSources)
-    updateSinceUntilBuild = false
-    instrumentCode = false
+    compile "org.metaborg:pie.runtime.core:$pie_version"
+    compile "org.metaborg:pie.runtime.builtin:$pie_version"
+    compile "org.metaborg:log:$metaborg_version"
+    compile "org.metaborg:vfs:$metaborg_version"
 }

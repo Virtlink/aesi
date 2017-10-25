@@ -46,7 +46,7 @@ class AesiLexer @Inject constructor(
             LOG.debug("Buffer is empty.")
             this.tokens = emptyList()
         } else {
-            val highlighterTokens = this.colorer.highlight(
+            val highlighterTokens = this.colorer.getTokens(
                     this.project,
                     this.document,
                     Span(Offset(startOffset), Offset(endOffset)),

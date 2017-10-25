@@ -1,5 +1,4 @@
-// Standalone build
-
+////////////////////////////////////////////////////////////////////////////////
 buildscript {
     file("../releng/shared.properties").withInputStream { stream ->
         def userProps = new Properties()
@@ -14,22 +13,24 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+        classpath "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:$intellij_plugin_version"
     }
 }
-
 apply from: "../releng/shared.gradle"
+////////////////////////////////////////////////////////////////////////////////
 
 apply plugin: 'application'
 mainClassName = 'com.virtlink.pie.lsp.ProgramKt'
 defaultTasks 'run'
 
 dependencies {
-    compile project(":aesi-pie")
-    compile project(":aesi-lsp")
+    compile "$project.group:aesi-pie:$project.version"
+    compile "$project.group:aesi-lsp:$project.version"
 
     compile "com.google.inject:guice:$guice_version"
     compile "com.google.inject.extensions:guice-assistedinject:$guice_version"

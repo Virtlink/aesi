@@ -15,6 +15,9 @@ class DummyStructureOutliner: IStructureOutlineService {
     override fun getChildNodes(project: IProject, document: IDocument, node: IStructureTreeNode, cancellationToken: ICancellationToken?): List<IStructureTreeNode>
             = (node as Node).children
 
+    override fun hasChildren(project: IProject, document: IDocument, node: IStructureTreeNode)
+            = null
+
     private val rootSymbol: Node = Node(Symbol(label="root", kind="constant"), listOf(
             Node(Symbol(label="file1", kind="file"), listOf(
                     Node(Symbol(label="myClass0", kind="class"), listOf(
