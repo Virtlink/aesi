@@ -23,40 +23,36 @@
         </repository>
     </repositories>
 
-    <!--<dependencies>
-        <dependency>
-            <groupId>com.virtlink</groupId>
-            <artifactId>aesi-eclipse.externaldeps</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>-->
+    <properties>
+        <forceContextQualifier>qualifier</forceContextQualifier>
+    </properties>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-maven-plugin</artifactId>
-                <version>${tycho-version}</version>
+                <version>${tycho_version}</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-compiler-plugin</artifactId>
-                <version>${tycho-version}</version>
+                <version>${tycho_version}</version>
                 <configuration>
                     <useProjectSettings>false</useProjectSettings>
                     <strictCompilerTarget>true</strictCompilerTarget>
                     <compilerArgument>-warn:-discouraged,forbidden,deprication,raw,unchecked,typeHiding,serial,unusedImport</compilerArgument>
                     <compilerArgument>-err:-forbidden</compilerArgument>
-                    <source>${java-version}</source>
-                    <target>${java-version}</target>
+                    <source>${java_version}</source>
+                    <target>${java_version}</target>
                     <debug>true</debug>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-packaging-plugin</artifactId>
-                <version>${tycho-version}</version>
+                <version>${tycho_version}</version>
                 <configuration>
                     <strictBinIncludes>false</strictBinIncludes>
                     <strictVersions>false</strictVersions>
@@ -66,7 +62,7 @@
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-surefire-plugin</artifactId>
-                <version>${tycho-version}</version>
+                <version>${tycho_version}</version>
                 <configuration>
                     <useUIHarness>true</useUIHarness>
                     <useUIThread>true</useUIThread>
@@ -77,11 +73,11 @@
             <plugin>
                 <groupId>org.eclipse.tycho</groupId>
                 <artifactId>target-platform-configuration</artifactId>
-                <version>${tycho-version}</version>
+                <version>${tycho_version}</version>
                 <configuration>
                     <includePackedArtifacts>true</includePackedArtifacts>
                     <pomDependencies>consider</pomDependencies>
-                    <executionEnvironmentDefault>JavaSE-${java-version}</executionEnvironmentDefault>
+                    <executionEnvironmentDefault>JavaSE-${java_version}</executionEnvironmentDefault>
                     <resolver>p2</resolver>
                     <environments>
                         <environment>
@@ -110,13 +106,6 @@
                             <arch>x86_64</arch>
                         </environment>
                     </environments>
-                    <!-- <target>
-                        <artifact>
-                            <groupId>com.virtlink</groupId>
-                            <artifactId>aesi-eclipse.externaldeps</artifactId>
-                            <version>${project.version}</version>
-                        </artifact>
-                    </target> -->
                 </configuration>
             </plugin>
         </plugins>

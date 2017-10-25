@@ -39,18 +39,22 @@
     </scm>
 
     <properties>
-        <tycho-version>1.0.0</tycho-version>
-        <tycho-extras-version>1.0.0</tycho-extras-version>
-        <java-version>1.8</java-version>
-        <slf4j-version>1.7.25</slf4j-version>
-        <dokka-version>0.9.15</dokka-version>
-        <kotlin-version>1.1.4-3</kotlin-version>
-        <guice-version>4.1.0</guice-version>
+        <!-- Keep this synchronized with shared.properties -->
+        <kotlin_version>1.1.51</kotlin_version>
+        <dokka_version>0.9.15</dokka_version>
+        <java_version>1.8</java_version>
+        <guava_version>23.2-jre</guava_version>
+        <guice_version>4.1.0</guice_version>
+        <slf4j_version>1.7.25</slf4j_version>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <tycho_version>1.0.0</tycho_version>
+        <tycho-extras_version>1.0.0</tycho-extras_version>
 
         <forceContextQualifier>qualifier</forceContextQualifier>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <test-workspace-location>${project.build.directory}/work</test-workspace-location>
-        <platform-repository-url>http://download.eclipse.org/releases/juno/</platform-repository-url>
+        <platform-repository-url>http://download.eclipse.org/releases/oxygen/</platform-repository-url>
     </properties>
 
     <profiles>
@@ -100,7 +104,7 @@
             <plugin>
                 <groupId>org.jetbrains.dokka</groupId>
                 <artifactId>dokka-maven-plugin</artifactId>
-                <version>${dokka-version}</version>
+                <version>${dokka_version}</version>
                 <executions>
                     <execution>
                         <phase>pre-site</phase>

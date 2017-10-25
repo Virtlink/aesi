@@ -7,10 +7,6 @@
     <artifactId>aesi-eclipse.externaldeps</artifactId>
     <packaging>bundle</packaging>
 
-    <properties>
-        <forceContextQualifier>qualifier</forceContextQualifier>
-    </properties>
-
     <parent>
         <groupId>com.virtlink</groupId>
         <artifactId>aesi.externaldeps.configuration.parent</artifactId>
@@ -33,33 +29,33 @@
         <dependency>
 		    <groupId>org.jetbrains.kotlin</groupId>
 		    <artifactId>kotlin-stdlib</artifactId>
-		    <version>${kotlin-version}</version>
+		    <version>${kotlin_version}</version>
 		</dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j-version}</version>
+            <version>${slf4j_version}</version>
         </dependency>
         <!-- aesi-utils - transitive dependencies -->
 		<dependency>
 		    <groupId>com.google.inject</groupId>
 		    <artifactId>guice</artifactId>
-		    <version>${guice-version}</version>
+		    <version>${guice_version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.google.inject.extensions</groupId>
 		    <artifactId>guice-assistedinject</artifactId>
-		    <version>${guice-version}</version>
+		    <version>${guice_version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.google.inject.extensions</groupId>
 		    <artifactId>guice-multibindings</artifactId>
-		    <version>${guice-version}</version>
+		    <version>${guice_version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
-		    <version>19.0</version>
+		    <version>${guava_version}</version>
 		</dependency>
         <!-- misc dependencies -->
         <dependency>

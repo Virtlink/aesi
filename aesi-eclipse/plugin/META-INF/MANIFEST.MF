@@ -1,49 +1,27 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: AESI Adapter for Eclipse
+Bundle-Name: aesi-eclipse
 Bundle-SymbolicName: aesi-eclipse;singleton:=true
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: com.virtlink.aesi.eclipse.AesiPlugin
+Bundle-Activator: com.virtlink.editorservices.Activator
+Bundle-Vendor: Virtlink
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.filesystem,
+ org.eclipse.core.filebuffers,
  org.eclipse.core.resources,
  org.eclipse.ui,
  org.eclipse.ui.workbench,
  org.eclipse.ui.ide,
  org.eclipse.ui.console,
  org.eclipse.ui.editors,
+ org.eclipse.ui.genericeditor,
  org.eclipse.ui.views,
  org.eclipse.jface.text,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
  aesi-eclipse.externaldeps
+Export-Package: com.virtlink.editorservices
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: com.virtlink.aesi,
- com.virtlink.aesi.codecompletion,
- com.virtlink.aesi.debugging,
- com.virtlink.aesi.structureoutline,
- com.virtlink.aesi.syntaxhighlighting,
- com.virtlink.aesi.eclipse,
- com.virtlink.aesi.eclipse.codecompletion,
- com.virtlink.aesi.eclipse.debugging,
- com.virtlink.aesi.eclipse.editors,
- com.virtlink.aesi.eclipse.launching,
- com.virtlink.aesi.eclipse.logging,
- com.virtlink.aesi.eclipse.quickassist,
- com.virtlink.aesi.eclipse.structureoutline,
- com.virtlink.aesi.eclipse.syntaxcoloring,
- com.virtlink.editorservices.eclipse
-Bundle-Vendor: Virtlink
 Eclipse-RegisterBuddy: 
- aesi-eclipse-deps
-Import-Package: javax.annotation,
- org.eclipse.core.resources,
- org.eclipse.core.runtime,
- org.eclipse.debug.core,
- org.eclipse.debug.ui,
- org.eclipse.jface,
- org.eclipse.ui,
- org.eclipse.ui.texteditor,
- org.osgi.framework
-
+ aesi-eclipse.externaldeps
