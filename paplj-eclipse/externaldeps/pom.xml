@@ -21,8 +21,14 @@
     <dependencies>
         <dependency>
 		    <groupId>${project.groupId}</groupId>
-		    <artifactId>paplj</artifactId>
+		    <artifactId>aesi-paplj</artifactId>
 		    <version>${project.version}</version>
+		</dependency>
+        <!-- aesi-paplj - transitive dependencies -->
+        <dependency>
+		    <groupId>org.antlr</groupId>
+		    <artifactId>antlr4-runtime</artifactId>
+		    <version>${antlr_version}</version>
 		</dependency>
     </dependencies>
 
@@ -34,7 +40,8 @@
                 <configuration>
                     <instructions>
                         <Embed-Dependency>
-                            paplj
+                            aesi-paplj,
+                            antlr4-runtime
                         </Embed-Dependency>
                     </instructions>
                 </configuration>

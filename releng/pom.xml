@@ -46,6 +46,7 @@
         <guava_version>23.2-jre</guava_version>
         <guice_version>4.1.0</guice_version>
         <slf4j_version>1.7.25</slf4j_version>
+        <antlr_version>4.5.3</antlr_version>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - -->
 
         <tycho_version>1.0.0</tycho_version>

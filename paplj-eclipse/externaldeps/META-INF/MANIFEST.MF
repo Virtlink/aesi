@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1507623307183
+Bnd-LastModified: 1509017088631
 Build-Jdk: 1.8.0_144
 Built-By: daniel
-Bundle-ClassPath: .,paplj-0.0.1-SNAPSHOT.jar
+Bundle-ClassPath: .,aesi-paplj-0.0.1-SNAPSHOT.jar,antlr4-runtime-4.5.3.j
+ ar
 Bundle-DocURL: http://www.ewi.tudelft.nl/en
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ManifestVersion: 2
@@ -12,14 +13,24 @@ Bundle-Vendor: Delft University of Technology
 Bundle-Version: 0.0.1.qualifier
 Created-By: Apache Maven Bundle Plugin
 Eclipse-BuddyPolicy: registered
-Embed-Dependency: paplj
-Embedded-Artifacts: paplj-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="paplj";
- v="0.0.1-SNAPSHOT"
+Embed-Dependency: aesi-paplj,antlr4-runtime
+Embed-Transitive: true
+Embedded-Artifacts: aesi-paplj-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="ae
+ si-paplj";v="0.0.1-SNAPSHOT",antlr4-runtime-4.5.3.jar;g="org.antlr";a="
+ antlr4-runtime";v="4.5.3"
 Export-Package: com.virtlink.paplj.codecompletion;provider=metaborg;mand
  atory:=provider,com.virtlink.paplj.referenceresolution;provider=metabor
  g;mandatory:=provider,com.virtlink.paplj.structureoutline;provider=meta
  borg;mandatory:=provider,com.virtlink.paplj.syntax;provider=metaborg;ma
  ndatory:=provider,com.virtlink.paplj.syntaxcoloring;provider=metaborg;m
- andatory:=provider
+ andatory:=provider,org.antlr.v4.runtime;provider=metaborg;mandatory:=pr
+ ovider;version="4.5.3",org.antlr.v4.runtime.atn;provider=metaborg;manda
+ tory:=provider;version="4.5.3",org.antlr.v4.runtime.dfa;provider=metabo
+ rg;mandatory:=provider;version="4.5.3",org.antlr.v4.runtime.misc;provid
+ er=metaborg;mandatory:=provider;version="4.5.3",org.antlr.v4.runtime.tr
+ ee;provider=metaborg;mandatory:=provider;version="4.5.3",org.antlr.v4.r
+ untime.tree.pattern;provider=metaborg;mandatory:=provider;version="4.5.
+ 3",org.antlr.v4.runtime.tree.xpath;provider=metaborg;mandatory:=provide
+ r;version="4.5.3"
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.3.0.201609221906

@@ -11,24 +11,24 @@ import org.eclipse.ui.services.IDisposable;
 /**
  * Manages the {@link Color} objects.
  */
-public final class ColorManager implements IDisposable {
+public final class AesiColorManager implements IDisposable {
 	
 	private final ColorRegistry colorRegistry;
 	
 	/**
-	 * Initializes a new instance of the {@link ColorManager} class.
+	 * Initializes a new instance of the {@link AesiColorManager} class.
 	 * @param colorRegistry The color registry to use.
 	 */
-	public ColorManager(ColorRegistry colorRegistry) {
+	public AesiColorManager(ColorRegistry colorRegistry) {
 		requireNotNull("colorRegistry", colorRegistry);
 		
 		this.colorRegistry = colorRegistry;
 	}
 
 	/**
-	 * Initializes a new instance of the {@link ColorManager} class.
+	 * Initializes a new instance of the {@link AesiColorManager} class.
 	 */
-	public ColorManager() {
+	public AesiColorManager() {
 		this(JFaceResources.getColorRegistry());
 	}
 	

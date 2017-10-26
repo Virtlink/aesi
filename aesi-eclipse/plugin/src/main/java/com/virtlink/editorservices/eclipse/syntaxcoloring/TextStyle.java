@@ -79,7 +79,7 @@ public final class TextStyle {
 	 * @param colorManager The color manager.
 	 * @return The text attribute.
 	 */
-	public TextAttribute createTextAttribute(ColorManager colorManager) {
+	public TextAttribute createTextAttribute(AesiColorManager colorManager) {
 		requireNotNull("colorManager", colorManager);
 		
 		Color foreground = colorManager.getColor(this.color);

@@ -1,13 +1,11 @@
 package com.virtlink.paplj.eclipse;
 
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.virtlink.paplj.PapljModule;
 
 import javax.annotation.Nullable;
 
@@ -16,26 +14,30 @@ import javax.annotation.Nullable;
  */
 public class PapljPlugin extends AbstractUIPlugin {
 
-	// The plug-in ID
-	public static final String PLUGIN_ID = "com.virtlink.aesi.eclipse"; //$NON-NLS-1$
+	/** The plug-in ID. */
+	public static final String PLUGIN_ID = "aesi-eclipse"; //$NON-NLS-1$
 
-	// The shared instance
+	/** The shared plugin instance. */
 	@Nullable
 	private static PapljPlugin plugin;
 	
-	// The dependency injector.
-	private static Injector injector;
+	/** The dependency injector. */
+	private Injector injector;
 	
 	/**
 	 * Gets the dependency injector.
+	 * 
 	 * @return The dependency injector.
 	 */
-	public static Injector getInjector() { return PapljPlugin.injector; }
+	public Injector getInjector() {
+		return this.injector;
+	}
 	
 	/**
 	 * The constructor
 	 */
 	public PapljPlugin() {
+		this.injector = Guice.createInjector(new PapljAesiModule());
 	}
 
 	/*
@@ -44,7 +46,6 @@ public class PapljPlugin extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		PapljPlugin.injector = Guice.createInjector(new PapljModule());
 		plugin = this;
 	}
 
@@ -58,29 +59,22 @@ public class PapljPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Returns the shared instance
+	 * Returns the shared plugin instance.
 	 *
-	 * @return the shared instance
+	 * @return The shared instance.
 	 */
-	@Nullable
 	public static PapljPlugin getDefault() {
 		return plugin;
 	}
 
 	/**
 	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path
+	 * plug-in relative path.
 	 *
-	 * @param path the path
-	 * @return the image descriptor
+	 * @param path The path.
+	 * @return The image descriptor.
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
-
-	public static String getDebugModelIdentifier()
-	{
-		@Nullable PapljPlugin plugin = getDefault();
-		return plugin != null ? plugin.getBundle().getSymbolicName() : "com.virtlink.paplj.eclipse.debugging";
 	}
 }

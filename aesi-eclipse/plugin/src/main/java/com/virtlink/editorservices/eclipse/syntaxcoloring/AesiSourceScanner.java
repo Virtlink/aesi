@@ -3,6 +3,8 @@ package com.virtlink.editorservices.eclipse.syntaxcoloring;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.virtlink.editorservices.eclipse.DummyDocument;
+import com.virtlink.editorservices.eclipse.DummyProject;
 import com.virtlink.editorservices.eclipse.logging.LoggerFactory;
 import com.virtlink.editorservices.IDocument;
 import com.virtlink.editorservices.IProject;
@@ -24,7 +26,7 @@ public class AesiSourceScanner implements ITokenScanner {
 
 	private static final Logger log = LoggerFactory.getLogger(AesiSourceScanner.class);
 
-	private final ColorManager colorManager;
+	private final AesiColorManager colorManager;
 	private final ISyntaxColoringService colorizer;
 	
 	private final TextStyle style1 = new TextStyle(new RGB(0, 0, 255));
@@ -44,7 +46,7 @@ public class AesiSourceScanner implements ITokenScanner {
 	@Inject
 	public AesiSourceScanner(
 			ISyntaxColoringService colorizer,
-			ColorManager colorManager
+			AesiColorManager colorManager
 	) {
 		this.colorManager = colorManager;
 		this.colorizer = colorizer;
@@ -65,8 +67,8 @@ public class AesiSourceScanner implements ITokenScanner {
 		this.bufferEnd = offset + length;
 		
 		// TODO: Determine AESI project and AESI document.
-		IProject project = null;
-		IDocument document2 = null;
+		IProject project = new DummyProject();
+		IDocument document2 = new DummyDocument();
 		Span span = new Span(new Offset(this.bufferStart), new Offset(this.bufferEnd));
 		this.aesiTokens = colorizer.getTokens(project, document2, span, null);
 		this.currentAesiTokenIndex = 0;

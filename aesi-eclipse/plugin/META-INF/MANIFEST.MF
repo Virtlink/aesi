@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: aesi-eclipse
 Bundle-SymbolicName: aesi-eclipse;singleton:=true
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: com.virtlink.editorservices.eclipse.AesiPlugin
 Bundle-Vendor: Virtlink
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.filesystem,
@@ -20,7 +19,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
  aesi-eclipse.externaldeps
-Export-Package: com.virtlink.editorservices
+Export-Package: com.virtlink.editorservices,
+ com.virtlink.editorservices.eclipse,
+ com.virtlink.editorservices.eclipse.logging,
+ com.virtlink.editorservices.eclipse.syntaxcoloring,
+ org.slf4j.impl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: 
