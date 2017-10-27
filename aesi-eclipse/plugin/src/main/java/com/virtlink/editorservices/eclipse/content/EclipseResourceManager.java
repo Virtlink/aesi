@@ -1,6 +1,7 @@
 package com.virtlink.editorservices.eclipse.content;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,6 +35,8 @@ import com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider;
  */
 public class EclipseResourceManager implements IResourceManager {
 	
+	private final static String ECLIPSE_SCHEMA = "eclipse";
+	
 	// See also:
 	// https://help.eclipse.org/mars/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2FresInt_filesystem.htm
 	
@@ -45,9 +48,22 @@ public class EclipseResourceManager implements IResourceManager {
 	 */
 	public URI getUri(IResource resource) {
 		Contract.requireNotNull("resource", resource);
-		
-//		return resource.getLocationURI();
-		throw new RuntimeException("Not implemented.");
+
+		String projectUri = String.format("%s://%s/", ECLIPSE_SCHEMA, resource.getProject().getFullPath());
+		if (resource instanceof IProject) {
+			// EXAMPLE eclipse:///myproject/
+			return toURI(projectUri);
+		} else if (resource instanceof IFile) {
+			// EXAMPLE eclipse:///myproject/!/subfolder/myfile
+			// File URIs must not end with a slash.
+			return toURI(String.format("%s!/%s", projectUri, resource.getProjectRelativePath()));
+		} else if (resource instanceof IFolder) {
+			// EXAMPLE eclipse:///myproject/!/subfolder/myfolder/
+			// Folder URIs have to end with a slash.
+			return toURI(String.format("%s!/%s/", projectUri, resource.getProjectRelativePath()));
+		} else {
+			throw new RuntimeException("Not implemented.");
+		}
 	}
 	
 	/**
@@ -59,41 +75,7 @@ public class EclipseResourceManager implements IResourceManager {
 	public URI getUri(IEditorInput input) {
 		Contract.requireNotNull("input", input);
 		
-		if(input instanceof IFileEditorInput) {
-            final IFileEditorInput fileInput = (IFileEditorInput) input;
-            IFile file = fileInput.getFile();
-//            return resolve(fileInput.getFile());
-    		throw new RuntimeException("Not implemented.");
-        } else if(input instanceof IPathEditorInput) {
-            final IPathEditorInput pathInput = (IPathEditorInput) input;
-            IPath path = pathInput.getPath();
-//            return resolve(pathInput.getPath());
-    		throw new RuntimeException("Not implemented.");
-        } else if(input instanceof IURIEditorInput) {
-            final IURIEditorInput uriInput = (IURIEditorInput) input;
-            URI uri = uriInput.getURI();
-
-    		throw new RuntimeException("Not implemented.");
-        } else if(input instanceof IStorageEditorInput) {
-            final IStorageEditorInput storageInput = (IStorageEditorInput) input;
-            final IStorage storage;
-            try {
-                storage = storageInput.getStorage();
-            } catch(CoreException e) {
-                return null;
-            }
-
-            final IPath path = storage.getFullPath();
-            if(path != null) {
-                //return path;
-        		throw new RuntimeException("Not implemented.");
-            } else {
-                //return "mem:///" + input.getName();
-        		throw new RuntimeException("Not implemented.");
-            }
-        } else {
-    		throw new RuntimeException("Not implemented.");
-        }
+		return getUri(getResource(input));		
 	}
 	
 
@@ -107,10 +89,10 @@ public class EclipseResourceManager implements IResourceManager {
 		Contract.requireNotNull("input", input);
 		
 		if(input instanceof IFileEditorInput) {
-            final IFileEditorInput fileInput = (IFileEditorInput) input;
+            final IFileEditorInput fileInput = (IFileEditorInput)input;
             return fileInput.getFile();
         } else if(input instanceof IPathEditorInput) {
-            final IPathEditorInput pathInput = (IPathEditorInput) input;
+            final IPathEditorInput pathInput = (IPathEditorInput)input;
             IPath path = pathInput.getPath();
 //            return resolve(pathInput.getPath());
     		throw new RuntimeException("Not implemented.");
@@ -150,26 +132,58 @@ public class EclipseResourceManager implements IResourceManager {
 	@Nullable public IResource getResource(URI uri) {
 		Contract.requireNotNull("uri", uri);
 		
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-//		workspaceRoot.fin
-//		IProject myWebProject = myWorkspaceRoot.getProject("MyWeb");
-//		   // open if necessary
-//		   if (myWebProject.exists() && !myWebProject.isOpen())
-//		      myWebProject.open(null);
-//		throw new RuntimeException("Not implemented.");
+		if (uri.getScheme().equals(ECLIPSE_SCHEMA)) {
+			final String path = uri.getPath();
+			int split = path.indexOf('!');
+			if (split == -1) {
+				split = path.length();
+			}
+			
+			// The project path starts with a slash, since it's an absolute path.
+			String projectName = path.substring(1, split);
+			if (projectName.endsWith("/"))
+				projectName = projectName.substring(0, projectName.length() - 1);
+			
+			@Nullable String resourcePath;
+			if (split < path.length()) {
+				resourcePath = path.substring(split + 1);
+				if (resourcePath.startsWith("/")) {
+					resourcePath = resourcePath.substring(1);
+				}
+			} else {
+				resourcePath = null;
+			}
+
+			final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+			final IProject project = workspaceRoot.getProject(projectName);
+			if (project == null) {
+				return null;
+			}
+			final IResource resource;
+			if (resourcePath != null) {
+				resource = project.findMember(resourcePath);
+			} else {
+				resource = project;
+			}
+			return resource;
+		} else {
+			throw new RuntimeException("Not implemented");
+		}
 		
-		final String path = null;
-        IResource resource = workspaceRoot.findMember(path);
-        if(resource != null) {
-            // Path might be absolute, try to get absolute file.
-            final IPath location = Path.fromOSString(uri.getPath());
-            resource = workspaceRoot.getFileForLocation(location);
-            if(resource == null) {
-                // If resource is a direct path to a project, getContainerForLocation needs to be used.
-            	resource = workspaceRoot.getContainerForLocation(location);
-            }
-        }
-        return resource;
+//				
+//		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+//		final String path = null;
+//        IResource resource = workspaceRoot.findMember(path);
+//        if(resource != null) {
+//            // Path might be absolute, try to get absolute file.
+//            final IPath location = Path.fromOSString(uri.getPath());
+//            resource = workspaceRoot.getFileForLocation(location);
+//            if(resource == null) {
+//                // If resource is a direct path to a project, getContainerForLocation needs to be used.
+//            	resource = workspaceRoot.getContainerForLocation(location);
+//            }
+//        }
+//        return resource;
 	}
 
 	@Override
@@ -270,6 +284,20 @@ public class EclipseResourceManager implements IResourceManager {
 	private IContent getContent(IDocument document, long stamp) {
 		// TODO: Use stamp.
 		return new StringContent(document.get());
+	}
+
+	/**
+	 * Converts the URI string to an actual URI.
+	 * 
+	 * @param uri The URI string to convert.
+	 * @return The resulting URI.
+	 */
+	private static URI toURI(String uri) {
+		try {
+			return new URI(uri);
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

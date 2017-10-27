@@ -55,10 +55,10 @@ public final class StyleManager {
 	 */
 	public Style getStyle(String name) {
 		return this.styles.stream()
-				.filter(e -> e.getKey().toLowerCase(Locale.ROOT).startsWith(name.toLowerCase(Locale.ROOT)))
+				.filter(e -> name.toLowerCase(Locale.ROOT).startsWith(e.getKey().toLowerCase(Locale.ROOT)))
 				.map(e -> e.getValue())
 				.findFirst()
-				.orElse(getStyle(DEFAULT_STYLE_NAME));
+				.orElseGet( () -> getStyle(DEFAULT_STYLE_NAME) );
 	}
 	
 	/**
