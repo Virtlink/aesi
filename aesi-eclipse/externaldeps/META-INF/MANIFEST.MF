@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1509117347397
+Bnd-LastModified: 1509120021997
 Build-Jdk: 1.8.0_144
 Built-By: daniel
 Bundle-ClassPath: .,aesi-0.0.1-SNAPSHOT.jar,aesi-utils-0.0.1-SNAPSHOT.ja

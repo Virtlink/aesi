@@ -23,6 +23,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.swt
 Export-Package: com.virtlink.editorservices,
  com.virtlink.editorservices.eclipse,
+ com.virtlink.editorservices.eclipse.content,
+ com.virtlink.editorservices.eclipse.editor,
  com.virtlink.editorservices.eclipse.logging,
  com.virtlink.editorservices.eclipse.syntaxcoloring,
  org.slf4j.impl

@@ -10,7 +10,6 @@ import com.virtlink.editorservices.documents.IResourceManager;
 import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider;
 import com.virtlink.editorservices.eclipse.editor.AesiSourceViewerConfiguration;
-import com.virtlink.editorservices.eclipse.editor.AesiSwtResourceManager;
 import com.virtlink.editorservices.eclipse.editor.ColorizationJob;
 import com.virtlink.editorservices.eclipse.syntaxcoloring.AesiColorManager;
 import com.virtlink.editorservices.eclipse.syntaxcoloring.PresentationMerger;
@@ -20,7 +19,6 @@ public class AesiEclipseModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(AesiSwtResourceManager.class).in(Singleton.class);
 		bind(PresentationMerger.class).in(Singleton.class);
 		bind(EclipseResourceManager.class).in(Singleton.class);
 		bind(StyleManager.class).in(Singleton.class);

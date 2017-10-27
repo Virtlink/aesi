@@ -16,6 +16,7 @@ import org.eclipse.ui.IEditorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.virtlink.editorservices.ICancellationToken;
 import com.virtlink.editorservices.Offset;
@@ -64,6 +65,7 @@ public class ColorizationJob extends EditorJob {
 	 * @param resourceManager The resource manager.
 	 * @param styleManager The style manager.
 	 */
+	@Inject
 	public ColorizationJob(
 			@Assisted final IAesiEditor editor,
 			final ISyntaxColoringService syntaxColoringService,

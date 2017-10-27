@@ -35,13 +35,13 @@ clean.aesi-eclipse:
 	$(MAKE) clean -C $(abspath $(PREFIX)/aesi-eclipse/)
 
 # paplj-eclipse
-paplj-eclipse: aesi-eclipse
+paplj-eclipse: aesi-eclipse paplj
 	$(MAVEN) clean install $(MARGS) -f $(abspath $(PREFIX)/paplj-eclipse/externaldeps/pom.xml)
 	$(MAVEN) clean install $(MARGS) -f $(abspath $(PREFIX)/paplj-eclipse/plugin/pom.xml)
 
-docs.paplj-eclipse: docs.aesi-eclipse
+docs.paplj-eclipse: docs.aesi-eclipse docs.paplj
 	$(MAVEN) dokka:dokka $(MARGS) -f $(abspath $(PREFIX)/paplj-eclipse/plugin/pom.xml)
 
-clean.paplj-eclipse: clean.aesi-eclipse
+clean.paplj-eclipse: clean.aesi-eclipse clean.paplj
 	$(MAVEN) clean $(MARGS) -f $(abspath $(PREFIX)/paplj-eclipse/plugin/pom.xml)
 	$(MAVEN) clean $(MARGS) -f $(abspath $(PREFIX)/paplj-eclipse/externaldeps/pom.xml)

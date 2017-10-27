@@ -2,29 +2,31 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-	<editor
-      name="PAPLJ Editor"
-      extensions="pj"
-      icon="icons/sample.gif"
-      class="com.virtlink.paplj.eclipse.editor.PapljEditor"
-      id="com.virtlink.paplj.eclipse.editor.PapljEditor">
-   </editor>
-   <extension point="org.eclipse.ui.editors.documentProviders"> 
+	<extension point = "org.eclipse.ui.editors">
+		<editor
+      		name="PAPLJ Editor"
+      		extensions="pj"
+      		icon="icons/sample.gif"
+      		class="com.virtlink.paplj.eclipse.editor.PapljEditor"
+      		id="com.virtlink.paplj.eclipse.editor.PapljEditor">
+   		</editor>
+	</extension>
+   	<extension point="org.eclipse.ui.editors.documentProviders"> 
 	    <provider 
 	        extensions="pj"
 	        class="com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider" 
 	        id="com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider"> 
 	    </provider> 
 	</extension> 
-   <!--<extension
-         point="org.eclipse.core.contenttype.contentTypes">
-      <content-type
+    <!--<extension point="org.eclipse.core.contenttype.contentTypes">
+      	<content-type
             file-extensions="pj"
             base-type="org.eclipse.core.runtime.text"
             name="com.virtlink.editorservices.pj"
             id="com.virtlink.editorservices.pj">
-      </content-type>
-   </extension>
+      	</content-type>
+   	</extension>-->
+   	<!--
    <extension
          point="org.eclipse.ui.editors">
       <editorContentTypeBinding
