@@ -24,7 +24,7 @@ public final class MonitorCancellationToken implements ICancellationToken {
 	}
 	
 	@Override
-	public boolean getCancelled() {
+	public boolean isCancelled() {
 		return this.monitor.isCanceled();
 	}
 

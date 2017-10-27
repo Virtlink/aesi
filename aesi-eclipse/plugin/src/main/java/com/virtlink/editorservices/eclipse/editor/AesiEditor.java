@@ -2,6 +2,7 @@ package com.virtlink.editorservices.eclipse.editor;
 
 import javax.annotation.Nullable;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.virtlink.editorservices.eclipse.Contract;
+import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.syntaxcoloring.PresentationMerger;
 
 /**
@@ -35,6 +37,8 @@ public class AesiEditor extends AesiEditorBase {
 	private static Logger LOG = LoggerFactory.getLogger(AesiEditor.class);
 	/** The colorization job factory. */
 	private final ColorizationJob.IFactory colorizationJobFactory;
+	/** The resource manager. */
+	private final EclipseResourceManager resourceManager;
 	/** The current document listener listening for changes to the current document. */
 	@Nullable private DocumentChangeListener documentChangeListener = null;
 	/** The current colorization job, if any. */
@@ -42,20 +46,22 @@ public class AesiEditor extends AesiEditorBase {
 	
 	@Inject
 	public AesiEditor(
-			SourceViewerConfiguration sourceViewerConfiguration,
-			IDocumentProvider documentProvider,
-			PresentationMerger presentationMerger,
-			ColorizationJob.IFactory colorizationJobFactory
+			final SourceViewerConfiguration sourceViewerConfiguration,
+			final PresentationMerger presentationMerger,
+			final ColorizationJob.IFactory colorizationJobFactory,
+			final EclipseResourceManager resourceManager
 	) {
 		super(presentationMerger);
 		Contract.requireNotNull("sourceViewerConfiguration", sourceViewerConfiguration);
-		Contract.requireNotNull("documentProvider", documentProvider);
+		Contract.requireNotNull("presentationMerger", presentationMerger);
 		Contract.requireNotNull("colorizationJobFactory", colorizationJobFactory);
+		Contract.requireNotNull("resourceManager", resourceManager);
 		
 		this.colorizationJobFactory = colorizationJobFactory;
+		this.resourceManager = resourceManager;
 	    
 		setSourceViewerConfiguration(sourceViewerConfiguration);
-	    setDocumentProvider(documentProvider);
+	    setDocumentProvider(AesiDocumentProvider.getInstance());
 	}
 	
 	@Override
@@ -93,9 +99,8 @@ public class AesiEditor extends AesiEditorBase {
         	unsetPresentation();
         }
         
-        IResource resource;
-        
-        final Job job = this.colorizationJobFactory.create(getEditorInput());
+        final IResource resource = this.resourceManager.getResource(getEditorInput());
+        final Job job = this.colorizationJobFactory.create(this);
         job.setRule(JobUtils.ruleOf(resource));
         job.schedule(delay);
 	}

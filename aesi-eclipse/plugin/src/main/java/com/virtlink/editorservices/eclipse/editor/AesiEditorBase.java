@@ -19,7 +19,7 @@ import com.virtlink.editorservices.eclipse.syntaxcoloring.PresentationMerger;
 /**
  * AESI editor base.
  */
-public abstract class AesiEditorBase extends AbstractTextEditor {
+public abstract class AesiEditorBase extends AbstractTextEditor implements IAesiEditor {
 
 	/** The logger. */
 	private static Logger LOG = LoggerFactory.getLogger(AesiEditorBase.class);
@@ -108,14 +108,8 @@ public abstract class AesiEditorBase extends AbstractTextEditor {
 		}
 	}
 	
-	/**
-	 * Sets the editor text presentation.
-	 * 
-	 * @param presentation The text presentation.
-	 * @param text The text that was presented. (Used to check whether the presentation is still valid.)
-	 * @param monitor The progress monitor.
-	 */
-	protected void setPresentation(final TextPresentation presentation, final String text, final IProgressMonitor monitor) {
+	@Override
+	public void setPresentation(final TextPresentation presentation, final IProgressMonitor monitor) {
 		this.presentationMerger.set(presentation);
 		
 		asyncUI(() -> {
@@ -124,7 +118,7 @@ public abstract class AesiEditorBase extends AbstractTextEditor {
                 return;
 			}
 			IDocument document = getDocument();
-			if(document == null || !document.get().equals(text)) {
+			if(document == null /* || !document.get().equals(text)*/) {
 				// The document has changed, so the colorization is no longer valid.
                 return;
             }

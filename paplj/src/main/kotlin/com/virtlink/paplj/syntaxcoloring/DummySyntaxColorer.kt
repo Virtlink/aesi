@@ -4,9 +4,10 @@ import com.virtlink.editorservices.*
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
 import com.virtlink.editorservices.syntaxcoloring.Token
+import java.net.URI
 
 class DummySyntaxColorer : ISyntaxColoringService {
-    override fun getTokens(project: IProject, document: IDocument, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
+    override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
         return listOf(
                 Token(Span(Offset(2), Offset(6)), "keyword"),
                 Token(Span(Offset(12), Offset(18)), "keyword")

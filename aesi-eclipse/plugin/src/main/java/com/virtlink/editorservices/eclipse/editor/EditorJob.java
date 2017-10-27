@@ -1,5 +1,6 @@
 package com.virtlink.editorservices.eclipse.editor;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
@@ -12,7 +13,17 @@ import com.virtlink.editorservices.eclipse.Contract;
  */
 public abstract class EditorJob extends Job {
 	
-	private final IEditorInput input;
+	/** The editor. */
+	private final IAesiEditor editor;
+	
+	/**
+	 * Gets the editor.
+	 * 
+	 * @return The editor.
+	 */
+	protected IAesiEditor getEditor() {
+		return this.editor;
+	}
 	
 	/**
 	 * Gets the editor input.
@@ -20,27 +31,27 @@ public abstract class EditorJob extends Job {
 	 * @return The editor input.
 	 */
 	protected IEditorInput getInput() {
-		return this.input;
+		return this.editor.getEditorInput();
 	}
 
 	/**
 	 * Initializes a new instance of the {@link EditorJob} class.
 	 * 
 	 * @param description The job description.
-	 * @param input The editor input.
+	 * @param editor The editor.
 	 */
-	public EditorJob(String description, IEditorInput input) {
+	public EditorJob(final String description, final IAesiEditor editor) {
 		super(description);
-		Contract.requireNotNull("input", input);
-		
-		this.input = input;
+		Contract.requireNotNull("editor", editor);
+
+		this.editor = editor;
 	}
 	
 	@Override
 	public boolean belongsTo(Object family) {
 		// A job belongs to its input
 		// and to its own class.
-		return this.input.equals(family);
+		return this.getInput().equals(family);
 	}
 
 	@Override

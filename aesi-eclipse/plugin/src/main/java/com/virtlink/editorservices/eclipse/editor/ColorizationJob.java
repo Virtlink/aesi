@@ -1,17 +1,33 @@
 package com.virtlink.editorservices.eclipse.editor;
 
+import java.net.URI;
+import java.util.List;
+
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.TextPresentation;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.assistedinject.Assisted;
 import com.virtlink.editorservices.ICancellationToken;
+import com.virtlink.editorservices.Offset;
+import com.virtlink.editorservices.Span;
+import com.virtlink.editorservices.content.IContent;
 import com.virtlink.editorservices.eclipse.Contract;
 import com.virtlink.editorservices.eclipse.MonitorCancellationToken;
+import com.virtlink.editorservices.eclipse.SpanUtils;
+import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
+import com.virtlink.editorservices.eclipse.syntaxcoloring.StyleManager;
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService;
+import com.virtlink.editorservices.syntaxcoloring.IToken;
 
 /**
  * Colorization job.
@@ -25,31 +41,43 @@ public class ColorizationJob extends EditorJob {
 		/**
 		 * Creates a new instance of the {@link ColorizationJob}.
 		 * 
-		 * @param input The editor input.
+	     * @param editor The editor.
 		 * @return The job.
 		 */
-		ColorizationJob create(IEditorInput input);
+		ColorizationJob create(IAesiEditor editor);
 	}
 
 	/** The logger. */
 	private static Logger LOG = LoggerFactory.getLogger(AesiEditor.class);
 	/** The syntax coloring service. */
 	private final ISyntaxColoringService syntaxColoringService;
+	/** The resource manager. */
+	private final EclipseResourceManager resourceManager;
+	/** The style manager. */
+	private final StyleManager styleManager;
 	
 	/**
 	 * Initializes a new instance of the {@link ColorizationJob} class.
 	 * 
-	 * @param input The editor input.
+	 * @param editor The editor.
 	 * @param syntaxColoringService The syntax coloring service.
+	 * @param resourceManager The resource manager.
+	 * @param styleManager The style manager.
 	 */
 	public ColorizationJob(
-			@Assisted final IEditorInput input,
-			final ISyntaxColoringService syntaxColoringService
+			@Assisted final IAesiEditor editor,
+			final ISyntaxColoringService syntaxColoringService,
+			final EclipseResourceManager resourceManager,
+			final StyleManager styleManager
 	) {
-		super(getDescription(input), input);
+		super(getDescription(editor), editor);
 		Contract.requireNotNull("syntaxColoringService", syntaxColoringService);
+		Contract.requireNotNull("resourceManager", resourceManager);
+		Contract.requireNotNull("styleManager", styleManager);
 		
 		this.syntaxColoringService = syntaxColoringService;
+		this.resourceManager = resourceManager;
+		this.styleManager = styleManager;
 	}
 	
 	/**
@@ -58,23 +86,50 @@ public class ColorizationJob extends EditorJob {
 	 * @param input The editor input.
 	 * @return The description.
 	 */
-	private static String getDescription(final IEditorInput input) {
-		Contract.requireNotNull("input", input);
-		return "Colorizing " + input.getName();
+	private static String getDescription(final IAesiEditor editor) {
+		Contract.requireNotNull("editor", editor);
+		return "Colorizing " + editor.getEditorInput().getName();
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		
-		IProject project;
-		IDocument document;
-		Span region;
-		ICancellationToken ct = new MonitorCancellationToken(monitor);
-		this.syntaxColoringService.getTokens(arg0, arg1, arg2, ct);
+		colorize(monitor);
 		
-		// TODO Auto-generated method stub
-		return null;
-//		final TextPresentation textPresentation = StyleUtils.createTextPresentation(style, display);
+		if (monitor.isCanceled()) {
+			return StatusUtils.cancel();
+		}
+		return StatusUtils.success();
 	}
+	
+	private void colorize(IProgressMonitor monitor) {
+		// FIXME: Do we need the IResource if we have the IEditorInput?
+		final URI document = this.resourceManager.getUri(getInput());
+		final IContent content = this.resourceManager.getContent(document);
+		final Span region = new Span(new Offset(0), new Offset(content.getLength()));
+		final ICancellationToken ct = new MonitorCancellationToken(monitor);
+		final List<IToken> tokens = this.syntaxColoringService.getTokens(document, region, ct);
+		
+		final Display display = Display.getDefault();
+		final TextPresentation presentation = createPresentation(tokens, display);
+		
+		this.getEditor().setPresentation(presentation, monitor);
+	}
+	
+	private TextPresentation createPresentation(List<IToken> tokens, Display display) {
+		final TextPresentation presentation = new TextPresentation();
+        for(IToken token : tokens) {
+            final StyleRange styleRange = this.styleManager.getStyleRange(token.getLocation(), token.getName());
+            presentation.addStyleRange(styleRange);
+        }
+        Span extent = SpanUtils.fromRegion(presentation.getExtent());
+        if(extent == null) {
+            extent = new Span(new Offset(0), new Offset(0));
+        }
+        
+        final StyleRange defaultStyleRange = this.styleManager.getDefaultStyleRange(extent);
+        presentation.setDefaultStyleRange(defaultStyleRange);
 
+        return presentation;
+	}
 }

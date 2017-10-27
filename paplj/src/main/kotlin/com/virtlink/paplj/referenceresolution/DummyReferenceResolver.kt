@@ -5,8 +5,13 @@ import com.virtlink.editorservices.*
 import com.virtlink.editorservices.content.IContentManager
 import com.virtlink.editorservices.referenceresolution.*
 import com.virtlink.editorservices.symbols.Symbol
+import com.virtlink.logging.logger
 
 class DummyReferenceResolver @Inject constructor(private val contentManager: IContentManager) : IReferenceResolverService {
+
+    @Suppress("PrivatePropertyName")
+    private val LOG by logger()
+
     override fun resolve(project: IProject, document: IDocument, caretOffset: Offset, cancellationToken: ICancellationToken?)
             : IReferenceResolutionInfo {
 

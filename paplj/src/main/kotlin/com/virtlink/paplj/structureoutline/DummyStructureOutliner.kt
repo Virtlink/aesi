@@ -6,8 +6,12 @@ import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.structureoutline.*
 import com.virtlink.editorservices.symbols.ISymbol
 import com.virtlink.editorservices.symbols.Symbol
+import com.virtlink.logging.logger
 
 class DummyStructureOutliner: IStructureOutlineService {
+
+    @Suppress("PrivatePropertyName")
+    private val LOG by logger()
 
     override fun getRootNodes(project: IProject, document: IDocument, cancellationToken: ICancellationToken?): List<IStructureTreeNode>
             = listOf(rootSymbol)

@@ -9,6 +9,13 @@
       class="com.virtlink.paplj.eclipse.editor.PapljEditor"
       id="com.virtlink.paplj.eclipse.editor.PapljEditor">
    </editor>
+   <extension point="org.eclipse.ui.editors.documentProviders"> 
+	    <provider 
+	        extensions="pj"
+	        class="com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider" 
+	        id="com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider"> 
+	    </provider> 
+	</extension> 
    <!--<extension
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type

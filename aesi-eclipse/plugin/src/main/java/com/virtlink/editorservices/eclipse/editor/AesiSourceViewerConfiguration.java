@@ -11,11 +11,6 @@ public class AesiSourceViewerConfiguration extends TextSourceViewerConfiguration
 
 	@Override
 	public IReconciler getReconciler(ISourceViewer sourceViewer) {
-		PresentationReconciler reconciler = new PresentationReconciler();
-	    DefaultDamagerRepairer dr = new DefaultDamagerRepairer(new SqlScanner());
-	    reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
-	    reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
-return reconciler;
 		// Reconciler disabled.
 		return null;
 	}

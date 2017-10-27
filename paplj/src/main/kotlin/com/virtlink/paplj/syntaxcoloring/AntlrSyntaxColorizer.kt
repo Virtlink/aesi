@@ -3,19 +3,30 @@ package com.virtlink.paplj.syntaxcoloring
 import com.google.inject.Inject
 import com.virtlink.editorservices.*
 import com.virtlink.editorservices.content.IContentManager
+import com.virtlink.editorservices.documents.IResourceManager
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
 import com.virtlink.editorservices.syntaxcoloring.Token
+import com.virtlink.logging.logger
 import com.virtlink.paplj.syntax.PapljLexer
 import org.antlr.v4.runtime.ANTLRInputStream
+import java.net.URI
 
 class AntlrSyntaxColorizer @Inject constructor(
-        private val contentManager: IContentManager)
+        private val resourceManager: IResourceManager)
     : ISyntaxColoringService {
-    override fun getTokens(project: IProject, document: IDocument, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
+
+    @Suppress("PrivatePropertyName")
+    private val LOG by logger()
+
+    override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
         val tokens = mutableListOf<IToken>()
 
-        val content = this.contentManager.getLatestContent(document)
+        val content = this.resourceManager.getContent(document)
+        if (content == null) {
+            LOG.warn("$document: Could not get content.")
+            return emptyList()
+        }
 
         val input = ANTLRInputStream(content.text)
         val lexer = PapljLexer(input)
