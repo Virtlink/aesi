@@ -1,5 +1,13 @@
 package com.virtlink.editorservices
 
+/**
+ * Object which can indicate whether the operation has been cancelled.
+ */
 interface ICancellationToken {
-    val cancelled: Boolean
+
+    /**
+     * Gets whether the operation has been cancelled.
+     */
+    val isCancelled: Boolean
+
 }

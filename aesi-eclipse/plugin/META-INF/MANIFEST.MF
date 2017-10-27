@@ -15,10 +15,12 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.editors,
  org.eclipse.ui.genericeditor,
  org.eclipse.ui.views,
+ org.eclipse.jface,
  org.eclipse.jface.text,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
- aesi-eclipse.externaldeps
+ aesi-eclipse.externaldeps,
+ org.eclipse.swt
 Export-Package: com.virtlink.editorservices,
  com.virtlink.editorservices.eclipse,
  com.virtlink.editorservices.eclipse.logging,

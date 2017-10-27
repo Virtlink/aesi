@@ -2,7 +2,14 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-   <extension
+	<editor
+      name="PAPLJ Editor"
+      extensions="pj"
+      icon="icons/sample.gif"
+      class="com.virtlink.paplj.eclipse.editor.PapljEditor"
+      id="com.virtlink.paplj.eclipse.editor.PapljEditor">
+   </editor>
+   <!--<extension
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type
             file-extensions="pj"
@@ -24,7 +31,7 @@
             class="com.virtlink.paplj.eclipse.syntaxcoloring.PapljReconciler"
             contentType="com.virtlink.editorservices.pj">
       </presentationReconciler>
-   </extension>
+   </extension>-->
    <!--<extension
          point="org.eclipse.ui.genericeditor.hoverProviders">
       <hoverProvider
