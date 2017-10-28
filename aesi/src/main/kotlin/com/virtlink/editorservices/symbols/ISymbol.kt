@@ -1,34 +1,28 @@
 package com.virtlink.editorservices.symbols
 
-import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.Span
 import java.io.Serializable
+import java.net.URI
 
 /**
  * A symbol.
  */
 interface ISymbol : Serializable {
 
-    // Open question: add project for when document is null? Either<Project, Document>?
-    // Symbol founds at a specific position in a specific document version,
-    // or in a non-specific position in a document generally,
-    // or in a non-specific document in a project generally,
-    // ...
-
     /**
-     * Gets the project that contains this symbol.
+     * Gets the resource that contains this symbol;
+     * or null when the symbol is not in a particular resource.
+     *
+     * When the symbol is in a document, this must be that document's URI.
+     * When the symbol is in a project but not a particular document, this must be that project's URI.
+     * When the symbol is in neither, the value is null.
      */
-    val project: IProject?
-
-    /**
-     * Gets the document that contains this symbol;
-     * or null when the symbol is not in a particular document.
-     */
-    val document: IDocument?
+    val resource: URI?
 
     /**
      * Gets the range of the symbol's name in the document, if any.
+     *
+     * Should be null when the symbol is not contained in a document.
      */
     val nameRange: Span?
 

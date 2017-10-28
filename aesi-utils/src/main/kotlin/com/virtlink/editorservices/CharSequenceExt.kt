@@ -38,7 +38,7 @@ fun CharSequence.indexAfterNextNewline(startOffset: Int): Int? {
  * @return The value of the start of the next line,
  * which may be at the end of the string; or null when no next line was found.
  */
-fun CharSequence.indexAfterNextNewline(start: Offset): Offset? {
-    val result = indexAfterNextNewline(start.value)
-    return if (result != null) Offset(result) else null
+fun CharSequence.indexAfterNextNewline(startOffset: Long): Long? {
+    val result = indexAfterNextNewline(startOffset.toInt())
+    return if (result != null) result.toLong() else null
 }

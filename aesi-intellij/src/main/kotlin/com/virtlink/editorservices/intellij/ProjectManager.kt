@@ -6,7 +6,6 @@ import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
 import com.intellij.testFramework.LightVirtualFile
-import com.virtlink.editorservices.IProject
 
 class ProjectManager {
     fun getProject(module: Module?): IProject {

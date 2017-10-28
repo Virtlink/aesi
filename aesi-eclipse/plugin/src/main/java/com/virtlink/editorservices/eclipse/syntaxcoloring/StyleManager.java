@@ -105,8 +105,8 @@ public final class StyleManager {
         styleRange.underline = style.hasUnderscore();
         styleRange.strikeout = style.hasStrikeout();
 
-        styleRange.start = span.getStart().getValue();
-        styleRange.length = span.getLength();
+        styleRange.start = (int)span.getStartOffset();
+        styleRange.length = (int)span.getLength();
 
         return styleRange;
 	}

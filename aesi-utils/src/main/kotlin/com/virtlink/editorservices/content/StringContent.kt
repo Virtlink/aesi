@@ -13,6 +13,7 @@ import java.io.LineNumberReader
  */
 class StringContent constructor(
         override val text: String,
+        override val stamp: Long,
         val lines: List<Offset>)
     : IContent {
 
@@ -20,20 +21,21 @@ class StringContent constructor(
      * Initializes a new instance of the [StringContent] class.
      *
      * @param text The full text of the document.
+     * @param stamp The modification stamp.
      */
-    constructor(text: String) : this(text, getLines(text))
+    constructor(text: String, stamp: Long) : this(text, stamp, getLines(text))
 
     companion object {
 
         /**
          * Empty content.
          */
-        val empty = StringContent("")
+        val empty = StringContent("", 0)
 
         private fun getLines(text: String): List<Offset> {
             val lines = mutableListOf<Offset>()
             var currentLine = 0
-            var currentOffset = Offset(0)
+            var currentOffset = 0L
             lines.add(currentOffset)
 
             var nextLine = text.indexAfterNextNewline(currentOffset)
@@ -64,7 +66,7 @@ class StringContent constructor(
             return null
 
         val startOffset = this.lines[position.line]
-        val endOffset = if (position.line < this.lines.size - 1) this.lines[position.line + 1] else Offset(this.text.length)
+        val endOffset = if (position.line < this.lines.size - 1) this.lines[position.line + 1] else this.text.length.toLong()
         val length = endOffset - startOffset
 
         if (position.character > length)
@@ -80,15 +82,15 @@ class StringContent constructor(
         }
         if (currentLine >= this.lines.size)
             return null
-        return Position(currentLine, offset - this.lines[currentLine])
+        return Position(currentLine, (offset - this.lines[currentLine]).toInt())
     }
 
-    override fun withChanges(changes: List<TextChange>): IContent {
+    override fun withChanges(changes: List<TextChange>, newStamp: Long): IContent {
         val text = StringBuilder(this.text)
         for (change in changes.asReversed()) {
-            text.replace(change.span.start.value, change.span.end.value, change.newText)
+            text.replace(change.span.startOffset.toInt(), change.span.endOffset.toInt(), change.newText)
         }
-        return StringContent(text.toString())
+        return StringContent(text.toString(), newStamp)
     }
 
     override fun equals(other: Any?): Boolean {

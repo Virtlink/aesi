@@ -2,7 +2,6 @@ package com.virtlink.paplj.syntaxcoloring
 
 import com.google.inject.Inject
 import com.virtlink.editorservices.*
-import com.virtlink.editorservices.content.IContentManager
 import com.virtlink.editorservices.documents.IResourceManager
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
@@ -35,7 +34,7 @@ class AntlrSyntaxColorizer @Inject constructor(
             val scope = getTokenScope(token)
             val startOffset = token.startIndex
             val endOffset = token.stopIndex + 1
-            tokens.add(Token(Span(Offset(startOffset), Offset(endOffset)), scope))
+            tokens.add(Token(Span(startOffset.toLong(), endOffset.toLong()), scope))
 
             token = lexer.nextToken()
         }

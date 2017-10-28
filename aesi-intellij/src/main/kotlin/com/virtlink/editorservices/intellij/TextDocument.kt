@@ -1,6 +1,5 @@
 package com.virtlink.editorservices.intellij
 
-import com.virtlink.editorservices.IDocument
 import java.net.URI
 
 /**
@@ -9,7 +8,7 @@ import java.net.URI
  * may not be stored on disk (yet).
  */
 @Deprecated("Replaced by Project")
-class TextDocument(val text: String) : IDocument {
+class TextDocument(val text: String) {
     override val uri: URI
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 }

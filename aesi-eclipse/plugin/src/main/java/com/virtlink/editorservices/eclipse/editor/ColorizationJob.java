@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.virtlink.editorservices.ICancellationToken;
-import com.virtlink.editorservices.Offset;
 import com.virtlink.editorservices.Span;
 import com.virtlink.editorservices.content.IContent;
 import com.virtlink.editorservices.eclipse.Contract;
@@ -108,7 +107,7 @@ public class ColorizationJob extends EditorJob {
 		// FIXME: Do we need the IResource if we have the IEditorInput?
 		final URI document = this.resourceManager.getUri(getInput());
 		final IContent content = this.resourceManager.getContent(document);
-		final Span region = new Span(new Offset(0), new Offset(content.getLength()));
+		final Span region = Span.fromLength(0, content.getLength());
 		final ICancellationToken ct = new MonitorCancellationToken(monitor);
 		final List<IToken> tokens = this.syntaxColoringService.getTokens(document, region, ct);
 		
@@ -126,7 +125,7 @@ public class ColorizationJob extends EditorJob {
         }
         Span extent = SpanUtils.fromRegion(presentation.getExtent());
         if(extent == null) {
-            extent = new Span(new Offset(0), new Offset(0));
+            extent = Span.fromLength(0, 0);
         }
         
         final StyleRange defaultStyleRange = this.styleManager.getDefaultStyleRange(extent);

@@ -8,12 +8,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
-import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
-import com.virtlink.editorservices.intellij.psi.AesiElementType
 import com.virtlink.editorservices.intellij.psi.AesiPsiElement
 import com.virtlink.editorservices.structureoutline.*
-import com.virtlink.editorservices.symbols.ISymbol
 import javax.swing.Icon
 
 class AesiStructureViewModel(editor: Editor?,

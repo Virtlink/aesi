@@ -9,6 +9,7 @@ import java.io.LineNumberReader
  * Line-based document content.
  */
 open class LineContent constructor(
+        override val stamp: Long,
         private val lines: List<Line>)
     : IContent {
 
@@ -34,15 +35,16 @@ open class LineContent constructor(
      * Initializes a new instance of the [LineContent] class.
      *
      * @param text The full text of the document.
+     * @param stamp The modification stamp.
      */
-    constructor(text: String) : this(getLines(text))
+    constructor(text: String, stamp: Long) : this(stamp, getLines(text))
 
     companion object {
 
         /**
          * Empty content.
          */
-        val empty = LineContent("")
+        val empty = LineContent("", 0)
 
         /**
          * Gets the length from the specified lines.
@@ -60,7 +62,7 @@ open class LineContent constructor(
          * @return The list of lines.
          */
         private fun getLines(text: String): List<Line> {
-            val lines = mutableListOf(Line(Offset(0), ""))
+            val lines = mutableListOf(Line(0L, ""))
             applyChange(lines, Position(0, 0), Position(0, 0), text)
             return lines
         }
@@ -79,30 +81,30 @@ open class LineContent constructor(
 
             // Construct the new lines
             val newLines = mutableListOf<Line>()
-            var currentLineOffset = 0
+            var currentLineOffset = 0L
             var nextLineOffset = newText.indexAfterNextNewline(currentLineOffset)
             if (nextLineOffset != null) {
                 // Construct the first line
-                val newFirstLineText = prefix + newText.substring(currentLineOffset, nextLineOffset)
-                newLines.add(Line(Offset(currentLineOffset), newFirstLineText))
+                val newFirstLineText = prefix + newText.substring(currentLineOffset.toInt(), nextLineOffset.toInt())
+                newLines.add(Line(currentLineOffset, newFirstLineText))
                 currentLineOffset = nextLineOffset
 
                 // Construct the intermediate lines
                 nextLineOffset = newText.indexAfterNextNewline(currentLineOffset)
                 while (nextLineOffset != null) {
-                    val newLineText = newText.substring(currentLineOffset, nextLineOffset)
-                    newLines.add(Line(Offset(currentLineOffset), newLineText))
+                    val newLineText = newText.substring(currentLineOffset.toInt(), nextLineOffset.toInt())
+                    newLines.add(Line(currentLineOffset, newLineText))
                     currentLineOffset = nextLineOffset
 
                     nextLineOffset = newText.indexAfterNextNewline(currentLineOffset)
                 }
 
                 // Construct the last line
-                val newLastLineText = newText.substring(currentLineOffset) + suffix
-                newLines.add(Line(Offset(currentLineOffset), newLastLineText))
+                val newLastLineText = newText.substring(currentLineOffset.toInt()) + suffix
+                newLines.add(Line(currentLineOffset, newLastLineText))
             } else {
                 // Construct the only line
-                newLines.add(Line(Offset(currentLineOffset), prefix + newText + suffix))
+                newLines.add(Line(currentLineOffset, prefix + newText + suffix))
             }
 
             // Replace the changed lines
@@ -139,7 +141,7 @@ open class LineContent constructor(
     }
 
     override fun getPosition(offset: Offset): Position? {
-        var currentOffset = Offset(0)
+        var currentOffset = 0L
         var currentLine = 0
         while ((currentLine < this.lines.size - 1 && currentOffset + this.lines[currentLine].length <= offset)
                 || (currentLine == this.lines.size && currentOffset + this.lines[currentLine].length < offset)) {
@@ -149,17 +151,17 @@ open class LineContent constructor(
 
         if (currentOffset > offset) return null
 
-        return Position(currentLine, offset - currentOffset)
+        return Position(currentLine, (offset - currentOffset).toInt())
     }
 
-    override fun withChanges(changes: List<TextChange>): IContent {
+    override fun withChanges(changes: List<TextChange>, newStamp: Long): IContent {
         val lines = this.lines.toMutableList()
         for (change in changes.asReversed()) {
-            val start = this.getPosition(change.span.start)!!
-            val end = this.getPosition(change.span.end)!!
+            val start = this.getPosition(change.span.startOffset)!!
+            val end = this.getPosition(change.span.endOffset)!!
             applyChange(lines, start, end, change.newText)
         }
-        return LineContent(lines)
+        return LineContent(newStamp, lines)
     }
 
     override fun equals(other: Any?): Boolean {

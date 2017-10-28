@@ -9,8 +9,8 @@ import java.net.URI
 class DummySyntaxColorer : ISyntaxColoringService {
     override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
         return listOf(
-                Token(Span(Offset(2), Offset(6)), "keyword"),
-                Token(Span(Offset(12), Offset(18)), "keyword")
+                Token(Span.fromLength(2, 6), "keyword"),
+                Token(Span.fromLength(12, 4), "keyword")
         )
     }
 

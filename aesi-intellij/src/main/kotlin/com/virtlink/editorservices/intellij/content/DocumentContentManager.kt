@@ -1,14 +1,12 @@
 package com.virtlink.editorservices.intellij.content
 
 import com.google.inject.Inject
-import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.content.IContent
 import com.virtlink.editorservices.content.IContentManager
 import com.virtlink.editorservices.content.IContentSource
 import com.virtlink.editorservices.intellij.IntellijDocument
 import com.virtlink.editorservices.intellij.TextDocument
 import com.virtlink.logging.logger
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Manages the content of the documents.

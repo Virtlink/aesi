@@ -1,8 +1,6 @@
 package com.virtlink.editorservices.intellij.syntaxcoloring
 
 import com.intellij.lexer.Lexer
-import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
 
 /**
  * Factory for the language-specific lexer.

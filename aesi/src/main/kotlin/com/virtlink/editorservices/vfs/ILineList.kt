@@ -2,6 +2,7 @@ package com.virtlink.editorservices.vfs
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
+import com.virtlink.editorservices.Span
 
 /**
  * List of lines in a document.
@@ -16,79 +17,37 @@ interface ILineList {
     val size: Int
 
     /**
-     * Gets the offset of the start of the specified line.
+     * Gets the span of the specified line.
+     * The line includes the EOL terminator.
      *
      * @param line The zero-based line index.
      * @return The zero-based line start offset.
      *
      * @throws IndexOutOfBoundsException The line number is out of bounds.
      */
-    fun getLineStart(line: Int): Offset
+    fun getLine(line: Int): Span
 
     /**
-     * Gets the offset of the end of the specified line,
-     * _after_ the EOL terminator.
-     *
-     * @param line The zero-based line index.
-     * @return The zero-based line end offset.
-     *
-     * @throws IndexOutOfBoundsException The line number is out of bounds.
-     */
-    fun getLineEnd(line: Int): Offset
-
-    /**
-     * Gets the length of the specified line,
-     * _after_ the EOL terminator.
-     *
-     * @param line The zero-based line index.
-     * @return The line's length.
-     *
-     * @throws IndexOutOfBoundsException The line number is out of bounds.
-     */
-    fun getLineLength(line: Int): Int
-
-    /**
-     * Gets the offset of the start of the specified line.
+     * Gets the span of the content of the specified line.
+     * The content does _not_ include the EOL terminator.
      *
      * @param line The zero-based line index.
      * @return The zero-based line start offset.
      *
      * @throws IndexOutOfBoundsException The line number is out of bounds.
      */
-    fun getLineContentStart(line: Int): Offset
+    fun getLineContent(line: Int): Span
 
     /**
-     * Gets the offset of the end of the specified line,
-     * _before_ the EOL terminator.
+     * Gets the span of the line's EOL terminator.
      *
      * @param line The zero-based line index.
-     * @return The zero-based line end offset.
+     * @return The span of the line's EOL terminator,
+     * or an empty span when the line is the last line in the document.
      *
      * @throws IndexOutOfBoundsException The line number is out of bounds.
      */
-    fun getLineContentEnd(line: Int): Offset
-
-    /**
-     * Gets the length of the specified line,
-     * _before_ the EOL terminator.
-     *
-     * @param line The zero-based line index.
-     * @return The line's length.
-     *
-     * @throws IndexOutOfBoundsException The line number is out of bounds.
-     */
-    fun getLineContentLength(line: Int): Int
-
-    /**
-     * Gets the length of the line's EOL terminator.
-     *
-     * @param line The zero-based line index.
-     * @return The length of the line's EOL terminator,
-     * or 0 when the line is the last line in the document.
-     *
-     * @throws IndexOutOfBoundsException The line number is out of bounds.
-     */
-    fun getEndOfLineLength(line: Int): Int
+    fun getEndOfLine(line: Int): Span
 
     /**
      * Gets the line number that contains the specified offset.

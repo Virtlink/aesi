@@ -2,7 +2,6 @@ package com.virtlink.editorservices.eclipse.codecompletion;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.virtlink.editorservices.Offset;
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService;
 import com.virtlink.editorservices.codecompletion.ICompletionInfo;
 import com.virtlink.editorservices.codecompletion.ICompletionProposal;
@@ -16,8 +15,6 @@ import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.*;
 
-import com.virtlink.editorservices.IDocument;
-import com.virtlink.editorservices.IProject;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.part.EditorPart;
 
@@ -67,7 +64,7 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
     @Override
     public org.eclipse.jface.text.contentassist.ICompletionProposal[] computeCompletionProposals(ITextViewer textViewer, int offset) {
     	final URI document = this.resourceManager.getUri(this.resourceManager.getResource(this.editor));
-        ICompletionInfo completionInfo = this.codeCompleter.getCompletionInfo(document, new Offset(offset), null);
+        ICompletionInfo completionInfo = this.codeCompleter.getCompletionInfo(document, offset, null);
         List<ICompletionProposal> proposals = completionInfo.getProposals();
         // TODO: Do something with the prefix.
         return proposals.stream().map(p -> toEclipseCompletionProposal(p, offset)).toArray(org.eclipse.jface.text.contentassist.ICompletionProposal[]::new);
@@ -98,15 +95,15 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
         return null;
     }
     
-    private org.eclipse.jface.text.contentassist.ICompletionProposal toEclipseCompletionProposal(ICompletionProposal proposal, int offset) {
+    private org.eclipse.jface.text.contentassist.ICompletionProposal toEclipseCompletionProposal(ICompletionProposal proposal, long offset) {
         String replacementText = proposal.getInsertionText() != null ? proposal.getInsertionText() : proposal.getLabel();
         Image icon = this.iconManager.getIcon();
-        int caret = proposal.getCaret() != null ? proposal.getCaret() : replacementText.length();
+        long caret = proposal.getCaret() != null ? proposal.getCaret() : replacementText.length();
     	return new CompletionProposal(
                 replacementText,
-                offset,
+                (int)offset,
                 0,
-                offset + caret,
+                (int)(offset + caret),
                 icon,
                 proposal.getLabel(),
                 new ContextInformation(null, "Context display string", "Info display string"),

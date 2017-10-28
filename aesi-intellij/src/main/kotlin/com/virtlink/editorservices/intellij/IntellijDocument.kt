@@ -1,10 +1,9 @@
 package com.virtlink.editorservices.intellij
 
 import com.intellij.openapi.editor.Document
-import com.virtlink.editorservices.IDocument
 import java.net.URI
 
-class IntellijDocument(val intellijDocument: Document) : IDocument {
+class IntellijDocument(val intellijDocument: Document) {
 
     override val uri: URI = URI("null")
 

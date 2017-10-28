@@ -1,5 +1,6 @@
 package com.virtlink.editorservices.codecompletion
 
+import com.virtlink.editorservices.Offset
 import java.io.Serializable
 
 /**
@@ -45,5 +46,5 @@ interface ICompletionProposal : Serializable {
      * relative to the start of the inserted text;
      * or null to put the caret after the inserted text.
      */
-    val caret: Int?
+    val caret: Offset?
 }

@@ -4,6 +4,7 @@ import com.virtlink.editorservices.*
 import com.virtlink.editorservices.codecompletion.*
 import com.virtlink.logging.logger
 import org.slf4j.LoggerFactory
+import java.net.URI
 import java.util.*
 
 class DummyCodeCompleter : ICodeCompletionService {
@@ -11,7 +12,7 @@ class DummyCodeCompleter : ICodeCompletionService {
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
 
-    override fun getCompletionInfo(project: IProject, document: IDocument, caretOffset: Offset, cancellationToken: ICancellationToken?): ICompletionInfo {
+    override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken?): ICompletionInfo {
         LOG.info("$document: Completing at $caretOffset.")
 
         val proposals = listOf(

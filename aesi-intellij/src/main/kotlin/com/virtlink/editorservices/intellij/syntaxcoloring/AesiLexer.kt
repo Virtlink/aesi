@@ -5,8 +5,6 @@ import com.google.inject.assistedinject.Assisted
 import com.intellij.lexer.LexerBase
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.tree.IElementType
-import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager

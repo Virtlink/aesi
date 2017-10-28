@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -348,8 +347,7 @@ public class EclipseResourceManager implements IResourceManager {
 	 * @return The AESI content.
 	 */
 	private IContent getContent(IDocument document, long stamp) {
-		// TODO: Use stamp.
-		return new StringContent(document.get());
+		return new StringContent(document.get(), stamp);
 	}
 
 	/**
