@@ -9,7 +9,7 @@ import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.paplj.codecompletion.DummyCodeCompleter
 import com.virtlink.paplj.referenceresolution.DummyReferenceResolver
 import com.virtlink.paplj.structureoutline.DummyStructureOutliner
-import com.virtlink.paplj.syntaxcoloring.DummySyntaxColorer
+import com.virtlink.paplj.syntaxcoloring.AntlrSyntaxColorizer
 
 class PapljModule: AesiBaseModule() {
 
@@ -26,7 +26,7 @@ class PapljModule: AesiBaseModule() {
     }
 
     override fun configureSyntaxColoring() {
-        bind(ISyntaxColoringService::class.java).to(DummySyntaxColorer::class.java).`in`(Singleton::class.java)
+        bind(ISyntaxColoringService::class.java).to(AntlrSyntaxColorizer::class.java).`in`(Singleton::class.java)
     }
 
 }
