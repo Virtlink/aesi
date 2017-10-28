@@ -46,13 +46,13 @@ public class AesiEditor extends AesiEditorBase {
 	
 	@Inject
 	public AesiEditor(
-			final SourceViewerConfiguration sourceViewerConfiguration,
+			final AesiSourceViewerConfiguration.IFactory sourceViewerConfigurationFactory,
 			final PresentationMerger presentationMerger,
 			final ColorizationJob.IFactory colorizationJobFactory,
 			final EclipseResourceManager resourceManager
 	) {
 		super(presentationMerger);
-		Contract.requireNotNull("sourceViewerConfiguration", sourceViewerConfiguration);
+		Contract.requireNotNull("sourceViewerConfigurationFactory", sourceViewerConfigurationFactory);
 		Contract.requireNotNull("presentationMerger", presentationMerger);
 		Contract.requireNotNull("colorizationJobFactory", colorizationJobFactory);
 		Contract.requireNotNull("resourceManager", resourceManager);
@@ -60,6 +60,7 @@ public class AesiEditor extends AesiEditorBase {
 		this.colorizationJobFactory = colorizationJobFactory;
 		this.resourceManager = resourceManager;
 	    
+		final SourceViewerConfiguration sourceViewerConfiguration = sourceViewerConfigurationFactory.create(this);
 		setSourceViewerConfiguration(sourceViewerConfiguration);
 	    setDocumentProvider(AesiDocumentProvider.getInstance());
 	}

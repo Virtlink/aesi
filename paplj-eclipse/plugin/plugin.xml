@@ -17,7 +17,17 @@
 	        class="com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider" 
 	        id="com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider"> 
 	    </provider> 
-	</extension> 
+	</extension>
+	<!--<extension point="org.eclipse.cdt.ui.completionProposalComputer" id="HippieCompletionProposalComputer">
+        <completionProposalComputer
+            class="org.eclipse.cdt.internal.ui.text.contentassist.HippieProposalComputer"
+            categoryId="org.eclipse.cdt.ui.textProposalCategory">
+            <partition type="__c_singleline_comment"/>
+            <partition type="__c_multiline_comment"/>
+            <partition type="__c_string"/>
+            <partition type="__c_preprocessor"/>
+        </completionProposalComputer>
+	</extension>-->
     <!--<extension point="org.eclipse.core.contenttype.contentTypes">
       	<content-type
             file-extensions="pj"

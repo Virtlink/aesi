@@ -7,6 +7,9 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
+import org.eclipse.core.filebuffers.FileBuffers;
+import org.eclipse.core.filebuffers.ITextFileBuffer;
+import org.eclipse.core.filebuffers.ITextFileBufferManager;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -19,6 +22,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
@@ -41,43 +45,41 @@ public class EclipseResourceManager implements IResourceManager {
 	// https://help.eclipse.org/mars/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2FresInt_filesystem.htm
 	
 	/**
-	 * Maps a resource to its corresponding URI.
+	 * Maps the document to its corresponding resource.
 	 * 
-	 * @param resource The resource.
-	 * @return The URI.
-	 */
-	public URI getUri(IResource resource) {
-		Contract.requireNotNull("resource", resource);
-
-		String projectUri = String.format("%s://%s/", ECLIPSE_SCHEMA, resource.getProject().getFullPath());
-		if (resource instanceof IProject) {
-			// EXAMPLE eclipse:///myproject/
-			return toURI(projectUri);
-		} else if (resource instanceof IFile) {
-			// EXAMPLE eclipse:///myproject/!/subfolder/myfile
-			// File URIs must not end with a slash.
-			return toURI(String.format("%s!/%s", projectUri, resource.getProjectRelativePath()));
-		} else if (resource instanceof IFolder) {
-			// EXAMPLE eclipse:///myproject/!/subfolder/myfolder/
-			// Folder URIs have to end with a slash.
-			return toURI(String.format("%s!/%s/", projectUri, resource.getProjectRelativePath()));
-		} else {
-			throw new RuntimeException("Not implemented.");
-		}
-	}
-	
-	/**
-	 * Maps editor input to its corresponding URI.
+	 * This will check every resource to see whether it corresponds
+	 * to the given document. Do not use this method in performance-critical
+	 * applications.
 	 * 
-	 * @param input The input.
-	 * @return The URI.
+	 * @param document The document.
+	 * @return The resource, or null when not found.
 	 */
-	public URI getUri(IEditorInput input) {
-		Contract.requireNotNull("input", input);
+	@Nullable
+	public IResource getResource(IDocument document) {
+		Contract.requireNotNull("document", document);
 		
-		return getUri(getResource(input));		
+		IResource resource = AesiDocumentProvider.getInstance().getFile(document);
+		if (resource != null) { return resource; }
+		
+		final ITextFileBufferManager bufferManager = FileBuffers.getTextFileBufferManager();
+		if (bufferManager == null) { return null; }
+		final ITextFileBuffer buffer = bufferManager.getTextFileBuffer(document);
+		if (buffer == null) { return null; }
+		final IPath location = buffer.getLocation();
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(location);
 	}
-	
+
+	/**
+	 * Maps the editor to its corresponding resource.
+	 * 
+	 * @param editor The editor.
+	 * @return The resource.
+	 */
+	public IResource getResource(IEditorPart editor) {
+		Contract.requireNotNull("editor", editor);
+		
+		return getResource(editor.getEditorInput());
+	}
 
 	/**
 	 * Maps editor input to its corresponding resource.
@@ -184,6 +186,70 @@ public class EclipseResourceManager implements IResourceManager {
 //            }
 //        }
 //        return resource;
+	}
+	
+	/**
+	 * Maps the document to its corresponding URI.
+	 * 
+	 * Do not use in performance-critical code.
+	 * 
+	 * @param document The document.
+	 * @return The URI.
+	 */
+	public URI getUri(IDocument document) {
+		Contract.requireNotNull("document", document);
+		
+		return getUri(getResource(document));
+	}
+
+	/**
+	 * Maps the editor to its corresponding URI.
+	 * 
+	 * @param editor The editor.
+	 * @return The URI.
+	 */
+	public URI getUri(IEditorPart editor) {
+		Contract.requireNotNull("editor", editor);
+		
+		return getUri(editor.getEditorInput());
+	}
+	
+	/**
+	 * Maps editor input to its corresponding URI.
+	 * 
+	 * @param input The input.
+	 * @return The URI.
+	 */
+	public URI getUri(IEditorInput input) {
+		Contract.requireNotNull("input", input);
+		
+		return getUri(getResource(input));		
+	}
+	
+	/**
+	 * Maps a resource to its corresponding URI.
+	 * 
+	 * @param resource The resource.
+	 * @return The URI.
+	 */
+	public URI getUri(IResource resource) {
+		Contract.requireNotNull("resource", resource);
+
+		String projectUri = String.format("%s://%s/", ECLIPSE_SCHEMA, resource.getProject().getFullPath());
+		if (resource instanceof IProject) {
+			// EXAMPLE eclipse:///myproject/
+			return toURI(projectUri);
+		} else if (resource instanceof IFile) {
+			// EXAMPLE eclipse:///myproject/!/subfolder/myfile
+			// File URIs must not end with a slash.
+			return toURI(String.format("%s!/%s", projectUri, resource.getProjectRelativePath()));
+		} else if (resource instanceof IFolder) {
+			// EXAMPLE eclipse:///myproject/!/subfolder/myfolder/
+			// Folder URIs have to end with a slash.
+			return toURI(String.format("%s!/%s/", projectUri, resource.getProjectRelativePath()));
+		} else {
+			throw new RuntimeException("Not implemented.");
+		}
 	}
 
 	@Override

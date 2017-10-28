@@ -2,6 +2,7 @@ package com.virtlink.editorservices.eclipse.editor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.TextPresentation;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INavigationLocationProvider;
 import org.eclipse.ui.IPersistableEditor;
 import org.eclipse.ui.IReusableEditor;
@@ -17,7 +18,7 @@ import org.eclipse.ui.texteditor.ITextEditorExtension6;
 /**
  * An editor.
  */
-public interface IAesiEditor extends ITextEditor, IReusableEditor, ITextEditorExtension, ITextEditorExtension2, ITextEditorExtension3, ITextEditorExtension4, ITextEditorExtension5, ITextEditorExtension6, INavigationLocationProvider, ISaveablesSource, IPersistableEditor {
+public interface IAesiEditor extends IEditorPart, ITextEditor, IReusableEditor, ITextEditorExtension, ITextEditorExtension2, ITextEditorExtension3, ITextEditorExtension4, ITextEditorExtension5, ITextEditorExtension6, INavigationLocationProvider, ISaveablesSource, IPersistableEditor {
 	
 	/**
 	 * Sets the editor text presentation.

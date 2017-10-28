@@ -7,6 +7,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.virtlink.editorservices.documents.IResourceManager;
+import com.virtlink.editorservices.eclipse.codecompletion.AesiCompletionProcessor;
 import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider;
 import com.virtlink.editorservices.eclipse.editor.AesiSourceViewerConfiguration;
@@ -24,10 +25,17 @@ public class AesiEclipseModule extends AbstractModule {
 		bind(StyleManager.class).in(Singleton.class);
 		bind(IResourceManager.class).to(EclipseResourceManager.class);
 		bind(AesiColorManager.class).in(Singleton.class);
+		bind(AesiIconManager.class).in(Singleton.class);
 		
 		install(new FactoryModuleBuilder()
 			     .implement(ColorizationJob.class, ColorizationJob.class)
 			     .build(ColorizationJob.IFactory.class));
+		install(new FactoryModuleBuilder()
+			     .implement(AesiCompletionProcessor.class, AesiCompletionProcessor.class)
+			     .build(AesiCompletionProcessor.IFactory.class));
+		install(new FactoryModuleBuilder()
+			     .implement(AesiSourceViewerConfiguration.class, AesiSourceViewerConfiguration.class)
+			     .build(AesiSourceViewerConfiguration.IFactory.class));
 
 		injectStatics();
 	}
