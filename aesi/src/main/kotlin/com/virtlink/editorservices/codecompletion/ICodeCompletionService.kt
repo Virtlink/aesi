@@ -20,11 +20,11 @@ interface ICodeCompletionService {
      * @param document The URI of the document for which to provide completions.
      * @param caretOffset The zero-based offset of the caret in the document.
      * @param cancellationToken The cancellation token; or `null` when not supported.
-     * @return The completion info.
+     * @return The completion info; or null when there are no completions.
      */
     fun getCompletionInfo(
             document: URI,
             caretOffset: Offset,
             cancellationToken: ICancellationToken?)
-            : ICompletionInfo
+            : ICompletionInfo?
 }

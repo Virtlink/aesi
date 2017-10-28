@@ -1,8 +1,4 @@
-package com.virtlink.editorservices.vfs
-
-import com.virtlink.editorservices.Offset
-import com.virtlink.editorservices.Position
-import com.virtlink.editorservices.Span
+package com.virtlink.editorservices
 
 /**
  * Maintains the lines in a document.

@@ -1,6 +1,5 @@
-package com.virtlink.editorservices.documents
+package com.virtlink.editorservices.resources
 
-import com.virtlink.editorservices.content.IContent
 import java.net.URI
 
 /**
@@ -30,7 +29,7 @@ interface IResourceManager {
      * @param uri The URI of the file or folder.
      * @return The URI of the project; or null when the resource is not part of a project.
      */
-    fun getProject(uri: URI): URI?
+    fun getProjectOf(uri: URI): URI?
 
     /**
      * Gets whether the resource is a project.

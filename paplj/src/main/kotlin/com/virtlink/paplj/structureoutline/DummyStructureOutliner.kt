@@ -21,15 +21,15 @@ class DummyStructureOutliner: IStructureOutlineService {
     override fun hasChildren(document: URI, node: IStructureTreeNode)
             = null
 
-    private val rootSymbol: Node = Node(Symbol(label="root", kind="constant"), listOf(
-            Node(Symbol(label="file1", kind="file"), listOf(
-                    Node(Symbol(label="myClass0", kind="class"), listOf(
-                            Node(Symbol(label="myFunc", kind="function"), listOf())
+    private val rootSymbol: Node = Node(Symbol(label = "root", kind = "constant"), listOf(
+            Node(Symbol(label = "file1", kind = "file"), listOf(
+                    Node(Symbol(label = "myClass0", kind = "class"), listOf(
+                            Node(Symbol(label = "myFunc", kind = "function"), listOf())
                     )),
-                    Node(Symbol(label="myClass2", kind="class"), listOf()),
-                    Node(Symbol(label="myClass4", kind="class"), listOf())
+                    Node(Symbol(label = "myClass2", kind = "class"), listOf()),
+                    Node(Symbol(label = "myClass4", kind = "class"), listOf())
             )),
-            Node(Symbol(label="file2", kind="file"), listOf())
+            Node(Symbol(label = "file2", kind = "file"), listOf())
     ))
 
     private data class Node(

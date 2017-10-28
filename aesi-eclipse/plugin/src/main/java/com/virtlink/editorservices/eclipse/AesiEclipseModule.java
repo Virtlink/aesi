@@ -6,12 +6,14 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.virtlink.editorservices.documents.IResourceManager;
+import com.virtlink.editorservices.resources.IResourceManager;
 import com.virtlink.editorservices.eclipse.codecompletion.AesiCompletionProcessor;
-import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider;
 import com.virtlink.editorservices.eclipse.editor.AesiSourceViewerConfiguration;
 import com.virtlink.editorservices.eclipse.editor.ColorizationJob;
+import com.virtlink.editorservices.eclipse.referenceresolution.AesiHyperlinkDetector;
+import com.virtlink.editorservices.eclipse.resources.EclipseResourceManager;
+import com.virtlink.editorservices.eclipse.referenceresolution.AesiHyperlink;
 import com.virtlink.editorservices.eclipse.structureoutline.AesiLabelProvider;
 import com.virtlink.editorservices.eclipse.structureoutline.AesiOutlinePage;
 import com.virtlink.editorservices.eclipse.structureoutline.AesiTreeContentProvider;
@@ -48,7 +50,12 @@ public class AesiEclipseModule extends AbstractModule {
 		install(new FactoryModuleBuilder()
 				.implement(AesiLabelProvider.class, AesiLabelProvider.class)
 				.build(AesiLabelProvider.IFactory.class));
-		
+		install(new FactoryModuleBuilder()
+				.implement(AesiHyperlinkDetector.class, AesiHyperlinkDetector.class)
+				.build(AesiHyperlinkDetector.IFactory.class));
+		install(new FactoryModuleBuilder()
+				.implement(AesiHyperlink.class, AesiHyperlink.class)
+				.build(AesiHyperlink.IFactory.class));
 
 		injectStatics();
 	}

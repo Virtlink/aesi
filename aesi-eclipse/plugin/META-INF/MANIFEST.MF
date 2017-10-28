@@ -20,14 +20,18 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
  aesi-eclipse.externaldeps,
- org.eclipse.swt
+ org.eclipse.swt,
+ org.eclipse.text
 Export-Package: com.virtlink.editorservices,
  com.virtlink.editorservices.eclipse,
+ com.virtlink.editorservices.eclipse.actions,
  com.virtlink.editorservices.eclipse.codecompletion,
- com.virtlink.editorservices.eclipse.content,
  com.virtlink.editorservices.eclipse.editor,
  com.virtlink.editorservices.eclipse.logging,
+ com.virtlink.editorservices.eclipse.referenceresolution,
+ com.virtlink.editorservices.eclipse.resources,
  com.virtlink.editorservices.eclipse.structureoutline,
+ com.virtlink.editorservices.eclipse.syntaxcoloring,
  com.virtlink.editorservices.eclipse.syntaxcoloring,
  org.slf4j.impl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

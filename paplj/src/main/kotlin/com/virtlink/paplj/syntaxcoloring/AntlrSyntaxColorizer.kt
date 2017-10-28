@@ -2,7 +2,7 @@ package com.virtlink.paplj.syntaxcoloring
 
 import com.google.inject.Inject
 import com.virtlink.editorservices.*
-import com.virtlink.editorservices.documents.IResourceManager
+import com.virtlink.editorservices.resources.IResourceManager
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
 import com.virtlink.editorservices.syntaxcoloring.Token

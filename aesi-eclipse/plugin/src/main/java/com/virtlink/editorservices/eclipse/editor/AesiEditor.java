@@ -2,6 +2,7 @@ package com.virtlink.editorservices.eclipse.editor;
 
 import javax.annotation.Nullable;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.text.DocumentEvent;
@@ -15,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.virtlink.editorservices.eclipse.Contract;
-import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
+import com.virtlink.editorservices.eclipse.resources.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.structureoutline.AesiOutlinePage;
 import com.virtlink.editorservices.eclipse.syntaxcoloring.PresentationMerger;
 
@@ -122,9 +123,9 @@ public class AesiEditor extends AesiEditorBase {
         	unsetPresentation();
         }
         
-        final IResource resource = this.resourceManager.getResource(getEditorInput());
+        final IFile file = this.resourceManager.getFile(getEditorInput());
         final Job job = this.colorizationJobFactory.create(this);
-        job.setRule(JobUtils.ruleOf(resource));
+        job.setRule(JobUtils.ruleOf(file));
         job.schedule(delay);
 	}
 	

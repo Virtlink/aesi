@@ -7,9 +7,9 @@ import com.virtlink.editorservices.codecompletion.ICompletionInfo;
 import com.virtlink.editorservices.codecompletion.ICompletionProposal;
 import com.virtlink.editorservices.eclipse.AesiIconManager;
 import com.virtlink.editorservices.eclipse.Contract;
-import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.editor.ColorizationJob;
 import com.virtlink.editorservices.eclipse.editor.IAesiEditor;
+import com.virtlink.editorservices.eclipse.resources.EclipseResourceManager;
 
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.jface.text.ITextViewer;
@@ -63,7 +63,7 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
 	
     @Override
     public org.eclipse.jface.text.contentassist.ICompletionProposal[] computeCompletionProposals(ITextViewer textViewer, int offset) {
-    	final URI document = this.resourceManager.getUri(this.resourceManager.getResource(this.editor));
+    	final URI document = this.resourceManager.getUri(this.editor);
         ICompletionInfo completionInfo = this.codeCompleter.getCompletionInfo(document, offset, null);
         List<ICompletionProposal> proposals = completionInfo.getProposals();
         // TODO: Do something with the prefix.

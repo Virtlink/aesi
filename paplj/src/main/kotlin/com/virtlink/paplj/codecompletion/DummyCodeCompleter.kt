@@ -3,9 +3,7 @@ package com.virtlink.paplj.codecompletion
 import com.virtlink.editorservices.*
 import com.virtlink.editorservices.codecompletion.*
 import com.virtlink.logging.logger
-import org.slf4j.LoggerFactory
 import java.net.URI
-import java.util.*
 
 class DummyCodeCompleter : ICodeCompletionService {
 

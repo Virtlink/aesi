@@ -3,7 +3,6 @@ package com.virtlink.editorservices.intellij.content
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.event.*
-import com.virtlink.editorservices.content.IContent
 import com.virtlink.editorservices.content.IContentSource
 import com.virtlink.editorservices.content.StringContent
 import com.virtlink.editorservices.intellij.IntellijDocument

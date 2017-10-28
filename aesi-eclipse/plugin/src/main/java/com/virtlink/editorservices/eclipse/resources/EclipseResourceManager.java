@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.eclipse.content;
+package com.virtlink.editorservices.eclipse.resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,16 +20,21 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextOperationTarget;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IURIEditorInput;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.texteditor.ITextEditor;
 
-import com.virtlink.editorservices.content.IContent;
+import com.virtlink.editorservices.resources.IContent;
 import com.virtlink.editorservices.content.StringContent;
-import com.virtlink.editorservices.documents.IResourceManager;
+import com.virtlink.editorservices.resources.IResourceManager;
 import com.virtlink.editorservices.eclipse.Contract;
 import com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider;
 
@@ -42,88 +47,7 @@ public class EclipseResourceManager implements IResourceManager {
 	
 	// See also:
 	// https://help.eclipse.org/mars/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2FresInt_filesystem.htm
-	
-	/**
-	 * Maps the document to its corresponding resource.
-	 * 
-	 * This will check every resource to see whether it corresponds
-	 * to the given document. Do not use this method in performance-critical
-	 * applications.
-	 * 
-	 * @param document The document.
-	 * @return The resource, or null when not found.
-	 */
-	@Nullable
-	public IResource getResource(IDocument document) {
-		Contract.requireNotNull("document", document);
-		
-		IResource resource = AesiDocumentProvider.getInstance().getFile(document);
-		if (resource != null) { return resource; }
-		
-		final ITextFileBufferManager bufferManager = FileBuffers.getTextFileBufferManager();
-		if (bufferManager == null) { return null; }
-		final ITextFileBuffer buffer = bufferManager.getTextFileBuffer(document);
-		if (buffer == null) { return null; }
-		final IPath location = buffer.getLocation();
-		return ResourcesPlugin.getWorkspace().getRoot().findMember(location);
-	}
 
-	/**
-	 * Maps the editor to its corresponding resource.
-	 * 
-	 * @param editor The editor.
-	 * @return The resource.
-	 */
-	public IResource getResource(IEditorPart editor) {
-		Contract.requireNotNull("editor", editor);
-		
-		return getResource(editor.getEditorInput());
-	}
-
-	/**
-	 * Maps editor input to its corresponding resource.
-	 * 
-	 * @param input The input.
-	 * @return The resource.
-	 */
-	public IResource getResource(IEditorInput input) {
-		Contract.requireNotNull("input", input);
-		
-		if(input instanceof IFileEditorInput) {
-            final IFileEditorInput fileInput = (IFileEditorInput)input;
-            return fileInput.getFile();
-        } else if(input instanceof IPathEditorInput) {
-            final IPathEditorInput pathInput = (IPathEditorInput)input;
-            IPath path = pathInput.getPath();
-//            return resolve(pathInput.getPath());
-    		throw new RuntimeException("Not implemented.");
-        } else if(input instanceof IURIEditorInput) {
-            final IURIEditorInput uriInput = (IURIEditorInput) input;
-            URI uri = uriInput.getURI();
-
-    		throw new RuntimeException("Not implemented.");
-        } else if(input instanceof IStorageEditorInput) {
-            final IStorageEditorInput storageInput = (IStorageEditorInput) input;
-            final IStorage storage;
-            try {
-                storage = storageInput.getStorage();
-            } catch(CoreException e) {
-                return null;
-            }
-
-            final IPath path = storage.getFullPath();
-            if(path != null) {
-                //return path;
-        		throw new RuntimeException("Not implemented.");
-            } else {
-                //return "mem:///" + input.getName();
-        		throw new RuntimeException("Not implemented.");
-            }
-        } else {
-    		throw new RuntimeException("Not implemented.");
-        }
-	}
-	
 	/**
 	 * Maps a URI to its corresponding resource.
 	 * 
@@ -188,6 +112,127 @@ public class EclipseResourceManager implements IResourceManager {
 	}
 	
 	/**
+	 * Maps the document to its corresponding file.
+	 * 
+	 * This will check every resource to see whether it corresponds
+	 * to the given document. Do not use this method in performance-critical
+	 * applications.
+	 * 
+	 * @param document The document.
+	 * @return The file, or null when not found.
+	 */
+	@Nullable
+	public IFile getFile(IDocument document) {
+		Contract.requireNotNull("document", document);
+		
+		IFile file = AesiDocumentProvider.getInstance().getFile(document);
+		if (file != null) { return file; }
+		
+		final ITextFileBufferManager bufferManager = FileBuffers.getTextFileBufferManager();
+		if (bufferManager == null) { return null; }
+		final ITextFileBuffer buffer = bufferManager.getTextFileBuffer(document);
+		if (buffer == null) { return null; }
+		final IPath location = buffer.getLocation();
+		if (location == null) { return null; }
+		return ResourcesPlugin.getWorkspace().getRoot().getFile(location);
+//		return ResourcesPlugin.getWorkspace().getRoot().findMember(location);
+	}
+
+	/**
+	 * Maps the editor to its corresponding file.
+	 * 
+	 * @param editor The editor.
+	 * @return The file.
+	 */
+	public IFile getFile(IEditorPart editor) {
+		Contract.requireNotNull("editor", editor);
+		
+		return getFile(editor.getEditorInput());
+	}
+
+	/**
+	 * Maps editor input to its corresponding resource.
+	 * 
+	 * @param input The input.
+	 * @return The resource.
+	 */
+	public IFile getFile(IEditorInput input) {
+		Contract.requireNotNull("input", input);
+		
+		return asFile(input.getAdapter(IResource.class));
+//		
+//		if(input instanceof IFileEditorInput) {
+//            final IFileEditorInput fileInput = (IFileEditorInput)input;
+//            return fileInput.getFile();
+//        } else if(input instanceof IPathEditorInput) {
+//            final IPathEditorInput pathInput = (IPathEditorInput)input;
+//            IPath path = pathInput.getPath();
+////            return resolve(pathInput.getPath());
+//    		throw new RuntimeException("Not implemented.");
+//        } else if(input instanceof IURIEditorInput) {
+//            final IURIEditorInput uriInput = (IURIEditorInput) input;
+//            URI uri = uriInput.getURI();
+//
+//    		throw new RuntimeException("Not implemented.");
+//        } else if(input instanceof IStorageEditorInput) {
+//            final IStorageEditorInput storageInput = (IStorageEditorInput) input;
+//            final IStorage storage;
+//            try {
+//                storage = storageInput.getStorage();
+//            } catch(CoreException e) {
+//                return null;
+//            }
+//
+//            final IPath path = storage.getFullPath();
+//            if(path != null) {
+//                //return path;
+//        		throw new RuntimeException("Not implemented.");
+//            } else {
+//                //return "mem:///" + input.getName();
+//        		throw new RuntimeException("Not implemented.");
+//            }
+//        } else {
+//    		throw new RuntimeException("Not implemented.");
+//        }
+	}
+	
+	/**
+	 * Maps a URI to its corresponding file.
+	 * 
+	 * @param uri The URI.
+	 * @return The file; or null when not found.
+	 */
+	@Nullable public IFile getFile(URI uri) {
+		Contract.requireNotNull("uri", uri);
+		
+		return asFile(getResource(uri));
+	}
+	
+	/**
+	 * Maps a URI to its corresponding folder.
+	 * 
+	 * @param uri The URI.
+	 * @return The folder; or null when not found.
+	 */
+	@Nullable public IFolder getFolder(URI uri) {
+		Contract.requireNotNull("uri", uri);
+		
+		return asFolder(getResource(uri));
+	}
+	
+	/**
+	 * Maps a URI to its corresponding project.
+	 * 
+	 * @param uri The URI.
+	 * @return The project; or null when not found.
+	 */
+	@Nullable public IProject getProject(URI uri) {
+		Contract.requireNotNull("uri", uri);
+		
+		return asProject(getResource(uri));
+	}
+	
+	/**
 	 * Maps the document to its corresponding URI.
 	 * 
 	 * Do not use in performance-critical code.
@@ -198,7 +243,7 @@ public class EclipseResourceManager implements IResourceManager {
 	public URI getUri(IDocument document) {
 		Contract.requireNotNull("document", document);
 		
-		return getUri(getResource(document));
+		return getUri(getFile(document));
 	}
 
 	/**
@@ -222,7 +267,7 @@ public class EclipseResourceManager implements IResourceManager {
 	public URI getUri(IEditorInput input) {
 		Contract.requireNotNull("input", input);
 		
-		return getUri(getResource(input));		
+		return getUri(getFile(input));		
 	}
 	
 	/**
@@ -250,9 +295,74 @@ public class EclipseResourceManager implements IResourceManager {
 			throw new RuntimeException("Not implemented.");
 		}
 	}
+	
+	/**
+	 * Gets the editor associated with the specified workbench part reference.
+	 * 
+	 * @param reference The reference.
+	 * @return The editor.
+	 */
+	public ITextEditor getEditor(IWorkbenchPartReference reference) {
+		IWorkbenchPart part = reference.getPart(true);
+		if (part != null && part instanceof ITextEditor) {
+			return (ITextEditor) part;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Gets the document associated with the specified editor.
+	 * 
+	 * @param editor The editor.
+	 * @return The document.
+	 */
+	public IDocument getDocument(ITextEditor editor) {
+		return editor.getDocumentProvider()
+				.getDocument(editor.getEditorInput());
+	}
+
+	/**
+	 * Gets the source viewer associated with the specified editor.
+	 * 
+	 * @param editor The editor.
+	 * @return The source viewer.
+	 */
+	public ISourceViewer getSourceViewer(IEditorPart editor) {
+		if (editor == null) { return null; }
+
+		return (ISourceViewer)editor.getAdapter(ITextOperationTarget.class);
+	}
+	
+	/**
+	 * Returns the specified {@link IResource} as a {@link IFile}, if possible.
+	 * @param resource The resource.
+	 * @return The file; or null.
+	 */
+	@Nullable public IFile asFile(@Nullable IResource resource) {
+		return resource != null && resource.getType() == IResource.FILE ? (IFile)resource : null;
+	}
+	
+	/**
+	 * Returns the specified {@link IResource} as a {@link IFolder}, if possible.
+	 * @param resource The resource.
+	 * @return The folder; or null.
+	 */
+	@Nullable public IFolder asFolder(@Nullable IResource resource) {
+		return resource != null && resource.getType() == IResource.FOLDER ? (IFolder)resource : null;
+	}
+	
+	/**
+	 * Returns the specified {@link IResource} as a {@link IProject}, if possible.
+	 * @param resource The resource.
+	 * @return The project; or null.
+	 */
+	@Nullable public IProject asProject(@Nullable IResource resource) {
+		return resource != null && resource.getType() == IResource.PROJECT ? (IProject)resource : null;
+	}
 
 	@Override
-	public URI getProject(URI uri) {
+	public URI getProjectOf(URI uri) {
 		Contract.requireNotNull("uri", uri);
 		
 		IResource resource = getResource(uri);
@@ -268,24 +378,24 @@ public class EclipseResourceManager implements IResourceManager {
 	public boolean isFile(URI uri) {
 		Contract.requireNotNull("uri", uri);
 		
-		IResource resource = getResource(uri);
-		return resource instanceof IFile;
+		IFile file = asFile(getResource(uri));
+		return file != null;
 	}
 
 	@Override
 	public boolean isFolder(URI uri) {
 		Contract.requireNotNull("uri", uri);
 		
-		IResource resource = getResource(uri);
-		return resource instanceof IFolder;
+		IFolder folder = asFolder(getResource(uri));
+		return folder != null;
 	}
 
 	@Override
 	public boolean isProject(URI uri) {
 		Contract.requireNotNull("uri", uri);
 		
-		IResource resource = getResource(uri);
-		return resource instanceof IProject;
+		IProject project = asProject(getResource(uri));
+		return project != null;
 	}
 
 	@Override

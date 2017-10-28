@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
 import com.virtlink.editorservices.eclipse.codecompletion.AesiCompletionProcessor;
-import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.editor.IAesiEditor;
+import com.virtlink.editorservices.eclipse.resources.EclipseResourceManager;
 import com.virtlink.editorservices.structureoutline.IStructureOutlineService;
 import com.virtlink.editorservices.structureoutline.IStructureTreeNode;
 import com.virtlink.editorservices.symbols.ISymbol;

@@ -2,12 +2,14 @@ package com.virtlink.editorservices.content
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
+import com.virtlink.editorservices.resources.IContent
+import com.virtlink.editorservices.resources.TextChange
 import java.io.LineNumberReader
 
 /**
  * Empty content.
  */
-class EmptyContent: IContent {
+class EmptyContent : IContent {
     override val stamp: Long
         get() = 0
     override val text: String

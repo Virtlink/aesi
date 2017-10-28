@@ -2,7 +2,7 @@ package com.virtlink.paplj.referenceresolution
 
 import com.google.inject.Inject
 import com.virtlink.editorservices.*
-import com.virtlink.editorservices.documents.IResourceManager
+import com.virtlink.editorservices.resources.IResourceManager
 import com.virtlink.editorservices.referenceresolution.*
 import com.virtlink.editorservices.symbols.Symbol
 import com.virtlink.logging.logger

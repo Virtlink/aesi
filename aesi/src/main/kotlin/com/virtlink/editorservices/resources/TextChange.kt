@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.content
+package com.virtlink.editorservices.resources
 
 import com.virtlink.editorservices.Span
 

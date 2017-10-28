@@ -3,10 +3,10 @@ package com.virtlink.paplj.eclipse.editor;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 
-import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.editor.AesiEditor;
 import com.virtlink.editorservices.eclipse.editor.AesiSourceViewerConfiguration;
 import com.virtlink.editorservices.eclipse.editor.ColorizationJob;
+import com.virtlink.editorservices.eclipse.resources.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.structureoutline.AesiOutlinePage;
 import com.virtlink.editorservices.eclipse.syntaxcoloring.PresentationMerger;
 import com.virtlink.paplj.eclipse.PapljPlugin;

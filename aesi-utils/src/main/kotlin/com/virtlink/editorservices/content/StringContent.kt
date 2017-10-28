@@ -3,6 +3,8 @@ package com.virtlink.editorservices.content
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
 import com.virtlink.editorservices.indexAfterNextNewline
+import com.virtlink.editorservices.resources.IContent
+import com.virtlink.editorservices.resources.TextChange
 import java.io.LineNumberReader
 
 /**

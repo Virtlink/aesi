@@ -1,4 +1,4 @@
-package com.virtlink.editorservices.vfs
+package com.virtlink.editorservices
 
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
