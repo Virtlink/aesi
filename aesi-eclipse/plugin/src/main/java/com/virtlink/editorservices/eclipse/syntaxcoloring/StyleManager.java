@@ -22,6 +22,7 @@ import com.virtlink.editorservices.eclipse.Contract;
 /**
  * Manages the syntax coloring styles.
  */
+@SuppressWarnings("unused")
 public final class StyleManager {
 	
 	/** The default token style name. */

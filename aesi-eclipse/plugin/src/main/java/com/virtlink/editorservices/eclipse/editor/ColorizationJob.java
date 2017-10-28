@@ -3,16 +3,11 @@ package com.virtlink.editorservices.eclipse.editor;
 import java.net.URI;
 import java.util.List;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

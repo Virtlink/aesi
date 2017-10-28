@@ -11,7 +11,9 @@ import java.io.Serializable;
  */
 public final class ConsoleLoggerAdapter extends LoggerBase implements Serializable {
 
-    /**
+	private static final long serialVersionUID = -620295393886184833L;
+
+	/**
      * Initializes a new instance of the {@link LoggerBase} class.
      *
      * @param name The name of the logger.

@@ -12,6 +12,9 @@ import com.virtlink.editorservices.eclipse.content.EclipseResourceManager;
 import com.virtlink.editorservices.eclipse.editor.AesiDocumentProvider;
 import com.virtlink.editorservices.eclipse.editor.AesiSourceViewerConfiguration;
 import com.virtlink.editorservices.eclipse.editor.ColorizationJob;
+import com.virtlink.editorservices.eclipse.structureoutline.AesiLabelProvider;
+import com.virtlink.editorservices.eclipse.structureoutline.AesiOutlinePage;
+import com.virtlink.editorservices.eclipse.structureoutline.AesiTreeContentProvider;
 import com.virtlink.editorservices.eclipse.syntaxcoloring.AesiColorManager;
 import com.virtlink.editorservices.eclipse.syntaxcoloring.PresentationMerger;
 import com.virtlink.editorservices.eclipse.syntaxcoloring.StyleManager;
@@ -36,6 +39,16 @@ public class AesiEclipseModule extends AbstractModule {
 		install(new FactoryModuleBuilder()
 			     .implement(AesiSourceViewerConfiguration.class, AesiSourceViewerConfiguration.class)
 			     .build(AesiSourceViewerConfiguration.IFactory.class));
+		install(new FactoryModuleBuilder()
+				.implement(AesiTreeContentProvider.class, AesiTreeContentProvider.class)
+				.build(AesiTreeContentProvider.IFactory.class));
+		install(new FactoryModuleBuilder()
+				.implement(AesiOutlinePage.class, AesiOutlinePage.class)
+				.build(AesiOutlinePage.IFactory.class));
+		install(new FactoryModuleBuilder()
+				.implement(AesiLabelProvider.class, AesiLabelProvider.class)
+				.build(AesiLabelProvider.IFactory.class));
+		
 
 		injectStatics();
 	}
