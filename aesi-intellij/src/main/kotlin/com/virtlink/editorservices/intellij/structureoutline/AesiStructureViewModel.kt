@@ -2,6 +2,8 @@ package com.virtlink.editorservices.intellij.structureoutline
 
 import com.google.inject.Inject
 import com.google.inject.assistedinject.Assisted
+import com.intellij.ide.structureView.StructureViewModel
+import com.intellij.ide.structureView.StructureViewModelBase
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.structureView.TextEditorBasedStructureViewModel
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase
@@ -23,18 +25,9 @@ class AesiStructureViewModel @Inject constructor(
         private val structureOutlineService: IStructureOutlineService,
         private val resourceManager: IntellijResourceManager)
     : TextEditorBasedStructureViewModel(editor, psiFile) {
+//    : StructureViewModelBase(psiFile, editor, null), StructureViewModel.ElementInfoProvider {
 
-    /**
-     * Factory for the language-specific lexer.
-     */
     interface IFactory {
-
-        /**
-         * Creates the lexer.
-         *
-         * @param editor The editor; or null.
-         * @param psiFile The PSI file.
-         */
         fun create(editor: Editor?, psiFile: PsiFile): AesiStructureViewModel
     }
 

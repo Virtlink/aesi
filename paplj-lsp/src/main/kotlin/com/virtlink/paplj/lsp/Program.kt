@@ -2,14 +2,14 @@ package com.virtlink.paplj.lsp
 
 import com.google.inject.Guice
 import com.virtlink.editorservices.lsp.CommandLineArgs
-import com.virtlink.editorservices.lsp.SocketLanguageServerLauncher
+import com.virtlink.editorservices.lsp.server.SocketLanguageServerLauncher
 import org.eclipse.lsp4j.services.LanguageServer
 
 /**
  * The main entry point of the language server.
  */
 fun main(rawArgs: Array<String>) {
-    val injector = Guice.createInjector(PapljModule())
+    val injector = Guice.createInjector(PapljLspModule())
 
     val args = CommandLineArgs(rawArgs)
     val server = injector.getInstance(LanguageServer::class.java)

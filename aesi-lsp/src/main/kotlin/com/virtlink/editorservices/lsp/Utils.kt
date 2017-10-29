@@ -3,7 +3,7 @@ package com.virtlink.editorservices.lsp
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
 import com.virtlink.editorservices.Span
-import com.virtlink.editorservices.content.IContent
+import com.virtlink.editorservices.resources.IContent
 import org.eclipse.lsp4j.Range
 
 fun Range.toSpan(content: IContent): Span? {

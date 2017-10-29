@@ -1,13 +1,9 @@
 package com.virtlink.editorservices.lsp.server
 
 import com.google.inject.Inject
-import com.virtlink.editorservices.IDocument
-import com.virtlink.editorservices.IProject
 import com.virtlink.editorservices.ISessionManager
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
-import com.virtlink.editorservices.content.TextChange
-import com.virtlink.editorservices.lsp.ProjectManager
 import com.virtlink.editorservices.lsp.toCancellationToken
 import com.virtlink.editorservices.lsp.toOffset
 import com.virtlink.editorservices.lsp.toSpan
@@ -20,15 +16,16 @@ import org.eclipse.lsp4j.jsonrpc.messages.ResponseErrorCode
 import java.net.URI
 import java.util.concurrent.CompletableFuture
 import com.virtlink.editorservices.lsp.content.RemoteContentSource
-import com.virtlink.editorservices.content.VersionedContent
 import com.virtlink.editorservices.lsp.content.DocumentContentManager
+import com.virtlink.editorservices.lsp.resources.LspResourceManager
+import com.virtlink.editorservices.resources.TextChange
 import com.virtlink.logging.logger
 
 class AesiLanguageServer @Inject constructor(
         private val codeCompletionService: ICodeCompletionService,
         private val remoteContentSource: RemoteContentSource,
-        private val projectManager: ProjectManager,
         private val documentContentManager: DocumentContentManager,
+        private val resourceManager: LspResourceManager,
         private val sessionManager: ISessionManager
 ) : AbstractLanguageServer() {
 
@@ -38,7 +35,7 @@ class AesiLanguageServer @Inject constructor(
     override fun doInitialize(params: InitializeParams): CompletableFuture<InitializeResult>
     = CompletableFutures.computeAsync {
         this.sessionManager.start()
-        this.projectManager.open(URI(params.rootUri))
+        this.resourceManager.openProject(URI(params.rootUri))
 
         val capabilities = ServerCapabilities()
         capabilities.completionProvider = CompletionOptions(false, listOf(".", " "))
@@ -54,7 +51,7 @@ class AesiLanguageServer @Inject constructor(
 
     override fun doShutdown(): CompletableFuture<Any>
     = CompletableFutures.computeAsync {
-        this.projectManager.close()
+        this.resourceManager.closeProject()
         this.sessionManager.stop()
 
         // We need to return some non-empty result for VS Code to send an exit() notification,
@@ -63,45 +60,58 @@ class AesiLanguageServer @Inject constructor(
     }
 
     override fun opened(params: DidOpenTextDocumentParams) {
-        val document = getDocument(params.textDocument.uri)
-        this.documentContentManager.open(document, params.textDocument.text, params.textDocument.version)
+        val documentUri = this.resourceManager.getUriFromLSPUri(params.textDocument.uri)
+        this.documentContentManager.open(documentUri, params.textDocument.text, params.textDocument.version.toLong())
     }
 
     override fun changed(params: DidChangeTextDocumentParams) {
-        val document = getDocument(params.textDocument.uri)
-        val content = this.documentContentManager.getLatestContent(document)
-        val currentVersion = (content as VersionedContent).version
+        val documentUri = this.resourceManager.getUriFromLSPUri(params.textDocument.uri)
+        val content = this.resourceManager.getContent(documentUri)
+        if (content == null) {
+            LOG.warn("$documentUri: Changes to unknown document.")
+            return
+        }
+        val currentVersion = content.stamp
         val changes = params.contentChanges.map { TextChange(it.range.toSpan(content)!!, it.text) }
-        this.remoteContentSource.update(document, currentVersion, changes, params.textDocument.version)
+        this.remoteContentSource.update(documentUri, currentVersion, changes, params.textDocument.version.toLong())
     }
 
     override fun saving(params: WillSaveTextDocumentParams) {
-        val document = getDocument(params.textDocument.uri)
-        LOG.info("$document: Saving because ${params.reason}")
+        val documentUri = this.resourceManager.getUriFromLSPUri(params.textDocument.uri)
+        LOG.info("$documentUri: Saving because ${params.reason}")
     }
 
     override fun saved(params: DidSaveTextDocumentParams) {
-        val document = getDocument(params.textDocument.uri)
-        LOG.info("$document: Saved")
+        val documentUri = this.resourceManager.getUriFromLSPUri(params.textDocument.uri)
+        LOG.info("$documentUri: Saved")
     }
 
     override fun closed(params: DidCloseTextDocumentParams) {
-        val document = getDocument(params.textDocument.uri)
-        this.documentContentManager.close(document)
+        val documentUri = this.resourceManager.getUriFromLSPUri(params.textDocument.uri)
+        this.documentContentManager.close(documentUri)
     }
 
     override fun doCompletion(position: TextDocumentPositionParams)
             : CompletableFuture<Either<MutableList<CompletionItem>, CompletionList>>
     = CompletableFutures.computeAsync {
-        val project = getProject()
-        val document = getDocument(position.textDocument.uri)
-        val content = this.documentContentManager.getLatestContent(document)
-        val offset = position.position.toOffset(content)
-                ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
-                "Position not found within document.", position.position))
-        val info = this.codeCompletionService.getCompletionInfo(project, document, offset, it.toCancellationToken())
-        val proposals = info.proposals.map { toCompletionItem(it) }
-        val list = CompletionList(proposals)
+        val documentUri = this.resourceManager.getUriFromLSPUri(position.textDocument.uri)
+        val content = this.resourceManager.getContent(documentUri)
+        val list: CompletionList
+        if (content != null) {
+            val offset = position.position.toOffset(content)
+                    ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
+                    "Position not found within document.", position.position))
+            val info = this.codeCompletionService.getCompletionInfo(documentUri, offset, it.toCancellationToken())
+            if (info != null) {
+                val proposals = info.proposals.map { toCompletionItem(it) }
+                list = CompletionList(proposals)
+            } else {
+                list = CompletionList(emptyList())
+            }
+        } else {
+            LOG.warn("$documentUri: Changes to unknown document.")
+            list = CompletionList(emptyList())
+        }
         Either.forRight<MutableList<CompletionItem>, CompletionList>(list)
     }
 
@@ -115,11 +125,11 @@ class AesiLanguageServer @Inject constructor(
         return item
     }
 
-    private fun getProject(): IProject
-            = this.projectManager.getProject()
-
-    private fun getDocument(uri: String): IDocument
-            = this.projectManager.getDocuments().getDocument(URI(uri))
+//    private fun getProject(): IProject
+//            = this.projectManager.getProject()
+//
+//    private fun getDocument(uri: String): IDocument
+//            = this.projectManager.getDocuments().getDocument(URI(uri))
 
 //    private fun getDocumentData(uri: URI): Pair<IDocument, IDocumentContent> {
 //        val project = this.projectManager.getProject()

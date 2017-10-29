@@ -11,7 +11,7 @@ fun CancelChecker.toCancellationToken(): ICancellationToken
     = LspCancellationToken(this)
 
 private class LspCancellationToken(private val checker: CancelChecker): ICancellationToken {
-    override val cancelled: Boolean
+    override val isCancelled: Boolean
         get() = try {
                     checker.checkCanceled()
                     false
