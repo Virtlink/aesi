@@ -14,7 +14,7 @@ import com.virtlink.paplj.referenceresolution.DummyReferenceResolver;
 import com.virtlink.paplj.structureoutline.DummyStructureOutliner;
 import com.virtlink.paplj.syntaxcoloring.AntlrSyntaxColorizer;
 
-public class PapljAesiModule extends AbstractModule {
+public class PapljEclipseModule extends AbstractModule {
 
 	@Override
 	protected void configure() {

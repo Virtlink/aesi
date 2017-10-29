@@ -1,25 +1,21 @@
 package com.virtlink.editorservices.intellij.syntaxcoloring
 
-import com.google.inject.Injector
+import com.google.inject.Inject
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import com.virtlink.editorservices.intellij.DocumentManager
-import com.virtlink.editorservices.intellij.ProjectManager
+import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 
-abstract class AesiSyntaxHighlighterFactory(injector: Injector)
+abstract class AesiSyntaxHighlighterFactory @Inject constructor(
+        private val resourceManager: IntellijResourceManager,
+        private val lexerFactory: AesiLexer.IFactory,
+        private val highlighterFactory: AesiSyntaxHighlighter.IFactory)
     : SyntaxHighlighterFactory() {
 
-    private val projectManager = injector.getInstance(ProjectManager::class.java)
-    private val documentManager = injector.getInstance(DocumentManager::class.java)
-    private val lexerFactory = injector.getInstance(ILexerFactory::class.java)
-    private val scopeManager = injector.getInstance(ScopeManager::class.java)
-
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter {
-        val aesiProject = this.projectManager.getProjectForFile(project, virtualFile)
-        val aesiDocument = this.documentManager.getDocument(virtualFile!!)
-        val lexer = this.lexerFactory.create(aesiProject, aesiDocument)
-        return AesiSyntaxHighlighter(lexer, scopeManager)
+        val documentUri = this.resourceManager.getUri(virtualFile!!, project!!)
+        val lexer = this.lexerFactory.create(documentUri)
+        return highlighterFactory.create(lexer)
     }
 }

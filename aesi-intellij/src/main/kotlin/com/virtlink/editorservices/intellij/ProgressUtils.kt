@@ -9,7 +9,7 @@ fun ProgressIndicator.toCancellationToken(): ICancellationToken {
 
 private class ProgressCancellationToken(val progress: ProgressIndicator) : ICancellationToken {
 
-    override val cancelled: Boolean
+    override val isCancelled: Boolean
         get() = this.progress.isCanceled
 
 }

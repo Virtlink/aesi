@@ -4,26 +4,42 @@ import com.google.inject.Inject
 import com.google.inject.assistedinject.Assisted
 import com.intellij.lexer.LexerBase
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager
+import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
+import java.net.URI
 
 class AesiLexer @Inject constructor(
-        @Assisted private val project: IProject,
-        @Assisted private val document: IDocument,
+        @Assisted private val documentUri: URI,
         private val tokenTypeManager: AesiTokenTypeManager,
-        private val colorer: ISyntaxColoringService,
-        private val scopeManager: ScopeManager)
+        private val syntaxColoringService: ISyntaxColoringService,
+        private val scopeManager: ScopeManager,
+        private val resourceManager: IntellijResourceManager)
     : LexerBase() {
+
+    /**
+     * Factory for the language-specific lexer.
+     */
+    interface IFactory {
+
+        /**
+         * Creates the lexer.
+         *
+         * @param documentUri The document URI.
+         */
+        fun create(documentUri: URI): AesiLexer
+    }
 
     private val LOG = Logger.getInstance(this.javaClass)
 
     private var buffer: CharSequence? = null
-    private var startOffset: Int = 0
-    private var endOffset: Int = 0
+    private var startOffset: Offset = 0
+    private var endOffset: Offset = 0
     private var tokens = emptyList<AesiToken>()
     private var tokenIndex: Int = 0
 
@@ -32,11 +48,11 @@ class AesiLexer @Inject constructor(
         assert(0 <= startOffset && startOffset <= buffer.length)
         assert(0 <= endOffset && endOffset <= buffer.length)
 
-        LOG.debug("Lexing $document in $project...")
+        LOG.debug("Lexing $documentUri...")
 
         this.buffer = buffer
-        this.startOffset = startOffset
-        this.endOffset = endOffset
+        this.startOffset = startOffset.toLong()
+        this.endOffset = endOffset.toLong()
         this.tokenIndex = 0
 
 
@@ -44,10 +60,9 @@ class AesiLexer @Inject constructor(
             LOG.debug("Buffer is empty.")
             this.tokens = emptyList()
         } else {
-            val highlighterTokens = this.colorer.getTokens(
-                    this.project,
-                    this.document,
-                    Span(Offset(startOffset), Offset(endOffset)),
+            val highlighterTokens = this.syntaxColoringService.getTokens(
+                    this.documentUri,
+                    Span(this.startOffset, this.endOffset),
                     null)
             LOG.debug("Highlighter returned ${highlighterTokens.size} tokens")
             this.tokens = tokenize(highlighterTokens)
@@ -57,11 +72,11 @@ class AesiLexer @Inject constructor(
 
     private fun tokenize(tokens: List<IToken>): List<AesiToken> {
         val newTokens = mutableListOf<AesiToken>()
-        var offset = 0
+        var offset = 0L
 
         for (token in tokens) {
-            val tokenStart = token.location.start.value
-            val tokenEnd = token.location.end.value
+            val tokenStart = token.location.startOffset
+            val tokenEnd = token.location.endOffset
 
             // We assume that tokens are non-empty. When we encounter
             // a token with an end at or before its start,
@@ -106,7 +121,7 @@ class AesiLexer @Inject constructor(
         return newTokens
     }
 
-    private fun addTokenElement(tokenList: MutableList<AesiToken>, token: IToken?, offset: Int, endOffset: Int): Int {
+    private fun addTokenElement(tokenList: MutableList<AesiToken>, token: IToken?, offset: Offset, endOffset: Offset): Offset {
         val tokenType = getTokenType(token)
         tokenList.add(AesiToken(offset, endOffset, tokenType))
         return endOffset
@@ -125,13 +140,13 @@ class AesiLexer @Inject constructor(
     override fun getTokenStart(): Int {
         assert(0 <= tokenIndex && tokenIndex < tokens.size,
                 { "Expected index 0 <= $tokenIndex < ${tokens.size}." })
-        return tokens[tokenIndex].startOffset
+        return tokens[tokenIndex].startOffset.toInt()
     }
 
     override fun getTokenEnd(): Int {
         assert(0 <= tokenIndex && tokenIndex < tokens.size,
                 { "Expected index 0 <= $tokenIndex < ${tokens.size}." })
-        return tokens[tokenIndex].endOffset
+        return tokens[tokenIndex].endOffset.toInt()
     }
 
     override fun getTokenType(): IElementType? {
@@ -143,12 +158,12 @@ class AesiLexer @Inject constructor(
 
     override fun getBufferSequence(): CharSequence = this.buffer!!
 
-    override fun getBufferEnd(): Int = this.endOffset
+    override fun getBufferEnd(): Int = this.endOffset.toInt()
 
     override fun getState(): Int = 0
 
     private class AesiToken(
-            val startOffset: Int,
-            val endOffset: Int,
+            val startOffset: Offset,
+            val endOffset: Offset,
             val tokenType: IElementType)
 }

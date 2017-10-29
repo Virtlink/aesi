@@ -37,7 +37,7 @@ public class PapljPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public PapljPlugin() {
-		this.injector = Guice.createInjector(new PapljAesiModule());
+		this.injector = Guice.createInjector(new PapljEclipseModule());
 	}
 
 	/*

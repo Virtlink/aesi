@@ -5,20 +5,15 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
-import com.virtlink.editorservices.Offset
-import com.virtlink.editorservices.content.IContentManager
-import com.virtlink.editorservices.intellij.DocumentManager
-import com.virtlink.editorservices.intellij.ProjectManager
 import com.virtlink.editorservices.intellij.psi.AesiPsiElement
 import com.virtlink.editorservices.intellij.psi.AesiPsiRootElement
+import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 import com.virtlink.editorservices.referenceresolution.IDefinition
 import com.virtlink.editorservices.referenceresolution.IReferenceResolverService
 
 class AesiReferenceProvider @Inject constructor(
         private val referenceResolver: IReferenceResolverService,
-        private val projectManager: ProjectManager,
-        private val documentManager: DocumentManager,
-        private val contentManager: IContentManager)
+        private val resourceManager: IntellijResourceManager)
     : PsiReferenceProvider() {
 
     private val LOG = Logger.getInstance(AesiReferenceProvider::class.java)
@@ -27,12 +22,11 @@ class AesiReferenceProvider @Inject constructor(
         if (element !is AesiPsiElement || element is AesiPsiRootElement)
             return PsiReference.EMPTY_ARRAY
 
-        val project = this.projectManager.getProjectForFile(element.containingFile)
-        val document = this.documentManager.getDocument(element.containingFile)
-        val offset = Offset(element.textOffset)
-        val resolutionInfo = referenceResolver.resolve(project, document, offset, null)
+        val documentUri = this.resourceManager.getUri(element.containingFile)
+        val offset = element.textOffset.toLong()
+        val resolutionInfo = referenceResolver.resolve(documentUri, offset, null)
 
-        if (resolutionInfo.definitions.isEmpty())
+        if (resolutionInfo == null || resolutionInfo.definitions.isEmpty())
             return PsiReference.EMPTY_ARRAY
 
         val references = resolutionInfo.definitions.mapNotNull { toResolveResult(it) }.toTypedArray()
@@ -41,34 +35,30 @@ class AesiReferenceProvider @Inject constructor(
     }
 
     private fun toResolveResult(definition: IDefinition): ResolveResult? {
-        val project = definition.symbol.project
-        val document = definition.symbol.document
-        if (project == null) {
-            LOG.warn("No project specified for definition.")
-            return null
-        }
-        if (document == null) {
-            LOG.warn("No document specified for definition in project $project.")
+        val resourceUri = definition.symbol.resource
+
+        if (resourceUri == null) {
+            LOG.warn("No resource specified for definition.")
             return null
         }
 
-        val file = this.documentManager.getPsiFile(project, document)
+        val file = this.resourceManager.getPsiFile(resourceUri)
         if (file == null) {
-            LOG.warn("Could not determine PsiFile for document $document in project $project.")
+            LOG.warn("$resourceUri: Could not determine PsiFile.")
             return null
         }
 
-        val offset = definition.symbol.nameRange?.start
+        val offset = definition.symbol.nameRange?.startOffset
         if (offset == null) {
-            LOG.warn("No offset specified for definition $definition")
+            LOG.warn("$definition: No offset specified.")
             return null
         }
 
-        val lexerElement = file.findElementAt(offset.value)
+        val lexerElement = file.findElementAt(offset.toInt())
         val namedElement = PsiTreeUtil.getParentOfType(lexerElement, AesiPsiElement::class.java, false)
 //        val namedElement = PsiTreeUtil.getParentOfType(lexerElement, AesiPsiNamedElement::class.java, false)
         if (namedElement == null) {
-            LOG.warn("Could not find PsiNamedElement at value $offset in file $file.")
+            LOG.warn("$file: Could not find PsiNamedElement at $offset.")
             return null
         }
 

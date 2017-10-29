@@ -37,7 +37,7 @@ public final class PapljPlugin {
 
     public void start() {
         logger.debug("Starting PAPLJ plugin.");
-        PapljPlugin.injector = Guice.createInjector(new PapljModule());
+        PapljPlugin.injector = Guice.createInjector(new PapljIntellijModule());
         logger.info("PAPLJ plugin started.");
     }
 

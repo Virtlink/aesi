@@ -1,5 +1,7 @@
 package com.virtlink.editorservices.intellij.structureoutline
 
+import com.google.inject.Inject
+import com.google.inject.assistedinject.Assisted
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.structureView.TextEditorBasedStructureViewModel
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase
@@ -9,32 +11,49 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
 import com.virtlink.editorservices.intellij.psi.AesiPsiElement
+import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
+import com.virtlink.editorservices.intellij.syntaxcoloring.AesiLexer
 import com.virtlink.editorservices.structureoutline.*
+import java.net.URI
 import javax.swing.Icon
 
-class AesiStructureViewModel(editor: Editor?,
-                             file: PsiFile,
-                             val outliner: IStructureOutlineService,
-                             val project: IProject,
-                             val document: IDocument)
-    : TextEditorBasedStructureViewModel(editor, file) {
+class AesiStructureViewModel @Inject constructor(
+        @Assisted editor: Editor?,
+        @Assisted psiFile: PsiFile,
+        private val structureOutlineService: IStructureOutlineService,
+        private val resourceManager: IntellijResourceManager)
+    : TextEditorBasedStructureViewModel(editor, psiFile) {
+
+    /**
+     * Factory for the language-specific lexer.
+     */
+    interface IFactory {
+
+        /**
+         * Creates the lexer.
+         *
+         * @param editor The editor; or null.
+         * @param psiFile The PSI file.
+         */
+        fun create(editor: Editor?, psiFile: PsiFile): AesiStructureViewModel
+    }
 
     override fun getRoot(): StructureViewTreeElement {
         return RootElement(this.psiFile, this)
     }
-
-//    override fun getPsiFile(): PapljFile = super.getPsiFile() as PapljFile
 
     private inline fun <reified T: PsiElement> findElementAt(offset: Int): T? {
         return PsiTreeUtil.getParentOfType(this.psiFile.findElementAt(offset), T::class.java)
     }
 
     private fun getRootNodes(): List<IStructureTreeNode> {
-        return this.outliner.getRootNodes(this.project, this.document, null)
+        val documentUri = this.resourceManager.getUri(this.psiFile)
+        return this.structureOutlineService.getRootNodes(documentUri, null)
     }
 
     private fun getChildNodes(node: IStructureTreeNode): List<IStructureTreeNode> {
-        return this.outliner.getChildNodes(this.project, this.document, node, null)
+        val documentUri = this.resourceManager.getUri(this.psiFile)
+        return this.structureOutlineService.getChildNodes(documentUri, node, null)
     }
 
     private fun createTreeElements(symbols: Collection<IStructureTreeNode>): MutableCollection<StructureViewTreeElement> {
@@ -42,8 +61,8 @@ class AesiStructureViewModel(editor: Editor?,
     }
 
     private fun createTreeElement(node: IStructureTreeNode): StructureViewTreeElement {
-        val offset = node.symbol.nameRange?.start
-        val element = (if (offset != null) findElementAt<AesiPsiElement>(offset.value) else null) ?: this.psiFile
+        val offset = node.symbol.nameRange?.startOffset
+        val element = (if (offset != null) findElementAt<AesiPsiElement>(offset.toInt()) else null) ?: this.psiFile
         return PapljTreeElement(element, node, this)
     }
 
@@ -90,7 +109,7 @@ class AesiStructureViewModel(editor: Editor?,
         }
 
         override fun getPresentableText(): String? {
-            return node.symbol.label ?: "root"
+            return node.symbol.label   // ?: "root"
         }
 
         override fun getChildrenBase(): MutableCollection<StructureViewTreeElement> {

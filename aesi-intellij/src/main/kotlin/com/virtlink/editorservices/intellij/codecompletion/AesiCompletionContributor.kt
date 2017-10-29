@@ -12,21 +12,18 @@ import com.intellij.psi.PsiFile
 import com.intellij.util.PlatformIcons
 import com.intellij.ui.RowIcon
 import com.intellij.util.ui.EmptyIcon
-import com.virtlink.editorservices.*
 import com.intellij.ui.LayeredIcon
 import com.intellij.util.SmartList
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import javax.swing.Icon
 import com.google.inject.Inject
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
-import com.virtlink.editorservices.intellij.DocumentManager
-import com.virtlink.editorservices.intellij.ProjectManager
+import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 
 
 abstract class AesiCompletionContributor
 @Inject constructor(private val codeCompleter: ICodeCompletionService,
-                    private val projectManager: ProjectManager,
-                    private val documentManager: DocumentManager)
+                    private val resourceManager: IntellijResourceManager)
     : CompletionContributor() {
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
@@ -36,11 +33,10 @@ abstract class AesiCompletionContributor
             CompletionType.CLASS_NAME -> return
         }
 
-        val project = this.projectManager.getProjectForFile(parameters.originalFile)
-        val document = this.documentManager.getDocument(parameters.editor)
-        val offset = Offset(parameters.offset)
+        val documentUri = this.resourceManager.getUri(parameters.originalFile)
+        val offset = parameters.offset.toLong()
 
-        val completionInfo = this.codeCompleter.getCompletionInfo(project, document, offset, null)
+        val completionInfo = this.codeCompleter.getCompletionInfo(documentUri, offset, null) ?: return
 
         // IntelliJ by default uses the CamelHumpMatcher to test whether a completion result
         // should be included. However, this matcher takes the start of the current element
@@ -88,9 +84,9 @@ abstract class AesiCompletionContributor
         val insertionText = proposal.insertionText ?: proposal.label
         context.document.replaceString(context.startOffset, context.tailOffset, insertionText)
         val caret = proposal.caret
-        if (caret != null && caret > 0 && caret < insertionText.length) {
+        if (caret != null && caret > 0L && caret < insertionText.length) {
             // Move the cursor relative to the end of the replaced text.
-            EditorModificationUtil.moveCaretRelatively(context.editor, caret - insertionText.length)
+            EditorModificationUtil.moveCaretRelatively(context.editor, (caret - insertionText.length).toInt())
         }
     }
 
