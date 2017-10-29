@@ -1,6 +1,7 @@
 package com.virtlink.editorservices.intellij.resources
 
 import com.intellij.openapi.editor.Document
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.module.ModuleUtil
@@ -50,7 +51,7 @@ class IntellijResourceManager: IResourceManager {
     fun getUri(file: PsiFile): URI {
         val module = getModule(file)
         if (module != null) {
-            return getUri(file.virtualFile, module)
+            return getUri(file.originalFile.virtualFile, module)
         } else {
             TODO()
         }
@@ -80,7 +81,7 @@ class IntellijResourceManager: IResourceManager {
             URI(getUri(module).toString() + "!/$relativeFilePath")
         } else {
             // Absolute path.
-            URI(file.presentableUrl)
+            URI(file.url)
         }
     }
 
@@ -318,9 +319,15 @@ class IntellijResourceManager: IResourceManager {
     }
 
     override fun getContent(uri: URI): IContent? {
-        val psiFile = getPsiFile(uri) ?: return null
-        val document = PsiDocumentManager.getInstance(psiFile.project).getDocument(psiFile) ?: return null
-        return StringContent(document.text, document.modificationStamp)
+        val psiFile = getPsiFile(uri)
+        val document: Document?
+        if (psiFile != null) {
+            document = PsiDocumentManager.getInstance(psiFile.project).getDocument(psiFile)
+        } else {
+            val virtualFile = getFile(uri) ?: return null
+            document = if (virtualFile != null) FileDocumentManager.getInstance().getDocument(virtualFile) else null
+        }
+        return if (document != null) StringContent(document.text, document.modificationStamp) else null
     }
 
     private data class ParsedUrl(
