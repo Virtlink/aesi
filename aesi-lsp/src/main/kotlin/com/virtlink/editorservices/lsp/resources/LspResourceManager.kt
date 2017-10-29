@@ -1,5 +1,6 @@
 package com.virtlink.editorservices.lsp.resources
 
+import com.google.inject.Inject
 import com.virtlink.editorservices.lsp.content.DocumentContentManager
 import com.virtlink.editorservices.resources.IContent
 import com.virtlink.editorservices.resources.IResourceManager
@@ -10,7 +11,7 @@ import java.net.URI
  * The LSP resource manager.
  */
 @Suppress("PrivatePropertyName")
-class LspResourceManager(
+class LspResourceManager @Inject constructor(
         private val documentContentManager: DocumentContentManager)
     : IResourceManager {
 
@@ -83,11 +84,19 @@ class LspResourceManager(
         return URI("$LSP_SCHEME:///$projectName!/${fileUri.path}")
     }
 
+    private fun fixJavaUri(uri: URI): URI {
+        return if (uri.scheme == "file" && !uri.schemeSpecificPart.startsWith("//")) {
+            URI(uri.scheme + "://" + uri.schemeSpecificPart)
+        } else {
+            uri
+        }
+    }
+
     /**
      * Translates an LSP URI to an AESI URI.
      */
     fun getUriFromLSPUri(lspUri: String): URI {
-        return getUri(File(lspUri))!!
+        return getUri(File(URI(lspUri)))!!
     }
 
     override fun getProjectOf(uri: URI): URI? {
