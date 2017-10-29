@@ -125,18 +125,4 @@ class AesiLanguageServer @Inject constructor(
         return item
     }
 
-//    private fun getProject(): IProject
-//            = this.projectManager.getProject()
-//
-//    private fun getDocument(uri: String): IDocument
-//            = this.projectManager.getDocuments().getDocument(URI(uri))
-
-//    private fun getDocumentData(uri: URI): Pair<IDocument, IDocumentContent> {
-//        val project = this.projectManager.getProject()
-//        val document = this.projectManager.getDocuments(project).getDocument(uri)
-//        val content = this.documentContentManager.getContent(document)
-//        val version = (content as? VersionedContent)?.version
-//        // TODO: Do something with the version
-//        return Pair(document, content)
-//    }
 }
