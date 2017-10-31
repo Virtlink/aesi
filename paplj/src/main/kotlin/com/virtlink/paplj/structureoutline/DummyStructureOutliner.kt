@@ -12,10 +12,10 @@ class DummyStructureOutliner: IStructureOutlineService {
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
 
-    override fun getRootNodes(document: URI, cancellationToken: ICancellationToken?): List<IStructureTreeNode>
+    override fun getRootNodes(document: URI, cancellationToken: ICancellationToken): List<IStructureTreeNode>
             = listOf(rootSymbol)
 
-    override fun getChildNodes(document: URI, node: IStructureTreeNode, cancellationToken: ICancellationToken?): List<IStructureTreeNode>
+    override fun getChildNodes(document: URI, node: IStructureTreeNode, cancellationToken: ICancellationToken): List<IStructureTreeNode>
             = (node as Node).children
 
     override fun hasChildren(document: URI, node: IStructureTreeNode)

@@ -9,7 +9,7 @@ import java.net.URI
  */
 class NullCodeCompletionService: ICodeCompletionService {
 
-    override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken?): ICompletionInfo?
+    override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken): ICompletionInfo?
             = null
 
 }

@@ -9,7 +9,7 @@ import java.net.URI
  */
 class NullReferenceResolverService: IReferenceResolverService {
 
-    override fun resolve(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken?): IReferenceResolutionInfo?
+    override fun resolve(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken): IReferenceResolutionInfo?
             = null
 
 }

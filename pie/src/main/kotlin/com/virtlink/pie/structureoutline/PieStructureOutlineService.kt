@@ -29,7 +29,7 @@ class PieStructureOutlineService(
     override fun getRootNodes(
             project: IProject,
             document: IDocument,
-            cancellationToken: ICancellationToken?)
+            cancellationToken: ICancellationToken)
             : List<IStructureTreeNode> {
         return getTree(project, document).roots
     }
@@ -38,7 +38,7 @@ class PieStructureOutlineService(
             project: IProject,
             document: IDocument,
             node: IStructureTreeNode,
-            cancellationToken: ICancellationToken?)
+            cancellationToken: ICancellationToken)
             : List<IStructureTreeNode> {
         return (node as StructureTreeNode).children
     }

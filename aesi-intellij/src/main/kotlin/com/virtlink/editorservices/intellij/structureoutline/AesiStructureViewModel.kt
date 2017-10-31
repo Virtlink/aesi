@@ -12,6 +12,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
+import com.virtlink.editorservices.NullCancellationToken
 import com.virtlink.editorservices.intellij.psi.AesiPsiElement
 import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 import com.virtlink.editorservices.intellij.syntaxcoloring.AesiLexer
@@ -41,12 +42,12 @@ class AesiStructureViewModel @Inject constructor(
 
     private fun getRootNodes(): List<IStructureTreeNode> {
         val documentUri = this.resourceManager.getUri(this.psiFile)
-        return this.structureOutlineService.getRootNodes(documentUri, null)
+        return this.structureOutlineService.getRootNodes(documentUri, NullCancellationToken)
     }
 
     private fun getChildNodes(node: IStructureTreeNode): List<IStructureTreeNode> {
         val documentUri = this.resourceManager.getUri(this.psiFile)
-        return this.structureOutlineService.getChildNodes(documentUri, node, null)
+        return this.structureOutlineService.getChildNodes(documentUri, node, NullCancellationToken)
     }
 
     private fun createTreeElements(symbols: Collection<IStructureTreeNode>): MutableCollection<StructureViewTreeElement> {

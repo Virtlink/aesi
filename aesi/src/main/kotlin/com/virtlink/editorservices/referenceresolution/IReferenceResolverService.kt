@@ -18,12 +18,12 @@ interface IReferenceResolverService {
      *
      * @param document The URI of the document for which to provide reference resolution.
      * @param caretOffset The zero-based offset of the caret in the document.
-     * @param cancellationToken The cancellation token; or `null` when not supported.
+     * @param cancellationToken The cancellation token.
      * @return The reference info; or null when there is no definition at the caret position.
      */
     fun resolve(
             document: URI,
             caretOffset: Offset,
-            cancellationToken: ICancellationToken?)
+            cancellationToken: ICancellationToken)
             : IReferenceResolutionInfo?
 }

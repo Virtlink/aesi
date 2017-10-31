@@ -12,7 +12,7 @@ class NullSyntaxColoringService(
         private val resourceService: IResourceManager)
     : ISyntaxColoringService {
 
-    override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
+    override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken): List<IToken> {
         val content = this.resourceService.getContent(document) ?: return emptyList()
         return listOf(Token(Span.fromLength(0, content.length), "text"))
     }

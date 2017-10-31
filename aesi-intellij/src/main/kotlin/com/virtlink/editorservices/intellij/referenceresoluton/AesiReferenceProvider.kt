@@ -5,6 +5,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
+import com.virtlink.editorservices.NullCancellationToken
 import com.virtlink.editorservices.intellij.psi.AesiPsiElement
 import com.virtlink.editorservices.intellij.psi.AesiPsiRootElement
 import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
@@ -24,7 +25,7 @@ class AesiReferenceProvider @Inject constructor(
 
         val documentUri = this.resourceManager.getUri(element.containingFile)
         val offset = element.textOffset.toLong()
-        val resolutionInfo = referenceResolver.resolve(documentUri, offset, null)
+        val resolutionInfo = referenceResolver.resolve(documentUri, offset, NullCancellationToken)
 
         if (resolutionInfo == null || resolutionInfo.definitions.isEmpty())
             return PsiReference.EMPTY_ARRAY

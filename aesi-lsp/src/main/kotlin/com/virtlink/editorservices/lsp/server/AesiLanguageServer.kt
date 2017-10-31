@@ -2,6 +2,7 @@ package com.virtlink.editorservices.lsp.server
 
 import com.google.inject.Inject
 import com.virtlink.editorservices.ISessionManager
+import com.virtlink.editorservices.SessionManager
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import com.virtlink.editorservices.lsp.toCancellationToken
@@ -26,7 +27,7 @@ class AesiLanguageServer @Inject constructor(
         private val remoteContentSource: RemoteContentSource,
         private val documentContentManager: DocumentContentManager,
         private val resourceManager: LspResourceManager,
-        private val sessionManager: ISessionManager
+        private val sessionManager: SessionManager
 ) : AbstractLanguageServer() {
 
     @Suppress("PrivatePropertyName")

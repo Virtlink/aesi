@@ -8,7 +8,7 @@ import java.net.URI
  */
 class NullCodeFoldingService: ICodeFoldingService {
 
-    override fun getFoldingRegions(document: URI, cancellationToken: ICancellationToken?): List<IFoldingInfo>
+    override fun getFoldingRegions(document: URI, cancellationToken: ICancellationToken): List<IFoldingInfo>
             = emptyList()
 
 }

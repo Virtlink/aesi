@@ -29,7 +29,7 @@ class PieCodeCompletionService @Inject constructor(
             project: IProject,
             document: IDocument,
             caretOffset: Offset,
-            cancellationToken: ICancellationToken?):
+            cancellationToken: ICancellationToken):
             ICompletionInfo {
         val input = PieCodeCompletionService.Input(
                 document, caretOffset

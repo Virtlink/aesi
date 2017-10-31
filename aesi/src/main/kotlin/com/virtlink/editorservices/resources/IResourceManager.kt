@@ -85,4 +85,13 @@ interface IResourceManager {
      */
     fun getContent(uri: URI): IContent?
 
+    // TODO: Add this to the implementations.
+//    /**
+//     * Gets the parent of the resource with the specified URI.
+//     *
+//     * @return The URI of the parent; or null when the parent could not be determined
+//     * or when it has none (i.e. it is a root resource).
+//     */
+//    fun getParent(uri: URI): URI?
+
 }

@@ -10,7 +10,7 @@ class DummyCodeCompleter : ICodeCompletionService {
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
 
-    override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken?): ICompletionInfo {
+    override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken): ICompletionInfo {
         LOG.info("$document: Completing at $caretOffset.")
 
         val proposals = listOf(

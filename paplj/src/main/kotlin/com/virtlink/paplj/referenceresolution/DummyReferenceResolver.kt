@@ -13,7 +13,7 @@ class DummyReferenceResolver @Inject constructor(private val resourceManager: IR
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
 
-    override fun resolve(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken?)
+    override fun resolve(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken)
             : IReferenceResolutionInfo? {
 
         val content = this.resourceManager.getContent(document) ?: return null
