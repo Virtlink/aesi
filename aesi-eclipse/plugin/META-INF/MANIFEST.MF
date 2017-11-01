@@ -32,7 +32,6 @@ Export-Package: com.virtlink.editorservices,
  com.virtlink.editorservices.eclipse.resources,
  com.virtlink.editorservices.eclipse.structureoutline,
  com.virtlink.editorservices.eclipse.syntaxcoloring,
- com.virtlink.editorservices.eclipse.syntaxcoloring,
  org.slf4j.impl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

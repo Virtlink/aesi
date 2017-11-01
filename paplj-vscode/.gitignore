@@ -1,9 +1,6 @@
 ## VSCode
-.settings/
-.vscode/
 .vscode-test/
-tsconfig.json
-jsconfig.json
+.vsix
 
 
 ## Node

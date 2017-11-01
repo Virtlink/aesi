@@ -17,6 +17,7 @@ import com.intellij.util.SmartList
 import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import javax.swing.Icon
 import com.google.inject.Inject
+import com.virtlink.editorservices.NullCancellationToken
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 
@@ -36,7 +37,7 @@ abstract class AesiCompletionContributor
         val documentUri = this.resourceManager.getUri(parameters.originalFile)
         val offset = parameters.offset.toLong()
 
-        val completionInfo = this.codeCompleter.getCompletionInfo(documentUri, offset, null) ?: return
+        val completionInfo = this.codeCompleter.getCompletionInfo(documentUri, offset, NullCancellationToken) ?: return
 
         // IntelliJ by default uses the CamelHumpMatcher to test whether a completion result
         // should be included. However, this matcher takes the start of the current element

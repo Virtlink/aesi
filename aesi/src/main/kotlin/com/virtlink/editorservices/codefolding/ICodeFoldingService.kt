@@ -11,11 +11,11 @@ interface ICodeFoldingService {
      * Provides folding information about a document.
      *
      * @param document The URI of the document to provide folding information for.
-     * @param cancellationToken The cancellation token; or `null` when not supported.
+     * @param cancellationToken The cancellation token.
      * @return Folding info.
      */
     fun getFoldingRegions(
             document: URI,
-            cancellationToken: ICancellationToken?)
+            cancellationToken: ICancellationToken)
             : List<IFoldingInfo>
 }

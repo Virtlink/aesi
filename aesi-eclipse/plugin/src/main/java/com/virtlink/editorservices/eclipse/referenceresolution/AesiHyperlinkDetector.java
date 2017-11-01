@@ -12,6 +12,7 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.virtlink.editorservices.NullCancellationToken;
 import com.virtlink.editorservices.eclipse.Contract;
 import com.virtlink.editorservices.eclipse.SpanUtils;
 import com.virtlink.editorservices.eclipse.editor.IAesiEditor;
@@ -83,7 +84,7 @@ public class AesiHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 	
 	private IHyperlink createHyperlink(IRegion region, IDefinition definition) {
-		ISymbol typeSymbol = this.typeProviderService.getType(definition.getSymbol());
+		ISymbol typeSymbol = this.typeProviderService.getType(definition.getSymbol(), NullCancellationToken.INSTANCE);
 		String type = typeSymbol != null ? typeSymbol.getLabel() : null;
 		return hyperlinkFactory.create(definition.getSymbol(), type, region);
 	}

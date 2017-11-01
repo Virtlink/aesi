@@ -1,0 +1,11 @@
+rootProject.name = 'pie-intellij'
+
+// Nested composite builds are not (yet) supported.
+// Workaround: only the top-level build is a true composite build,
+// and it must include its sub-builds _and_ their transitive build dependencies.
+if (gradle.parent == null) {
+    includeBuild '../aesi'
+    includeBuild '../aesi-utils'
+    includeBuild '../aesi-intellij'
+    includeBuild '../pie'
+}

@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin>
   <id>com.virtlink.paplj-intellij</id>
   <name>PAPLJ</name>
   <vendor email="info@virtlink.com" url="http://www.virtlink.com/">Virtlink</vendor>

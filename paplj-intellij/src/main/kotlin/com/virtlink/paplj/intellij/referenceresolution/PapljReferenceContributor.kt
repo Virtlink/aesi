@@ -5,5 +5,5 @@ import com.virtlink.editorservices.intellij.referenceresoluton.AesiReferenceProv
 import com.virtlink.paplj.intellij.PapljPlugin
 
 class PapljReferenceContributor : AesiReferenceContributor(
-        PapljPlugin.getInjector().getInstance(AesiReferenceProvider::class.java)
+        PapljPlugin.default.injector.getInstance(AesiReferenceProvider::class.java)
 )

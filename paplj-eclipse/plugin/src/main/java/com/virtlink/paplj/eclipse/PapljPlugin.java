@@ -6,6 +6,7 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.virtlink.editorservices.eclipse.AesiPlugin;
 
 import javax.annotation.Nullable;
 
@@ -24,6 +25,8 @@ public class PapljPlugin extends AbstractUIPlugin {
 	/** The dependency injector. */
 	private Injector injector;
 	
+	private final AesiPlugin aesiPlugin;
+	
 	/**
 	 * Gets the dependency injector.
 	 * 
@@ -38,6 +41,7 @@ public class PapljPlugin extends AbstractUIPlugin {
 	 */
 	public PapljPlugin() {
 		this.injector = Guice.createInjector(new PapljEclipseModule());
+		this.aesiPlugin = new AesiPlugin(this.getInjector());
 	}
 
 	/*
@@ -47,6 +51,7 @@ public class PapljPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		this.aesiPlugin.start();
 	}
 
 	/*
@@ -54,6 +59,7 @@ public class PapljPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		this.aesiPlugin.stop();
 		plugin = null;
 		super.stop(context);
 	}

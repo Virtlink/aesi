@@ -1,7 +1,7 @@
 package com.virtlink.pie
 
-import com.virtlink.editorservices.IProject
 import mb.pie.runtime.core.BuildManager
+import java.net.URI
 
 /**
  * Manages the build managers for the projects.
@@ -10,8 +10,8 @@ interface IBuildManagerProvider {
     /**
      * Gets the build manager for the specified project.
      *
-     * @param project The project.
+     * @param projectUri The project's URI.
      * @return The build manager.
      */
-    fun getBuildManager(project: IProject): BuildManager
+    fun getBuildManager(projectUri: URI): BuildManager
 }

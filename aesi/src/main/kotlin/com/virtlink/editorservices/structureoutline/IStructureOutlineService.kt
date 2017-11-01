@@ -12,11 +12,11 @@ interface IStructureOutlineService {
      * Returns the root nodes of the structure outline of the specified document.
      *
      * @param document The URI of the document.
-     * @param cancellationToken The cancellation token; or `null` when not supported.
+     * @param cancellationToken The cancellation token.
      * @return A list of tree nodes, representing the root nodes of the structure outline tree.
      */
     fun getRootNodes(document: URI,
-                     cancellationToken: ICancellationToken?)
+                     cancellationToken: ICancellationToken)
         : List<IStructureTreeNode>
 
     /**
@@ -24,12 +24,12 @@ interface IStructureOutlineService {
      *
      * @param document The URI of the document.
      * @param node The structure outline tree node.
-     * @param cancellationToken The cancellation token; or `null` when not supported.
+     * @param cancellationToken The cancellation token.
      * @return A list of tree nodes, representing the root nodes of the structure outline tree.
      */
     fun getChildNodes(document: URI,
                       node: IStructureTreeNode,
-                      cancellationToken: ICancellationToken?)
+                      cancellationToken: ICancellationToken)
             : List<IStructureTreeNode>
 
     /**

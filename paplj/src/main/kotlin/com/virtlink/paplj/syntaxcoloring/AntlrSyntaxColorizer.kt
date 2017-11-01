@@ -18,7 +18,7 @@ class AntlrSyntaxColorizer @Inject constructor(
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
 
-    override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken?): List<IToken> {
+    override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken): List<IToken> {
         val tokens = mutableListOf<IToken>()
 
         val content = this.resourceManager.getContent(document)

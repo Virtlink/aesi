@@ -6,6 +6,7 @@ import com.intellij.lexer.LexerBase
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
+import com.virtlink.editorservices.NullCancellationToken
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager
@@ -63,7 +64,7 @@ class AesiLexer @Inject constructor(
             val highlighterTokens = this.syntaxColoringService.getTokens(
                     this.documentUri,
                     Span(this.startOffset, this.endOffset),
-                    null)
+                    NullCancellationToken)
             LOG.debug("Highlighter returned ${highlighterTokens.size} tokens")
             this.tokens = tokenize(highlighterTokens)
         }

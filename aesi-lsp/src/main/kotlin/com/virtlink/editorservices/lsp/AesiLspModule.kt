@@ -16,7 +16,8 @@ import com.virtlink.editorservices.resources.IResourceManager
 open class AesiLspModule : AbstractModule() {
     override fun configure() {
         bind(LanguageServer::class.java).to(AesiLanguageServer::class.java).`in`(Singleton::class.java)
-        bind(ISessionManager::class.java).to(SessionManager::class.java).`in`(Singleton::class.java)
+        bind(SessionManager::class.java).`in`(Singleton::class.java)
+        bind(ISessionManager::class.java).to(SessionManager::class.java)
 
         bind(RemoteContentSource::class.java).`in`(Singleton::class.java)
         bind(DocumentContentManager::class.java).`in`(Singleton::class.java)

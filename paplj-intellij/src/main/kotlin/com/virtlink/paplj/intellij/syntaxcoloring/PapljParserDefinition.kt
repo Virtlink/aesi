@@ -12,8 +12,8 @@ import com.virtlink.paplj.intellij.PapljPlugin
 
 class PapljParserDefinition()
     : AesiParserDefinition(PapljFileType,
-        PapljPlugin.getInjector().getInstance(IFileElementType::class.java),
-        PapljPlugin.getInjector().getInstance(AesiTokenTypeManager::class.java)) {
+        PapljPlugin.default.injector.getInstance(IFileElementType::class.java),
+        PapljPlugin.default.injector.getInstance(AesiTokenTypeManager::class.java)) {
 
     override fun createLexer(project: Project?): Lexer {
         return super.createLexer(project)

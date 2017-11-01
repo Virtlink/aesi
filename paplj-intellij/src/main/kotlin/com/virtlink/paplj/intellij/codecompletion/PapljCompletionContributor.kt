@@ -6,6 +6,6 @@ import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 import com.virtlink.paplj.intellij.PapljPlugin
 
 class PapljCompletionContributor: AesiCompletionContributor(
-        PapljPlugin.getInjector().getInstance(ICodeCompletionService::class.java),
-        PapljPlugin.getInjector().getInstance(IntellijResourceManager::class.java)
+        PapljPlugin.default.injector.getInstance(ICodeCompletionService::class.java),
+        PapljPlugin.default.injector.getInstance(IntellijResourceManager::class.java)
 )

@@ -1,23 +1,22 @@
 package com.virtlink.dummy
 
 import com.google.inject.Inject
-import com.virtlink.editorservices.IDocument
 import com.virtlink.editorservices.ISessionManager
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.codecompletion.CompletionInfo
 import com.virtlink.editorservices.codecompletion.CompletionProposal
 import com.virtlink.editorservices.codecompletion.ICompletionInfo
-import com.virtlink.editorservices.content.IContentManager
-import com.virtlink.editorservices.content.VersionedContent
+import com.virtlink.editorservices.resources.IResourceManager
 import com.virtlink.pie.DocumentReq
 import com.virtlink.pie.codecompletion.PieCodeCompletionService
 import mb.pie.runtime.core.BuildContext
 import mb.pie.runtime.core.Builder
 import org.slf4j.LoggerFactory
+import java.net.URI
 
 class DummyCodeCompletionBuilder @Inject constructor(
         private val sessionManager: ISessionManager,
-        private val contentManager: IContentManager)
+        private val resourceManager: IResourceManager)
     : Builder<PieCodeCompletionService.Input, ICompletionInfo> {
 
     companion object {
@@ -34,14 +33,14 @@ class DummyCodeCompletionBuilder @Inject constructor(
             input.caretOffset)
 
     private fun BuildContext.getCompletionInfo(
-            document: IDocument,
+            document: URI,
             caretOffset: Offset):
             ICompletionInfo {
 
         logger.info("$document: Completing at $caretOffset.")
 
-        val content = contentManager.getLatestContent(document)
-        val version = (content as? VersionedContent)?.version ?: -1
+        val content = resourceManager.getContent(document)
+        val version = content?.stamp ?: -1
         val session = sessionManager.id!!
         require(DocumentReq(document, version, session))
 

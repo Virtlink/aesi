@@ -14,12 +14,12 @@ interface ISyntaxColoringService {
      *
      * @param document The URI of the document to color.
      * @param span The area of the document to color.
-     * @param cancellationToken The cancellation token; or `null` when not supported.
+     * @param cancellationToken The cancellation token.
      * @return A list of tokens.
      */
     fun getTokens(
             document: URI,
             span: Span,
-            cancellationToken: ICancellationToken?)
+            cancellationToken: ICancellationToken)
             : List<IToken>
 }

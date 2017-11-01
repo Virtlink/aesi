@@ -8,7 +8,7 @@ import com.virtlink.editorservices.intellij.syntaxcoloring.ScopeManager
 import com.virtlink.paplj.intellij.PapljPlugin
 
 class PapljSyntaxHighlighterFactory : AesiSyntaxHighlighterFactory(
-        PapljPlugin.getInjector().getInstance(IntellijResourceManager::class.java),
-        PapljPlugin.getInjector().getInstance(AesiLexer.IFactory::class.java),
-        PapljPlugin.getInjector().getInstance(AesiSyntaxHighlighter.IFactory::class.java)
+        PapljPlugin.default.injector.getInstance(IntellijResourceManager::class.java),
+        PapljPlugin.default.injector.getInstance(AesiLexer.IFactory::class.java),
+        PapljPlugin.default.injector.getInstance(AesiSyntaxHighlighter.IFactory::class.java)
 )

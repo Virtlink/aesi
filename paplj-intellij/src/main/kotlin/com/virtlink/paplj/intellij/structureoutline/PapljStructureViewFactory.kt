@@ -5,5 +5,5 @@ import com.virtlink.editorservices.intellij.structureoutline.AesiStructureViewMo
 import com.virtlink.paplj.intellij.PapljPlugin
 
 class PapljStructureViewFactory : AesiStructureViewFactory(
-        PapljPlugin.getInjector().getInstance(AesiStructureViewModel.IFactory::class.java)
+        PapljPlugin.default.injector.getInstance(AesiStructureViewModel.IFactory::class.java)
 )

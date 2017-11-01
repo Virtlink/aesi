@@ -6,6 +6,7 @@ import com.intellij.openapi.application.Application
 class PapljPluginInitializer : ApplicationLoadListener {
 
     override fun beforeApplicationLoaded(application: Application, configPath: String) {
-        PapljPlugin.getDefault().start()
+        PapljPlugin.init()
+        PapljPlugin.default.start()
     }
 }
