@@ -71,7 +71,7 @@ public class AesiHyperlinkDetector extends AbstractHyperlinkDetector {
 		URI document = this.resourceManager.getUri(this.editor);
 		long offset = region.getOffset();
 		// TODO: Make async.
-		IReferenceResolutionInfo resolution = referenceResolverService.resolve(document, offset, null);
+		IReferenceResolutionInfo resolution = referenceResolverService.resolve(document, offset, NullCancellationToken.INSTANCE);
 		return asHyperlinks(resolution);
 	}
 

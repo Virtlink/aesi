@@ -2,6 +2,7 @@ package com.virtlink.editorservices.eclipse.codecompletion;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.virtlink.editorservices.NullCancellationToken;
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService;
 import com.virtlink.editorservices.codecompletion.ICompletionInfo;
 import com.virtlink.editorservices.codecompletion.ICompletionProposal;
@@ -64,7 +65,7 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
     @Override
     public org.eclipse.jface.text.contentassist.ICompletionProposal[] computeCompletionProposals(ITextViewer textViewer, int offset) {
     	final URI document = this.resourceManager.getUri(this.editor);
-        ICompletionInfo completionInfo = this.codeCompleter.getCompletionInfo(document, offset, null);
+        ICompletionInfo completionInfo = this.codeCompleter.getCompletionInfo(document, offset, NullCancellationToken.INSTANCE);
         List<ICompletionProposal> proposals = completionInfo.getProposals();
         // TODO: Do something with the prefix.
         return proposals.stream().map(p -> toEclipseCompletionProposal(p, offset)).toArray(org.eclipse.jface.text.contentassist.ICompletionProposal[]::new);

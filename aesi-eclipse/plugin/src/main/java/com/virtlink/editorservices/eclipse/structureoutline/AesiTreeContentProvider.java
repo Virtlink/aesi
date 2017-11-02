@@ -3,6 +3,7 @@ package com.virtlink.editorservices.eclipse.structureoutline;
 import com.google.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
+import com.virtlink.editorservices.NullCancellationToken;
 import com.virtlink.editorservices.eclipse.codecompletion.AesiCompletionProcessor;
 import com.virtlink.editorservices.eclipse.editor.IAesiEditor;
 import com.virtlink.editorservices.eclipse.resources.EclipseResourceManager;
@@ -60,7 +61,7 @@ public class AesiTreeContentProvider implements ITreeContentProvider {//implemen
     @Override
     public Object[] getElements(Object element) {
         URI document = this.resourceManager.getUri((IEditorInput)element);
-        List<? extends IStructureTreeNode> children = this.structureOutliner.getRootNodes(document, null);
+        List<? extends IStructureTreeNode> children = this.structureOutliner.getRootNodes(document, NullCancellationToken.INSTANCE);
         return children.stream().map(s -> new AesiStructureNode(document, s, null)).toArray(AesiStructureNode[]::new);
     }
 
@@ -70,7 +71,7 @@ public class AesiTreeContentProvider implements ITreeContentProvider {//implemen
             return new Object[0];
         AesiStructureNode parent = (AesiStructureNode)element;
         URI document = parent.getDocumentUri();
-        List<? extends IStructureTreeNode> children = this.structureOutliner.getChildNodes(document, parent.getNode(), null);
+        List<? extends IStructureTreeNode> children = this.structureOutliner.getChildNodes(document, parent.getNode(), NullCancellationToken.INSTANCE);
         return children.stream().map(s -> new AesiStructureNode(document, s, parent)).toArray(AesiStructureNode[]::new);
     }
 

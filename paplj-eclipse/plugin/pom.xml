@@ -25,6 +25,11 @@
             <artifactId>paplj-eclipse.externaldeps</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>aesi-eclipse.externaldeps</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

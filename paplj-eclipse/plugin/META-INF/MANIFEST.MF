@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: PAPLJ for Eclipse
+Bundle-Name: paplj-eclipse
 Bundle-SymbolicName: paplj-eclipse;singleton:=true
 Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: Virtlink
 Bundle-Activator: com.virtlink.paplj.eclipse.PapljPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.filesystem,
@@ -18,22 +19,14 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
  aesi-eclipse,
- paplj-eclipse.externaldeps,
- aesi-eclipse.externaldeps
+ aesi-eclipse.externaldeps,
+ paplj-eclipse.externaldeps
+Export-Package: com.virtlink.paplj.eclipse,
+ com.virtlink.paplj.eclipse.editor,
+ com.virtlink.paplj.eclipse.syntaxcoloring
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: com.virtlink.paplj.eclipse
-Bundle-Vendor: Virtlink
 Eclipse-RegisterBuddy: aesi-eclipse,
+ aesi-eclipse.externaldeps,
  paplj-eclipse.externaldeps
-Import-Package: javax.annotation,
- com.virtlink.paplj,
- org.eclipse.core.resources,
- org.eclipse.core.runtime,
- org.eclipse.debug.core,
- org.eclipse.debug.ui,
- org.eclipse.jface,
- org.eclipse.ui,
- org.eclipse.ui.texteditor,
- org.osgi.framework
-
+ 
