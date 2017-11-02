@@ -7,7 +7,7 @@ import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
 import com.virtlink.editorservices.syntaxcoloring.Token
 import com.virtlink.logging.logger
-import com.virtlink.paplj.syntax.PapljLexer
+import com.virtlink.paplj.syntax.PapljAntlrLexer
 import org.antlr.v4.runtime.ANTLRInputStream
 import java.net.URI
 
@@ -28,7 +28,7 @@ class AntlrSyntaxColorizer @Inject constructor(
         }
 
         val input = ANTLRInputStream(content.text)
-        val lexer = PapljLexer(input)
+        val lexer = PapljAntlrLexer(input)
         var token = lexer.nextToken()
         while (token.type != org.antlr.v4.runtime.Token.EOF) {
             val scope = getTokenScope(token)
@@ -49,7 +49,7 @@ class AntlrSyntaxColorizer @Inject constructor(
 
 
     private fun getTokenScope(token: org.antlr.v4.runtime.Token): String {
-        val tokenName = if (token.type > 0 && token.type <= PapljLexer.ruleNames.size) PapljLexer.ruleNames[token.type - 1] else null
+        val tokenName = if (token.type > 0 && token.type <= PapljAntlrLexer.ruleNames.size) PapljAntlrLexer.ruleNames[token.type - 1] else null
         return when (tokenName) {
             in keywords -> "keyword"
             in operators -> "keyword.operator"

@@ -30,10 +30,18 @@ apply plugin: 'antlr'
 compileKotlin.dependsOn generateGrammarSource
 compileTestKotlin.dependsOn generateTestGrammarSource
 
+generateGrammarSource {
+    // This must match the subdirectory (and package directory) of the *.g4 files.
+    arguments += ["-lib", "src/main/antlr/com/virtlink/paplj/syntax"]
+    arguments += ["-visitor"]
+}
+
 dependencies {
     compile "$project.group:aesi:$project.version"
     compile "$project.group:aesi-utils:$project.version"
 
     antlr   "org.antlr:antlr4:$antlr_version"
-    compile "org.antlr:antlr4-runtime:$antlr_version"
+    compile "org.antlr:antlr4-runtime:$antlr_version"// https://mvnrepository.com/artifact/com.google.guava/guava
+    compile "com.google.guava:guava:$guava_version"
+
 }

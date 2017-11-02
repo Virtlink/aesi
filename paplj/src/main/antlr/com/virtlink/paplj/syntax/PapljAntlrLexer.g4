@@ -1,4 +1,4 @@
-lexer grammar PapljLexer;
+lexer grammar PapljAntlrLexer;
 
 @header {
 package com.virtlink.paplj.syntax;
