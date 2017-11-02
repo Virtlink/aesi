@@ -5,9 +5,6 @@ package com.virtlink.paplj.terms
  */
 abstract class TermFactory {
 
-    /** The registered term builders. */
-    private val termBuilders: HashMap<ITermConstructor, (ITermConstructor, List<Term>) -> Term> = hashMapOf()
-
     /**
      * Creates a string term with the specified value.
      *
@@ -25,12 +22,20 @@ abstract class TermFactory {
     abstract fun createInt(value: Int): IntTerm
 
     /**
-     * Creats a list with elements of the specified type.
+     * Creates a list with elements of the specified type.
      *
      * @param elements The elements in the list.
      * @return The list.
      */
-    abstract fun <T: Term> createList(elements: List<T>): ListTerm<T>
+    abstract fun <T: ITerm> createList(elements: List<T>): ListTerm<T>
+
+    /**
+     * Creates an option which is either Some or None.
+     *
+     * @param value The value in the option; or null.
+     * @return The option.
+     */
+    abstract fun <T: ITerm> createOption(value: T?): OptionTerm<T>
 
     /**
      * Creates a term with the specified constructor and children.
@@ -40,7 +45,7 @@ abstract class TermFactory {
      *
      * @return The created term.
      */
-    abstract fun createTerm(constructor: ITermConstructor, children: List<Term>): Term
+    abstract fun createTerm(constructor: ITermConstructor, children: List<ITerm>): ITerm
 
     /**
      * Creates a term with the specified name and children.
@@ -50,7 +55,7 @@ abstract class TermFactory {
      * @return The created term.
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline fun createTerm(name: String, vararg children: Term): Term
+    inline fun createTerm(name: String, vararg children: ITerm): ITerm
             = createTerm(name, children.asList())
 
     /**
@@ -61,7 +66,7 @@ abstract class TermFactory {
      * @return The created term.
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline fun createTerm(name: String, children: List<Term>): Term
+    inline fun createTerm(name: String, children: List<ITerm>): ITerm
             = createTerm(TermConstructor(name, children.size), children)
 
     /**
@@ -73,7 +78,7 @@ abstract class TermFactory {
      * @return The created term.
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline fun createTerm(constructor: ITermConstructor, vararg children: Term): Term
+    inline fun createTerm(constructor: ITermConstructor, vararg children: ITerm): ITerm
             = createTerm(constructor, children.asList())
 
     /**
@@ -84,7 +89,7 @@ abstract class TermFactory {
      *
      * @return The created term.
      */
-    inline fun <reified T: Term> createTerm(constructor: TermConstructorOfT<T>, vararg children: Term): T {
+    inline fun <reified T: ITerm> createTerm(constructor: TermConstructorOfT<T>, vararg children: ITerm): T {
         return createTerm(constructor, children.asList())
     }
 
@@ -96,7 +101,7 @@ abstract class TermFactory {
      *
      * @return The created term.
      */
-    inline fun <reified T: Term> createTerm(constructor: TermConstructorOfT<T>, children: List<Term>): T {
+    inline fun <reified T: ITerm> createTerm(constructor: TermConstructorOfT<T>, children: List<ITerm>): T {
         return createTerm(constructor as ITermConstructor, children) as? T
                 ?: throw IllegalStateException("The builder for $constructor did not return a term of type ${T::class.java.name}.")
     }
@@ -109,27 +114,13 @@ abstract class TermFactory {
      * @param constructor The term constructor.
      * @param builder The term builder.
      */
-    fun registerBuilder(constructor: ITermConstructor, builder: (ITermConstructor, List<Term>) -> Term) {
-        this.termBuilders.put(constructor, builder)
-    }
+    abstract fun registerBuilder(constructor: ITermConstructor, builder: (ITermConstructor, List<ITerm>) -> ITerm)
 
     /**
      * Unregisters a term builder from this term factory.
      *
      * @param constructor The term constructor.
      */
-    fun unregisterBuilder(constructor: ITermConstructor) {
-        this.termBuilders.remove(constructor)
-    }
-
-    /**
-     * Gets the term builder with the specified term constructor.
-     *
-     * @param constructor The term constructor.
-     * @return The term builder; or null when not found.
-     */
-    protected fun getBuilder(constructor: ITermConstructor): ((ITermConstructor, List<Term>) -> Term)? {
-        return this.termBuilders[constructor]
-    }
+    abstract fun unregisterBuilder(constructor: ITermConstructor)
 
 }

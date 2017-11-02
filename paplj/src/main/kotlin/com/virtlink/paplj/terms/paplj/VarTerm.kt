@@ -3,21 +3,17 @@ package com.virtlink.paplj.terms.paplj
 import com.virtlink.paplj.terms.*
 
 /**
- * The Program term.
+ * The Var term.
  */
-class ProgramTerm(
-        val id: StringTerm,
-        val imports: ListTerm<ImportTerm>,
-        val types: ListTerm<TypeTerm>,
-        val runExpr: OptionTerm<ExprTerm>)
-    : Term() {
+class VarTerm(val id: StringTerm)
+    : Term(), ExprTerm {
 
     companion object {
 
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<ProgramTerm>("Program", 4)
+        val constructor = TermConstructorOfT<VarTerm>("Var", 1)
 
         /**
          * Creates a new term from the specified list of child terms.
@@ -25,18 +21,12 @@ class ProgramTerm(
          * @param children The list of child terms.
          * @return The created term.
          */
-        @JvmStatic fun create(children: List<ITerm>): ProgramTerm {
+        @JvmStatic fun create(children: List<ITerm>): VarTerm {
             if (children.size != constructor.arity) {
                 throw IllegalArgumentException("children must be ${constructor.arity} in length")
             }
             val id = children[0] as StringTerm
-            @Suppress("UNCHECKED_CAST")
-            val imports = children[1] as ListTerm<ImportTerm>
-            @Suppress("UNCHECKED_CAST")
-            val types = children[2] as ListTerm<TypeTerm>
-            @Suppress("UNCHECKED_CAST")
-            val runExpr = children[3] as OptionTerm<ExprTerm>
-            return ProgramTerm(id, imports, types, runExpr)
+            return VarTerm(id)
         }
     }
 
@@ -48,14 +38,11 @@ class ProgramTerm(
     private inner class ChildrenList: AbstractList<ITerm>() {
 
         override val size: Int
-            get() = ProgramTerm.constructor.arity
+            get() = VarTerm.constructor.arity
 
         override fun get(index: Int): ITerm
                 = when (index) {
-                    0 -> this@ProgramTerm.id
-                    1 -> this@ProgramTerm.imports
-                    2 -> this@ProgramTerm.types
-                    3 -> this@ProgramTerm.runExpr
+                    0 -> this@VarTerm.id
                     else -> throw IndexOutOfBoundsException()
                 }
 

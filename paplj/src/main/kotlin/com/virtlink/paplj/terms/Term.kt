@@ -5,23 +5,17 @@ import com.virtlink.paplj.utils.HashCodeUtils
 /**
  * A term.
  */
-abstract class Term {
+abstract class Term: ITerm {
 
     /** The cached hash code. */
     private val hashCode by lazy { calculateHashCode() }
 
-    /**
-     * Gets the term constructor for this term.
-     */
-    abstract val constructor: ITermConstructor
+    abstract override val constructor: ITermConstructor
 
-    /**
-     * Gets the children of the term.
-     */
-    abstract val children: List<Term>
+    abstract override val children: List<ITerm>
 
     override final fun equals(other: Any?): Boolean
-            = equals(other as? Term)
+            = equals(other as? ITerm)
 
     /**
      * Compares this term with the specified term.
@@ -32,12 +26,11 @@ abstract class Term {
      *
      * Annotations and class types do not influence equality.
      */
-    open fun equals(other: Term?): Boolean {
+    open fun equals(other: ITerm?): Boolean {
         // Default implementation:
         @Suppress("SuspiciousEqualsCombination")
         return this === other                       // Cheap referential equality check.
             || (other != null
-            && this.hashCode() == other.hashCode()  // Usually a cheap inequality check.
             && this.constructor == other.constructor
             && this.children == other.children)
     }

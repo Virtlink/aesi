@@ -4,26 +4,42 @@ import com.google.common.collect.Interners
 
 /**
  * Term factory that ensures maximal sharing.
+ *
+ * @property innerTermFactory The term factory to wrap.
  */
-open class InterningTermFactory: DefaultTermFactory() {
+class InterningTermFactory(private val innerTermFactory: TermFactory): TermFactory() {
+
+    /**
+     * Initializes this factory with the default term factory.
+     */
+    constructor() : this(DefaultTermFactory())
 
     /**
      * The term interner, which ensures that two instances of the same term
      * refer to the same object in memory (reference equality).
      */
-    private val interner = Interners.newWeakInterner<Term>()
+    private val interner = Interners.newWeakInterner<ITerm>()
 
     override fun createString(value: String): StringTerm
-            = getTerm(super.createString(value))
+            = getTerm(this.innerTermFactory.createString(value))
 
     override fun createInt(value: Int): IntTerm
-            = getTerm(super.createInt(value))
+            = getTerm(this.innerTermFactory.createInt(value))
 
-    override fun <T: Term> createList(elements: List<T>): ListTerm<T>
-            = getTerm(super.createList(elements))
+    override fun <T: ITerm> createList(elements: List<T>): ListTerm<T>
+            = getTerm(this.innerTermFactory.createList(elements))
 
-    override fun createTerm(constructor: ITermConstructor, children: List<Term>): Term
-            = getTerm(super.createTerm(constructor, children))
+    override fun <T : ITerm> createOption(value: T?): OptionTerm<T>
+            = getTerm(this.innerTermFactory.createOption(value))
+
+    override fun createTerm(constructor: ITermConstructor, children: List<ITerm>): ITerm
+            = getTerm(this.innerTermFactory.createTerm(constructor, children))
+
+    override fun registerBuilder(constructor: ITermConstructor, builder: (ITermConstructor, List<ITerm>) -> ITerm)
+            = this.innerTermFactory.registerBuilder(constructor, builder)
+
+    override fun unregisterBuilder(constructor: ITermConstructor)
+            = this.innerTermFactory.unregisterBuilder(constructor)
 
     /**
      * Gets the interned term that is equal to the given term;
@@ -34,9 +50,10 @@ open class InterningTermFactory: DefaultTermFactory() {
      * @param term The input term.
      * @return The resulting term.
      */
-    private fun <T: Term> getTerm(term: T): T {
+    private fun <T: ITerm> getTerm(term: T): T {
         @Suppress("UNCHECKED_CAST")
         return this.interner.intern(term) as T
     }
+
 
 }

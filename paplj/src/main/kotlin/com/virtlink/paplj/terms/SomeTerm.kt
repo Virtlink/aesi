@@ -1,19 +1,17 @@
-package com.virtlink.paplj.terms.paplj
-
-import com.virtlink.paplj.terms.*
+package com.virtlink.paplj.terms
 
 /**
- * The Import term.
+ * The Some term.
  */
-class ImportTerm(val id: StringTerm)
-    : Term() {
+class SomeTerm<out T: ITerm>(val value: T)
+    : Term(), OptionTerm<T> {
 
     companion object {
 
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<ImportTerm>("Import", 1)
+        val constructor = TermConstructorOfT<SomeTerm<*>>("_SOME", 1)
 
         /**
          * Creates a new term from the specified list of child terms.
@@ -21,12 +19,12 @@ class ImportTerm(val id: StringTerm)
          * @param children The list of child terms.
          * @return The created term.
          */
-        @JvmStatic fun create(children: List<ITerm>): ImportTerm {
+        @JvmStatic fun create(children: List<ITerm>): SomeTerm<*> {
             if (children.size != constructor.arity) {
                 throw IllegalArgumentException("children must be ${constructor.arity} in length")
             }
-            val id = children[0] as StringTerm
-            return ImportTerm(id)
+            val id = children[0]
+            return SomeTerm(id)
         }
     }
 
@@ -38,11 +36,11 @@ class ImportTerm(val id: StringTerm)
     private inner class ChildrenList: AbstractList<ITerm>() {
 
         override val size: Int
-            get() = ImportTerm.constructor.arity
+            get() = SomeTerm.constructor.arity
 
         override fun get(index: Int): ITerm
                 = when (index) {
-                    0 -> this@ImportTerm.id
+                    0 -> this@SomeTerm.value
                     else -> throw IndexOutOfBoundsException()
                 }
 

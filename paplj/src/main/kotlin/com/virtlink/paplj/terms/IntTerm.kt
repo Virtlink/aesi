@@ -15,10 +15,10 @@ class IntTerm(val value: Int): Term() {
     override val constructor: ITermConstructor
         get() = IntTerm.constructor
 
-    override val children: List<Term>
+    override val children: List<ITerm>
         get() = emptyList()
 
-    override fun equals(other: Term?): Boolean
+    override fun equals(other: ITerm?): Boolean
             = equals(other as? IntTerm)
 
     /**

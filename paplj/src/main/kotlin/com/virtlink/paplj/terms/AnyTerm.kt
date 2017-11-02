@@ -5,5 +5,5 @@ package com.virtlink.paplj.terms
  */
 class AnyTerm(
         override val constructor: ITermConstructor,
-        override val children: List<Term>)
+        override val children: List<ITerm>)
     : Term()

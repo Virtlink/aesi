@@ -3,17 +3,17 @@ package com.virtlink.paplj.terms
 /**
  * A list term.
  */
-class ListTerm<out T: Term>(val elements: List<T>): Term() {
+class ListTerm<out T: ITerm>(val elements: List<T>): Term() {
 
     constructor(vararg elements: T): this(elements.asList())
 
     override val constructor: ITermConstructor
         get() = TermConstructor("_LIST", this.elements.size)
 
-    override val children: List<Term>
+    override val children: List<ITerm>
         get() = this.elements
 
-    override fun equals(other: Term?): Boolean {
+    override fun equals(other: ITerm?): Boolean {
         @Suppress("SuspiciousEqualsCombination")
         return this === other                       // Cheap referential equality check.
             || (other != null

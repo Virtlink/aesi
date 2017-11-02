@@ -15,10 +15,10 @@ class StringTerm(val value: String): Term() {
     override val constructor: ITermConstructor
         get() = StringTerm.constructor
 
-    override val children: List<Term>
+    override val children: List<ITerm>
         get() = emptyList()
 
-    override fun equals(other: Term?): Boolean
+    override fun equals(other: ITerm?): Boolean
             = equals(other as? StringTerm)
 
     /**
