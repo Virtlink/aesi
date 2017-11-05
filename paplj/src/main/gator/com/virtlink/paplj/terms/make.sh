@@ -1,1 +1,1 @@
-../../../../../../../../../gator/build/install/gator/bin/gator terms.yaml
+../../../../../../../../../gator/build/install/gator/bin/gator -v terms.yaml

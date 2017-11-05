@@ -18,7 +18,6 @@ class AstTests {
         val input = "program x.y.z;"
         val reader = StringReader(input)
         val termFactory = InterningTermFactory()
-        termFactory.registerBuilder(ProgramTerm.constructor, { _, cl -> ProgramTerm.create(cl) })
         val parser = PapljParser(AstBuilder(termFactory))
 
         // Act
@@ -39,8 +38,6 @@ class AstTests {
                 "import jkl.*;"
         val reader = StringReader(input)
         val termFactory = InterningTermFactory()
-        termFactory.registerBuilder(ProgramTerm.constructor, { _, cl -> ProgramTerm.create(cl) })
-        termFactory.registerBuilder(ImportTerm.constructor, { _, cl -> ImportTerm.create(cl) })
         val parser = PapljParser(AstBuilder(termFactory))
 
         // Act
@@ -61,11 +58,9 @@ class AstTests {
         // Arrange
         val input =
                 "program x.y.z;" +
-                "run true;"
+                "run x;"
         val reader = StringReader(input)
         val termFactory = InterningTermFactory()
-        termFactory.registerBuilder(ProgramTerm.constructor, { _, cl -> ProgramTerm.create(cl) })
-        termFactory.registerBuilder(VarTerm.constructor, { _, cl -> VarTerm.create(cl) })
         val parser = PapljParser(AstBuilder(termFactory))
 
         // Act

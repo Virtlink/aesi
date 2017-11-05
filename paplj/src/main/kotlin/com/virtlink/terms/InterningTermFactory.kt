@@ -5,7 +5,7 @@ import com.google.common.collect.Interners
 /**
  * Term factory that ensures maximal sharing.
  */
-class InterningTermFactory(): DefaultTermFactory() {
+open class InterningTermFactory(): DefaultTermFactory() {
 //class InterningTermFactory(private val innerTermFactory: TermFactory): TermFactory() {
 
 //    /**

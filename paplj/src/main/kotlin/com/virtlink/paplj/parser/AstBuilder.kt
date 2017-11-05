@@ -58,6 +58,7 @@ class AstBuilder @Inject constructor(
             val body = this@AstBuilder.visitBlock2(ctx.block2())
             return this@AstBuilder.termFactory.createTerm(MethodTerm.constructor, type, name, params, body)
         }
+
     }.visit(ctx)
 
     override fun visitParam(ctx: PapljAntlrParser.ParamContext): ParamTerm {
