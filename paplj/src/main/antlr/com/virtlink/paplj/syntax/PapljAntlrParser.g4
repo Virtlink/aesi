@@ -62,8 +62,8 @@ expr
     | 'new' qualifiedName '(' ')'               # New
     | 'null' qualifiedName?                     # Null
     | 'this'                                    # This
-    | ('true' | 'false')                        # Bool
-    | INT                                       # Int
+    | v=('true' | 'false')                      # Bool
+    | INT                                       # Num
     | expr '.' ID                               # Member
     | expr '.' ID '(' (expr (',' expr)*)? ')'   # MemberCall
     | '-' expr                                  # Negate

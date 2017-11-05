@@ -2,10 +2,10 @@ package com.virtlink.paplj
 
 import com.virtlink.paplj.parser.AstBuilder
 import com.virtlink.paplj.parser.PapljParser
-import com.virtlink.paplj.terms.*
-import com.virtlink.paplj.terms.paplj.ImportTerm
-import com.virtlink.paplj.terms.paplj.ProgramTerm
-import com.virtlink.paplj.terms.paplj.VarTerm
+import com.virtlink.paplj.terms.ImportTerm
+import com.virtlink.paplj.terms.ProgramTerm
+import com.virtlink.paplj.terms.VarTerm
+import com.virtlink.terms.*
 import org.junit.Test
 import java.io.StringReader
 import kotlin.test.assertEquals

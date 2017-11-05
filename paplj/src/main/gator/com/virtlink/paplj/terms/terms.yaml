@@ -1,0 +1,336 @@
+---
+template: Term
+instances:
+
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/ProgramTerm.kt
+  data:
+    name: ProgramTerm
+    properties:
+    - name: "name"
+      type: "StringTerm"
+    - name: "imports"
+      type: "ListTerm<ImportTerm>"
+    - name: "types"
+      type: "ListTerm<TypeTerm>"
+    - name: "runExpr"
+      type: "OptionTerm<ExprTerm>"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/ImportTerm.kt
+  data:
+    name: ImportTerm
+    properties:
+    - name: "type"
+      type: "StringTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/TypeTerm.kt
+  data:
+    name: TypeTerm
+    properties:
+    - name: "name"
+      type: "StringTerm"
+    - name: "extends"
+      type: "OptionTerm<StringTerm>"
+    - name: "members"
+      type: "ListTerm<ClassMemberTerm>"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/FieldTerm.kt
+  data:
+    name: FieldTerm
+    extends:
+    - ClassMemberTerm
+    properties:
+    - name: "name"
+      type: "StringTerm"
+      override: true
+    - name: "type"
+      type: "StringTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/MethodTerm.kt
+  data:
+    name: MethodTerm
+    extends:
+    - ClassMemberTerm
+    properties:
+    - name: "name"
+      type: "StringTerm"
+      override: true
+    - name: "type"
+      type: "StringTerm"
+      override: true
+    - name: "params"
+      type: "ListTerm<ParamTerm>"
+    - name: "body"
+      type: "Block2Term"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/ParamTerm.kt
+  data:
+    name: ParamTerm
+    properties:
+    - name: "name"
+      type: "StringTerm"
+    - name: "type"
+      type: "StringTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/BindingTerm.kt
+  data:
+    name: BindingTerm
+    properties:
+    - name: "name"
+      type: "StringTerm"
+    - name: "type"
+      type: "StringTerm"
+    - name: "expression"
+      type: "ExprTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/Block2Term.kt
+  data:
+    name: Block2Term
+    extends:
+    - ExprTerm
+    properties:
+    - name: "expressions"
+      type: "ListTerm<ExprTerm>"
+
+# Expressions
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/VarTerm.kt
+  data:
+    name: VarTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "name"
+      type: "StringTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/CallTerm.kt
+  data:
+    name: CallTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "name"
+      type: "StringTerm"
+    - name: "arguments"
+      type: "ListTerm<ExprTerm>"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/NewTerm.kt
+  data:
+    name: NewTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "type"
+      type: "StringTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/NullTerm.kt
+  data:
+    name: NullTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "type"
+      type: "OptionTerm<StringTerm>"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/ThisTerm.kt
+  data:
+    name: ThisTerm
+    extends:
+    - ExprTerm
+    properties: []
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/TrueTerm.kt
+  data:
+    name: TrueTerm
+    extends:
+    - BoolTerm
+    properties: []
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/FalseTerm.kt
+  data:
+    name: FalseTerm
+    extends:
+    - BoolTerm
+    properties: []
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/NumTerm.kt
+  data:
+    name: NumTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "value"
+      type: "IntTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/MemberTerm.kt
+  data:
+    name: MemberTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "expression"
+      type: "ExprTerm"
+    - name: "name"
+      type: "StringTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/MemberCallTerm.kt
+  data:
+    name: MemberCallTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "expression"
+      type: "ExprTerm"
+    - name: "name"
+      type: "StringTerm"
+    - name: "arguments"
+      type: "ListTerm<ExprTerm>"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/NegateTerm.kt
+  data:
+    name: NegateTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "expression"
+      type: "ExprTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/NotTerm.kt
+  data:
+    name: NotTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "expression"
+      type: "ExprTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/CastTerm.kt
+  data:
+    name: CastTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "expression"
+      type: "ExprTerm"
+    - name: "type"
+      type: "StringTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/MulTerm.kt
+  data:
+    name: MulTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/DivTerm.kt
+  data:
+    name: DivTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/AddTerm.kt
+  data:
+    name: AddTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/SubTerm.kt
+  data:
+    name: SubTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/EqTerm.kt
+  data:
+    name: EqTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/NeqTerm.kt
+  data:
+    name: NeqTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/LtTerm.kt
+  data:
+    name: LtTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/AndTerm.kt
+  data:
+    name: AndTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/OrTerm.kt
+  data:
+    name: OrTerm
+    extends:
+    - BinOpTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+      override: true
+    - name: "rhs"
+      type: "ExprTerm"
+      override: true
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/AssignTerm.kt
+  data:
+    name: AssignTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "lhs"
+      type: "ExprTerm"
+    - name: "rhs"
+      type: "ExprTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/LetTerm.kt
+  data:
+    name: LetTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "bindings"
+      type: "ListTerm<BindingTerm>"
+    - name: "expression"
+      type: "ExprTerm"
+- output: ../../../../../kotlin/com/virtlink/paplj/terms/IfTerm.kt
+  data:
+    name: IfTerm
+    extends:
+    - ExprTerm
+    properties:
+    - name: "condition"
+      type: "ExprTerm"
+    - name: "onTrue"
+      type: "ExprTerm"
+    - name: "onFalse"
+      type: "ExprTerm"

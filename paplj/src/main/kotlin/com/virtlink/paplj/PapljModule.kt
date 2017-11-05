@@ -12,8 +12,8 @@ import com.virtlink.paplj.parser.PapljParser
 import com.virtlink.paplj.referenceresolution.DummyReferenceResolver
 import com.virtlink.paplj.structureoutline.DummyStructureOutliner
 import com.virtlink.paplj.syntaxcoloring.AntlrSyntaxColorizer
-import com.virtlink.paplj.terms.InterningTermFactory
-import com.virtlink.paplj.terms.TermFactory
+import com.virtlink.terms.InterningTermFactory
+import com.virtlink.terms.TermFactory
 
 class PapljModule: AesiBaseModule() {
 

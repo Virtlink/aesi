@@ -3,7 +3,8 @@ package com.virtlink.paplj.parser
 import com.google.inject.Inject
 import com.virtlink.paplj.syntax.PapljAntlrLexer
 import com.virtlink.paplj.syntax.PapljAntlrParser
-import com.virtlink.paplj.terms.Term
+import com.virtlink.terms.ITerm
+import com.virtlink.terms.Term
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 import java.io.Reader
@@ -15,7 +16,7 @@ class PapljParser @Inject constructor(
         private val astBuilder: AstBuilder
 ) {
 
-    fun parse(reader: Reader): Term {
+    fun parse(reader: Reader): ITerm {
         val input = ANTLRInputStream(reader)
         val lexer = PapljAntlrLexer(input)
         val tokens = CommonTokenStream(lexer)
