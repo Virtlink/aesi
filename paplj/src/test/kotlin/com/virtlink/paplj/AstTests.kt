@@ -61,7 +61,7 @@ class AstTests {
         // Arrange
         val input =
                 "program x.y.z;" +
-                "run x;"
+                "run true;"
         val reader = StringReader(input)
         val termFactory = InterningTermFactory()
         termFactory.registerBuilder(ProgramTerm.constructor, { _, cl -> ProgramTerm.create(cl) })

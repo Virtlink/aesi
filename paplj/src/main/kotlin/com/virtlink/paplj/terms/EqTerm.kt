@@ -18,7 +18,7 @@ class EqTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<EqTerm>("EqTerm", 2)
+        val constructor = TermConstructorOfT("EqTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

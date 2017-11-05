@@ -19,7 +19,7 @@ class TypeTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<TypeTerm>("TypeTerm", 3)
+        val constructor = TermConstructorOfT("TypeTerm", 3, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

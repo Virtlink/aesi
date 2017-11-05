@@ -20,7 +20,7 @@ class ProgramTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<ProgramTerm>("ProgramTerm", 4)
+        val constructor = TermConstructorOfT("ProgramTerm", 4, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

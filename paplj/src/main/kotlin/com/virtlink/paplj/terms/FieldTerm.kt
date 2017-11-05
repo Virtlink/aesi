@@ -18,7 +18,7 @@ class FieldTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<FieldTerm>("FieldTerm", 2)
+        val constructor = TermConstructorOfT("FieldTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

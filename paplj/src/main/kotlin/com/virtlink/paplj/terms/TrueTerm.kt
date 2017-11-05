@@ -16,7 +16,7 @@ class TrueTerm()
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<TrueTerm>("TrueTerm", 0)
+        val constructor = TermConstructorOfT("TrueTerm", 0, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

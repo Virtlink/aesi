@@ -19,7 +19,7 @@ class IfTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<IfTerm>("IfTerm", 3)
+        val constructor = TermConstructorOfT("IfTerm", 3, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

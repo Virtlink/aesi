@@ -20,7 +20,7 @@ class MethodTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<MethodTerm>("MethodTerm", 4)
+        val constructor = TermConstructorOfT("MethodTerm", 4, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

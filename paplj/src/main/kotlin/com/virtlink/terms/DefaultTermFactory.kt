@@ -9,24 +9,24 @@ open class DefaultTermFactory : TermFactory() {
     private val termBuilders: HashMap<ITermConstructor, (ITermConstructor, List<ITerm>) -> ITerm> = hashMapOf()
 
     override fun createString(value: String): StringTerm
-            = StringTerm(value)
+            = getTerm(StringTerm(value))
 
     override fun createInt(value: Int): IntTerm
-            = IntTerm(value)
+            = getTerm(IntTerm(value))
 
     override fun <T: ITerm> createList(elements: List<T>): ListTerm<T>
-            = ListTerm(elements)
+            = getTerm(ListTerm(elements))
 
     override fun <T : ITerm> createOption(value: T?): OptionTerm<T>
-            = if (value != null) SomeTerm(value) else NoneTerm()
+            = getTerm(if (value != null) SomeTerm(value) else NoneTerm())
 
     override fun createTerm(constructor: ITermConstructor, children: List<ITerm>): ITerm {
         if (children.size != constructor.arity) {
             throw IllegalArgumentException("Expected ${constructor.arity} child terms, got ${children.size}.")
         }
 
-        val builder = getBuilder(constructor) ?: { c, cl -> buildTerm(c, cl) }
-        return builder(constructor, children)
+        val builder = getBuilder(constructor) ?: { c, cl -> c.create(cl) }
+        return getTerm(builder(constructor, children))
     }
 
     override fun registerBuilder(constructor: ITermConstructor, builder: (ITermConstructor, List<ITerm>) -> ITerm) {
@@ -48,16 +48,14 @@ open class DefaultTermFactory : TermFactory() {
     }
 
     /**
-     * Builds a generic term.
+     * Gets the actual term given a term.
      *
-     * @param constructor The term constructor.
-     * @param children The term's children.
-     * @return The created term.
+     * @param term The input term.
+     * @return The resulting term.
      */
-    protected open fun buildTerm(constructor: ITermConstructor, children: List<ITerm>): ITerm {
-        assert(constructor.arity == children.size)
-
-        return AnyTerm(constructor, children)
+    protected open fun <T: ITerm> getTerm(term: T): T {
+        // Default implementation.
+        return term
     }
 
 }

@@ -11,7 +11,7 @@ class NoneTerm<out T: ITerm>
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<NoneTerm<*>>("_NONE", 0)
+        val constructor = TermConstructorOfT<NoneTerm<*>>("NoneTerm", 0, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

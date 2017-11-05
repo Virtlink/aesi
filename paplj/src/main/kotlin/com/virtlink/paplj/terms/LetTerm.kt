@@ -18,7 +18,7 @@ class LetTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<LetTerm>("LetTerm", 2)
+        val constructor = TermConstructorOfT("LetTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

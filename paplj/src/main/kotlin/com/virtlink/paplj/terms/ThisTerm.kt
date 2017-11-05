@@ -16,7 +16,7 @@ class ThisTerm()
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<ThisTerm>("ThisTerm", 0)
+        val constructor = TermConstructorOfT("ThisTerm", 0, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

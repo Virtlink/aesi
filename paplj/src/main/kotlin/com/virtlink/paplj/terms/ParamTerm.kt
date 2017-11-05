@@ -18,7 +18,7 @@ class ParamTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<ParamTerm>("ParamTerm", 2)
+        val constructor = TermConstructorOfT("ParamTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

@@ -11,7 +11,7 @@ class SomeTerm<out T: ITerm>(val value: T)
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<SomeTerm<*>>("_SOME", 1)
+        val constructor = TermConstructorOfT<SomeTerm<*>>("SomeTerm", 1, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

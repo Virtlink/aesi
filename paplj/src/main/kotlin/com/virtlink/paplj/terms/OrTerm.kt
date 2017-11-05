@@ -18,7 +18,7 @@ class OrTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<OrTerm>("OrTerm", 2)
+        val constructor = TermConstructorOfT("OrTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

@@ -18,7 +18,7 @@ class AndTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<AndTerm>("AndTerm", 2)
+        val constructor = TermConstructorOfT("AndTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

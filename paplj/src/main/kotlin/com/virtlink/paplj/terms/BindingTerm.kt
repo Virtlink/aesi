@@ -19,7 +19,7 @@ class BindingTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<BindingTerm>("BindingTerm", 3)
+        val constructor = TermConstructorOfT("BindingTerm", 3, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

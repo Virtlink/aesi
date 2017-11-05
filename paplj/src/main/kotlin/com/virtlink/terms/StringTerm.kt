@@ -9,7 +9,7 @@ class StringTerm(val value: String): Term() {
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<IntTerm>("_STRING", 0)
+        val constructor = TermConstructor("_STRING", 0)
     }
 
     override val constructor: ITermConstructor

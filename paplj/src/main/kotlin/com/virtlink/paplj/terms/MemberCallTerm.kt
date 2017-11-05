@@ -19,7 +19,7 @@ class MemberCallTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<MemberCallTerm>("MemberCallTerm", 3)
+        val constructor = TermConstructorOfT("MemberCallTerm", 3, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

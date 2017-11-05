@@ -18,7 +18,7 @@ class MulTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<MulTerm>("MulTerm", 2)
+        val constructor = TermConstructorOfT("MulTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

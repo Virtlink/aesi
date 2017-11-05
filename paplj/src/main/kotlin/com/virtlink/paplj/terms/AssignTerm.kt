@@ -18,7 +18,7 @@ class AssignTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<AssignTerm>("AssignTerm", 2)
+        val constructor = TermConstructorOfT("AssignTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

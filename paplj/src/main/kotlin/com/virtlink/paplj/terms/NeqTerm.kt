@@ -18,7 +18,7 @@ class NeqTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<NeqTerm>("NeqTerm", 2)
+        val constructor = TermConstructorOfT("NeqTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

@@ -17,7 +17,7 @@ class NumTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<NumTerm>("NumTerm", 1)
+        val constructor = TermConstructorOfT("NumTerm", 1, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

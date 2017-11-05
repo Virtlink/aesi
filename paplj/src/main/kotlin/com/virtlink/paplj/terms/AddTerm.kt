@@ -18,7 +18,7 @@ class AddTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<AddTerm>("AddTerm", 2)
+        val constructor = TermConstructorOfT("AddTerm", 2, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.

@@ -17,7 +17,7 @@ class ImportTerm(
         /**
          * Gets the constructor of this term.
          */
-        val constructor = TermConstructorOfT<ImportTerm>("ImportTerm", 1)
+        val constructor = TermConstructorOfT("ImportTerm", 1, { create(it) })
 
         /**
          * Creates a new term from the specified list of child terms.
