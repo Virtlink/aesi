@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1509623450849
+Bnd-LastModified: 1510143840029
 Build-Jdk: 1.8.0_152
 Built-By: daniel
 Bundle-ClassPath: .,aesi-paplj-0.0.1-SNAPSHOT.jar,antlr4-runtime-4.5.3.j
@@ -20,18 +20,21 @@ Embedded-Artifacts: aesi-paplj-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="ae
  antlr4-runtime";v="4.5.3"
 Export-Package: com.virtlink.paplj;provider=metaborg;mandatory:=provider
  ,com.virtlink.paplj.codecompletion;provider=metaborg;mandatory:=provide
- r,com.virtlink.paplj.referenceresolution;provider=metaborg;mandatory:=p
- rovider,com.virtlink.paplj.structureoutline;provider=metaborg;mandatory
- :=provider,com.virtlink.paplj.syntax;provider=metaborg;mandatory:=provi
- der,com.virtlink.paplj.syntaxcoloring;provider=metaborg;mandatory:=prov
- ider,org.antlr.v4.runtime;provider=metaborg;mandatory:=provider;version
- ="4.5.3",org.antlr.v4.runtime.atn;provider=metaborg;mandatory:=provider
- ;version="4.5.3",org.antlr.v4.runtime.dfa;provider=metaborg;mandatory:=
- provider;version="4.5.3",org.antlr.v4.runtime.misc;provider=metaborg;ma
- ndatory:=provider;version="4.5.3",org.antlr.v4.runtime.tree;provider=me
- taborg;mandatory:=provider;version="4.5.3",org.antlr.v4.runtime.tree.pa
- ttern;provider=metaborg;mandatory:=provider;version="4.5.3",org.antlr.v
- 4.runtime.tree.xpath;provider=metaborg;mandatory:=provider;version="4.5
- .3"
+ r,com.virtlink.paplj.parser;provider=metaborg;mandatory:=provider,com.v
+ irtlink.paplj.referenceresolution;provider=metaborg;mandatory:=provider
+ ,com.virtlink.paplj.structureoutline;provider=metaborg;mandatory:=provi
+ der,com.virtlink.paplj.syntax;provider=metaborg;mandatory:=provider,com
+ .virtlink.paplj.syntaxcoloring;provider=metaborg;mandatory:=provider,co
+ m.virtlink.paplj.terms;provider=metaborg;mandatory:=provider,com.virtli
+ nk.paplj.utils;provider=metaborg;mandatory:=provider,com.virtlink.terms
+ ;provider=metaborg;mandatory:=provider,org.antlr.v4.runtime;provider=me
+ taborg;mandatory:=provider;version="4.5.3",org.antlr.v4.runtime.atn;pro
+ vider=metaborg;mandatory:=provider;version="4.5.3",org.antlr.v4.runtime
+ .dfa;provider=metaborg;mandatory:=provider;version="4.5.3",org.antlr.v4
+ .runtime.misc;provider=metaborg;mandatory:=provider;version="4.5.3",org
+ .antlr.v4.runtime.tree;provider=metaborg;mandatory:=provider;version="4
+ .5.3",org.antlr.v4.runtime.tree.pattern;provider=metaborg;mandatory:=pr
+ ovider;version="4.5.3",org.antlr.v4.runtime.tree.xpath;provider=metabor
+ g;mandatory:=provider;version="4.5.3"
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.3.0.201609221906

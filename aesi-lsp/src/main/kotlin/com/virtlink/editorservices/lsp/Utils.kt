@@ -14,3 +14,14 @@ fun Range.toSpan(content: IContent): Span? {
 
 fun org.eclipse.lsp4j.Position.toOffset(content: IContent): Offset?
         = content.getOffset(Position(this.line, this.character))
+
+fun Span.toRange(content: IContent): Range? {
+    val start = this.startOffset.toPosition(content) ?: return null
+    val end = this.startOffset.toPosition(content) ?: return null
+    return Range(start, end)
+}
+
+fun Offset.toPosition(content: IContent): org.eclipse.lsp4j.Position? {
+    val position = content.getPosition(this) ?: return null
+    return org.eclipse.lsp4j.Position(position.line, position.character)
+}

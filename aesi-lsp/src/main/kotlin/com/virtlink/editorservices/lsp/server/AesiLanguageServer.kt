@@ -18,11 +18,16 @@ import java.util.concurrent.CompletableFuture
 import com.virtlink.editorservices.lsp.content.RemoteContentSource
 import com.virtlink.editorservices.lsp.content.DocumentContentManager
 import com.virtlink.editorservices.lsp.resources.LspResourceManager
+import com.virtlink.editorservices.lsp.toRange
+import com.virtlink.editorservices.referenceresolution.IDefinition
+import com.virtlink.editorservices.referenceresolution.IReferenceResolverService
+import com.virtlink.editorservices.referenceresolution.NullReferenceResolverService
 import com.virtlink.editorservices.resources.TextChange
 import com.virtlink.logging.logger
 
 class AesiLanguageServer @Inject constructor(
         private val codeCompletionService: ICodeCompletionService,
+        private val referenceResolverService: IReferenceResolverService,
         private val remoteContentSource: RemoteContentSource,
         private val documentContentManager: DocumentContentManager,
         private val resourceManager: LspResourceManager,
@@ -39,6 +44,7 @@ class AesiLanguageServer @Inject constructor(
 
         val capabilities = ServerCapabilities()
         capabilities.completionProvider = CompletionOptions(false, listOf(".", " "))
+        capabilities.definitionProvider = true
         val documentSync = TextDocumentSyncOptions()
         documentSync.change = TextDocumentSyncKind.Incremental
         documentSync.openClose = true
@@ -96,21 +102,16 @@ class AesiLanguageServer @Inject constructor(
     = CompletableFutures.computeAsync {
         val documentUri = this.resourceManager.getUriFromLSPUri(position.textDocument.uri)
         val content = this.resourceManager.getContent(documentUri)
-        val list: CompletionList
-        if (content != null) {
+        val list = if (content != null) {
             val offset = position.position.toOffset(content)
                     ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                     "Position not found within document.", position.position))
             val info = this.codeCompletionService.getCompletionInfo(documentUri, offset, it.toCancellationToken())
-            if (info != null) {
-                val proposals = info.proposals.map { toCompletionItem(it) }
-                list = CompletionList(proposals)
-            } else {
-                list = CompletionList(emptyList())
-            }
+            val proposals = info?.proposals?.map { toCompletionItem(it) } ?: emptyList()
+            CompletionList(proposals)
         } else {
-            LOG.warn("$documentUri: Changes to unknown document.")
-            list = CompletionList(emptyList())
+            LOG.warn("$documentUri: Unknown document.")
+            CompletionList(emptyList())
         }
         Either.forRight<MutableList<CompletionItem>, CompletionList>(list)
     }
@@ -123,6 +124,34 @@ class AesiLanguageServer @Inject constructor(
 //        item.documentation = proposal.documentation
         // TODO: Kind
         return item
+    }
+
+    override fun doDefinition(position: TextDocumentPositionParams)
+            : CompletableFuture<MutableList<out Location>>
+    = CompletableFutures.computeAsync {
+        val documentUri = this.resourceManager.getUriFromLSPUri(position.textDocument.uri)
+        val content = this.resourceManager.getContent(documentUri)
+        val list = if (content != null) {
+            val offset = position.position.toOffset(content)
+                    ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
+                    "Position not found within document.", position.position))
+            val info = this.referenceResolverService.resolve(documentUri, offset, it.toCancellationToken())
+            info?.definitions?.mapNotNull { toLocation(position.textDocument.uri, it) } ?: emptyList()
+        } else {
+            LOG.warn("$documentUri: Unknown document.")
+            emptyList()
+        }
+        list.toMutableList()
+    }
+
+    private fun toLocation(lspDocumentUri: String, definition: IDefinition): Location? {
+        val resource = definition.symbol.resource ?: return null
+        val nameRange = definition.symbol.nameRange ?: return null
+        val content = this.resourceManager.getContent(resource) ?: return null
+        // TODO: Replace lspDocumentUri by the LSP document URI of the symbol.resource
+        val resourceUri = lspDocumentUri
+        val nameRange2 = nameRange.toRange(content)
+        return Location(resourceUri, nameRange2)
     }
 
 }

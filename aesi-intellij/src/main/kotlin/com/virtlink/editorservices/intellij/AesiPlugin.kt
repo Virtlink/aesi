@@ -8,7 +8,7 @@ import com.virtlink.editorservices.SessionManager
  *
  * @property injector The dependency injector.
  */
-class AesiPlugin(val injector: Injector) {
+open class AesiPlugin(val injector: Injector) {
 
     /**
      * The session manager.

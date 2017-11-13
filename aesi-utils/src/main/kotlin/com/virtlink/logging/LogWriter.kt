@@ -65,12 +65,4 @@ class LogWriter(private val logger: Logger, private val logLevel: LogLevel, buff
         }
     }
 
-    enum class LogLevel {
-        Trace,
-        Debug,
-        Info,
-        Warning,
-        Error
-    }
-
 }

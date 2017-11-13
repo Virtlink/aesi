@@ -6,6 +6,7 @@ import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageClientAware
 import org.eclipse.lsp4j.services.LanguageServer
 import org.slf4j.LoggerFactory
+import java.io.PrintWriter
 import java.net.InetSocketAddress
 import java.nio.channels.AsynchronousServerSocketChannel
 import java.nio.channels.AsynchronousSocketChannel
@@ -13,13 +14,13 @@ import java.nio.channels.Channels
 import java.util.concurrent.TimeoutException
 
 class SocketLanguageServerLauncher @Inject constructor(
-        @Assisted val port: Int,
+        @Assisted private val port: Int,
         private val server: LanguageServer)
-    : LanguageServerLauncherBase() {
+    : ILanguageServerLauncher {
 
     val logger = LoggerFactory.getLogger(SocketLanguageServerLauncher::class.java)
 
-    override fun launch() {
+    override fun launch(traceWriter: PrintWriter?) {
         val serverSocket = AsynchronousServerSocketChannel.open()
         val socketAddress = InetSocketAddress("localhost", this.port)
         serverSocket.bind(socketAddress)
@@ -38,7 +39,6 @@ class SocketLanguageServerLauncher @Inject constructor(
 
         val inputStream = Channels.newInputStream(socketChannel)
         val outputStream = Channels.newOutputStream(socketChannel)
-        val traceWriter = createTraceWriter()
 
         val launcher = LSPLauncher.createServerLauncher(
                 server,
