@@ -105,6 +105,7 @@ clean.paplj-eclipse:
 # paplj-vscode
 paplj-vscode:
 	cd $(PREFIX)/paplj-vscode/ && \
+	$(NPM) install && \
 	$(NPM) test
 
 docs.paplj-vscode:
