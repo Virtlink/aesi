@@ -3,7 +3,7 @@ MAVEN=mvn
 GRADLE=gradle
 NARGS=
 MARGS=
-GARGS=--console rich
+GARGS=
 PREFIX=.
 
 .PHONY: all clean docs \
