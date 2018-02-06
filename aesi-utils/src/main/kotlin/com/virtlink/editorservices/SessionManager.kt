@@ -16,32 +16,32 @@ class SessionManager : ISessionManager {
     /** Lock. */
     private val lock = ReentrantReadWriteLock()
 
-    override var id: SessionId? = null
+    override var currentSessionId: SessionId? = null
         private set
 
     override fun start() {
         this.lock.read {
-            if (this.id != null) {
+            if (this.currentSessionId != null) {
                 throw IllegalStateException("Another session is currently active.")
             }
 
             this.lock.write {
-                this.id = SessionId()
-                LOG.info("Started session with ID $id")
+                this.currentSessionId = SessionId()
+                LOG.info("Started session with ID $currentSessionId")
             }
         }
     }
 
     override fun stop() {
         this.lock.read {
-            if (this.id == null) {
+            if (this.currentSessionId == null) {
                 LOG.warn("No session to stop")
                 return
             }
 
             this.lock.write {
-                this.id = SessionId()
-                LOG.info("Stopped session with ID $id")
+                this.currentSessionId = SessionId()
+                LOG.info("Stopped session with ID $currentSessionId")
             }
         }
     }

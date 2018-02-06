@@ -8,7 +8,7 @@ interface ISessionManager {
     /**
      * Gets the current session ID; or null when there is no active session.
      */
-    val id: SessionId?
+    val currentSessionId: SessionId?
 
     /**
      * Starts a new session.

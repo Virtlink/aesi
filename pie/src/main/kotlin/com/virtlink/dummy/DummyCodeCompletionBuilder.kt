@@ -41,7 +41,7 @@ class DummyCodeCompletionBuilder @Inject constructor(
 
         val content = resourceManager.getContent(document)
         val version = content?.lastModificationStamp ?: -1
-        val session = sessionManager.id!!
+        val session = sessionManager.currentSessionId!!
         require(DocumentReq(document, version, session))
 
         val proposals = listOf(

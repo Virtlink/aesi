@@ -28,7 +28,7 @@ data class DocumentReq(val document: URI, val stamp: Long, val session: SessionI
             : BuildReason? {
 //        logger.checkReqStart(requiringApp, this)
 
-        val newSession = sessionManager.id!!
+        val newSession = sessionManager.currentSessionId!!
         val content = resourceManager.getContent(document)
         val newStamp = content?.lastModificationStamp ?: -1
         val reason = if (newSession != session || newStamp != stamp) {
