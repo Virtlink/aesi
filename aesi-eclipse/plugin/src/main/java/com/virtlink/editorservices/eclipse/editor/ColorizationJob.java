@@ -79,7 +79,7 @@ public class ColorizationJob extends EditorJob {
 	/**
 	 * Gets the description for this job.
 	 * 
-	 * @param input The editor input.
+	 * @param editor The editor.
 	 * @return The description.
 	 */
 	private static String getDescription(final IAesiEditor editor) {
@@ -104,7 +104,7 @@ public class ColorizationJob extends EditorJob {
 		final IContent content = this.resourceManager.getContent(document);
 		final Span region = Span.fromLength(0, (int)content.getLength());
 		final ICancellationToken ct = new MonitorCancellationToken(monitor);
-		final List<IToken> tokens = this.syntaxColoringService.getTokens(document, region, ct);
+		final List<IToken> tokens = this.syntaxColoringService.getSyntaxColoringInfo(document, region, ct).getTokens();
 		
 		final Display display = Display.getDefault();
 		final TextPresentation presentation = createPresentation(tokens, display);
@@ -115,7 +115,7 @@ public class ColorizationJob extends EditorJob {
 	private TextPresentation createPresentation(List<IToken> tokens, Display display) {
 		final TextPresentation presentation = new TextPresentation();
         for(IToken token : tokens) {
-            final StyleRange styleRange = this.styleManager.getStyleRange(token.getLocation(), token.getName());
+            final StyleRange styleRange = this.styleManager.getStyleRange(token.getLocation(), token.getScopes());
             presentation.addStyleRange(styleRange);
         }
         Span extent = SpanUtils.fromRegion(presentation.getExtent());

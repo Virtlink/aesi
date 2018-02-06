@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import com.google.inject.assistedinject.Assisted
 import com.intellij.lexer.LexerBase
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 import com.virtlink.editorservices.NullCancellationToken
 import com.virtlink.editorservices.Offset
@@ -61,12 +60,12 @@ class AesiLexer @Inject constructor(
             LOG.debug("Buffer is empty.")
             this.tokens = emptyList()
         } else {
-            val highlighterTokens = this.syntaxColoringService.getTokens(
+            val highlighterTokens = this.syntaxColoringService.getSyntaxColoringInfo(
                     this.documentUri,
                     Span(this.startOffset, this.endOffset),
                     NullCancellationToken)
-            LOG.debug("Highlighter returned ${highlighterTokens.size} tokens")
-            this.tokens = tokenize(highlighterTokens)
+            LOG.debug("Highlighter returned ${highlighterTokens.tokens.size} tokens")
+            this.tokens = tokenize(highlighterTokens.tokens)
         }
         LOG.debug("Tokenizer produced ${this.tokens.size} tokens")
     }
@@ -129,7 +128,7 @@ class AesiLexer @Inject constructor(
     }
 
     private fun getTokenType(token: IToken?): IElementType {
-        val name = this.scopeManager.getSimplifiedScope(token?.name ?: this.scopeManager.DEFAULT_SCOPE)
+        val name = this.scopeManager.getSimplifiedScope(token?.scopes ?: this.scopeManager.DEFAULT_SCOPE)
         val tokenType = this.tokenTypeManager.getTokenType(name)
         return tokenType
     }

@@ -10,6 +10,11 @@ import java.net.URI
 interface ISyntaxColoringService {
 
     /**
+     * Configures the service.
+     */
+    fun configure(configuration: ISyntaxColoringConfiguration)
+
+    /**
      * Colors (part of) a document.
      *
      * @param document The URI of the document to color.
@@ -17,9 +22,9 @@ interface ISyntaxColoringService {
      * @param cancellationToken The cancellation token.
      * @return A list of tokens.
      */
-    fun getTokens(
+    fun getSyntaxColoringInfo(
             document: URI,
             span: Span,
-            cancellationToken: ICancellationToken)
-            : List<IToken>
+            cancellationToken: ICancellationToken?)
+            : ISyntaxColoringInfo
 }

@@ -1,5 +1,6 @@
 package com.virtlink.editorservices.syntaxcoloring
 
+import com.virtlink.editorservices.ScopeNames
 import com.virtlink.editorservices.Span
 import java.io.Serializable
 
@@ -14,21 +15,10 @@ interface IToken : Serializable {
     val location: Span
 
     /**
-     * Gets the name assigned to the token.
+     * Gets the scope names assigned to the token.
      *
-     * The name is used to find an appropriate color for the token.
+     * The names are used to find an appropriate color for the token.
      */
-    val name: String
-
-    /**
-     * Gets the attributes that apply to the token.
-     *
-     * This is an unordered list of names, each of which
-     * indicates an attribute of the token.
-     * For example "invalid.deprecated" to
-     * indicate the token should display
-     * as a deprecated element.
-     */
-    val attributes: List<String>
+    val scopes: ScopeNames
 
 }

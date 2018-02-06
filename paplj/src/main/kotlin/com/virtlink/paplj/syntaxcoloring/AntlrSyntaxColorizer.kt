@@ -3,9 +3,7 @@ package com.virtlink.paplj.syntaxcoloring
 import com.google.inject.Inject
 import com.virtlink.editorservices.*
 import com.virtlink.editorservices.resources.IResourceManager
-import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
-import com.virtlink.editorservices.syntaxcoloring.IToken
-import com.virtlink.editorservices.syntaxcoloring.Token
+import com.virtlink.editorservices.syntaxcoloring.*
 import com.virtlink.logging.logger
 import com.virtlink.paplj.syntax.PapljAntlrLexer
 import org.antlr.v4.runtime.ANTLRInputStream
@@ -18,13 +16,17 @@ class AntlrSyntaxColorizer @Inject constructor(
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
 
-    override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken): List<IToken> {
+    override fun configure(configuration: ISyntaxColoringConfiguration) {
+        // Nothing to do.
+    }
+
+    override fun getSyntaxColoringInfo(document: URI, span: Span, cancellationToken: ICancellationToken?): ISyntaxColoringInfo {
         val tokens = mutableListOf<IToken>()
 
         val content = this.resourceManager.getContent(document)
         if (content == null) {
             LOG.warn("$document: Could not get content.")
-            return emptyList()
+            return SyntaxColoringInfo(emptyList())
         }
 
         val input = ANTLRInputStream(content.text)
@@ -39,7 +41,7 @@ class AntlrSyntaxColorizer @Inject constructor(
             token = lexer.nextToken()
         }
 
-        return tokens
+        return SyntaxColoringInfo(tokens)
     }
 
     private val keywords = arrayOf("PROGRAM", "RUN", "IMPORT", "CLASS", "EXTENDS", "IF", "ELSE", "LET", "IN",
