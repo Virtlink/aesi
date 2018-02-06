@@ -102,7 +102,7 @@ public class ColorizationJob extends EditorJob {
 		// FIXME: Do we need the IResource if we have the IEditorInput?
 		final URI document = this.resourceManager.getUri(getInput());
 		final IContent content = this.resourceManager.getContent(document);
-		final Span region = Span.fromLength(0, content.getLength());
+		final Span region = Span.fromLength(0, (int)content.getLength());
 		final ICancellationToken ct = new MonitorCancellationToken(monitor);
 		final List<IToken> tokens = this.syntaxColoringService.getTokens(document, region, ct);
 		

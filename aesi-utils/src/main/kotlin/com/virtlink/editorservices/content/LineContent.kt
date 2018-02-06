@@ -3,6 +3,7 @@ package com.virtlink.editorservices.content
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
 import com.virtlink.editorservices.indexAfterNextNewline
+import com.virtlink.editorservices.resources.IAesiContent
 import com.virtlink.editorservices.resources.IContent
 import com.virtlink.editorservices.resources.TextChange
 import java.io.LineNumberReader
@@ -11,9 +12,9 @@ import java.io.LineNumberReader
  * Line-based document content.
  */
 open class LineContent constructor(
-        override val stamp: Long,
+        override val lastModificationStamp: Long,
         private val lines: List<Line>)
-    : IContent {
+    : IAesiContent {
 
     /**
      * A line in the document.
@@ -28,7 +29,7 @@ open class LineContent constructor(
                 = this.text
     }
 
-    override val length: Int = getLength(this.lines)
+    override val length: Long = getLength(this.lines)
 
     override val text
             get() = this.lines.fold(StringBuilder(), { b, l -> b.appendln(l) }).toString()
@@ -54,8 +55,8 @@ open class LineContent constructor(
          * @param lines The lines.
          * @return The length, in characters.
          */
-        private fun getLength(lines: List<Line>)
-                = lines.sumBy { it.length }
+        private fun getLength(lines: List<Line>): Long
+                = lines.sumBy { it.length }.toLong()
 
         /**
          * Gets the lines resulting from the specified text.
@@ -118,9 +119,6 @@ open class LineContent constructor(
 
     override val lineCount: Int
         get() = this.lines.size
-
-    override fun createReader(): LineNumberReader
-            = TODO()
 
     override fun getOffset(position: Position): Offset? {
         if (position.line >= this.lines.size)

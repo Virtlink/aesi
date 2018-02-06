@@ -66,9 +66,9 @@ class RemoteContentSource {
                 if (c == null) {
                     throw IllegalArgumentException("The document '$d' is not known by this source.")
                 }
-                if (c.stamp != currentStamp) {
+                if (c.lastModificationStamp != currentStamp) {
                     throw IllegalStateException("Expected to update document '$d' with stamp $currentStamp, " +
-                            "but found stamp ${c.stamp}.")
+                            "but found stamp ${c.lastModificationStamp}.")
                 }
 
                 val newContent = c.withChanges(changes, newStamp)

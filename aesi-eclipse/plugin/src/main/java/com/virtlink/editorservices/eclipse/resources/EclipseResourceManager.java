@@ -7,6 +7,9 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
+import com.sun.scenario.effect.Offset;
+import com.virtlink.editorservices.Position;
+import com.virtlink.editorservices.resources.IAesiContent;
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.filebuffers.ITextFileBuffer;
 import org.eclipse.core.filebuffers.ITextFileBufferManager;
@@ -471,6 +474,38 @@ public class EclipseResourceManager implements IResourceManager {
 			return new URI(uri);
 		} catch (URISyntaxException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	@Nullable
+	public URI getParent(URI uri) {
+		// This is probably not correct in all situations.
+		if (uri.getPath().endsWith("/"))
+			return uri.resolve("..");
+		else
+			return uri.resolve(".");
+	}
+
+	@Override
+	@Nullable
+	public Long getOffset(IContent content, Position position) {
+		if (content instanceof IAesiContent) {
+			IAesiContent aesiContent = (IAesiContent)content;
+			return aesiContent.getOffset(position);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	@Nullable
+	public Position getPosition(IContent content, long offset) {
+		if (content instanceof IAesiContent) {
+			IAesiContent aesiContent = (IAesiContent)content;
+			return aesiContent.getPosition(offset);
+		} else {
+			return null;
 		}
 	}
 

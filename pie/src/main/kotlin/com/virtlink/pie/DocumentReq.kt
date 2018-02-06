@@ -30,7 +30,7 @@ data class DocumentReq(val document: URI, val stamp: Long, val session: SessionI
 
         val newSession = sessionManager.id!!
         val content = resourceManager.getContent(document)
-        val newStamp = content?.stamp ?: -1
+        val newStamp = content?.lastModificationStamp ?: -1
         val reason = if (newSession != session || newStamp != stamp) {
             InconsistentBuildReq(requiringResult, this, newStamp, newSession)
         } else {

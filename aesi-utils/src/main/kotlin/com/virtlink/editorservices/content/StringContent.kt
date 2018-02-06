@@ -3,6 +3,7 @@ package com.virtlink.editorservices.content
 import com.virtlink.editorservices.Offset
 import com.virtlink.editorservices.Position
 import com.virtlink.editorservices.indexAfterNextNewline
+import com.virtlink.editorservices.resources.IAesiContent
 import com.virtlink.editorservices.resources.IContent
 import com.virtlink.editorservices.resources.TextChange
 import java.io.LineNumberReader
@@ -15,9 +16,9 @@ import java.io.LineNumberReader
  */
 class StringContent constructor(
         override val text: String,
-        override val stamp: Long,
+        override val lastModificationStamp: Long,
         val lines: List<Offset>)
-    : IContent {
+    : IAesiContent {
 
     /**
      * Initializes a new instance of the [StringContent] class.
@@ -53,15 +54,11 @@ class StringContent constructor(
         }
     }
 
-    override val length: Int
-        get() = this.text.length
+    override val length: Long
+        get() = this.text.length.toLong()
 
     override val lineCount: Int
         get() = this.lines.size
-
-    override fun createReader(): LineNumberReader {
-        TODO()
-    }
 
     override fun getOffset(position: Position): Offset? {
         if (position.line >= this.lines.size)

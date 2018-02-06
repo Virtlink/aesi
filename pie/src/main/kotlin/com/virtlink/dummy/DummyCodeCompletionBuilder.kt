@@ -40,7 +40,7 @@ class DummyCodeCompletionBuilder @Inject constructor(
         logger.info("$document: Completing at $caretOffset.")
 
         val content = resourceManager.getContent(document)
-        val version = content?.stamp ?: -1
+        val version = content?.lastModificationStamp ?: -1
         val session = sessionManager.id!!
         require(DocumentReq(document, version, session))
 

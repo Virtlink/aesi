@@ -1,7 +1,10 @@
 package com.virtlink.editorservices.lsp.resources
 
 import com.google.inject.Inject
+import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.Position
 import com.virtlink.editorservices.lsp.content.DocumentContentManager
+import com.virtlink.editorservices.resources.IAesiContent
 import com.virtlink.editorservices.resources.IContent
 import com.virtlink.editorservices.resources.IResourceManager
 import java.io.File
@@ -129,6 +132,19 @@ class LspResourceManager @Inject constructor(
 
     override fun getContent(uri: URI): IContent? {
         return this.documentContentManager.getLatestContent(uri)
+    }
+
+    override fun getParent(uri: URI): URI? {
+        // This is probably not correct in all situations.
+        return if (uri.path.endsWith("/")) uri.resolve("..") else uri.resolve(".")
+    }
+
+    override fun getOffset(content: IContent, position: Position): Offset? {
+        return (content as? IAesiContent)?.getOffset(position)
+    }
+
+    override fun getPosition(content: IContent, offset: Offset): Position? {
+        return (content as? IAesiContent)?.getPosition(offset)
     }
 
 }

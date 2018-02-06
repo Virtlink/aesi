@@ -15,6 +15,6 @@ class NullSyntaxColoringService @Inject constructor(
 
     override fun getTokens(document: URI, span: Span, cancellationToken: ICancellationToken): List<IToken> {
         val content = this.resourceService.getContent(document) ?: return emptyList()
-        return listOf(Token(Span.fromLength(0, content.length), "text"))
+        return listOf(Token(Span.fromLength(0, content.length.toInt()), "text"))
     }
 }

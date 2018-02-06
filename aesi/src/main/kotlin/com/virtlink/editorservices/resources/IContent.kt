@@ -14,12 +14,12 @@ interface IContent {
     /**
      * Gets the size of the document, in characters.
      */
-    val length: Int
+    val length: Long
 
     /**
      * The last-modification stamp.
      */
-    val stamp: Long
+    val lastModificationStamp: Long
 
     /**
      * Gets the number of lines in the document.
@@ -34,31 +34,6 @@ interface IContent {
      * Gets the text in the document.
      */
     val text: String
-
-    /**
-     * Creates a reader for this content.
-     *
-     * Every call creates a new reader that is positioned at the start of the content.
-     */
-    fun createReader(): LineNumberReader
-
-    /**
-     * Gets the value of the specified line:character position within the document.
-     *
-     * @param position The position in the document
-     * @return The zero-based offset in the document;
-     * or null when the position is not in the document.
-     */
-    fun getOffset(position: Position): Offset?
-
-    /**
-     * Gets the line:character position of the specified value within the document.
-     *
-     * @param offset The zero-based offset in the document.
-     * @return The position in the document;
-     * or null when the value is not in the document.
-     */
-    fun getPosition(offset: Offset): Position?
 
     /**
      * Returns a new document content object with the specified changes applied.

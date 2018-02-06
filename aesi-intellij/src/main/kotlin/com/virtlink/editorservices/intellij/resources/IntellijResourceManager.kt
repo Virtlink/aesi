@@ -20,7 +20,10 @@ import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiManager
 import com.intellij.testFramework.LightVirtualFile
+import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.Position
 import com.virtlink.editorservices.content.StringContent
+import com.virtlink.editorservices.resources.IAesiContent
 
 
 /**
@@ -318,6 +321,12 @@ class IntellijResourceManager: IResourceManager {
         return file.children.map { f -> getUri(f, module) }
     }
 
+    override fun getParent(uri: URI): URI? {
+        // This is probably not correct in all situations.
+        return if (uri.path.endsWith("/")) uri.resolve("..") else uri.resolve(".")
+    }
+
+
     override fun getContent(uri: URI): IContent? {
         val psiFile = getPsiFile(uri)
         val document: Document?
@@ -328,6 +337,14 @@ class IntellijResourceManager: IResourceManager {
             document = if (virtualFile != null) FileDocumentManager.getInstance().getDocument(virtualFile) else null
         }
         return if (document != null) StringContent(document.text, document.modificationStamp) else null
+    }
+
+    override fun getOffset(content: IContent, position: Position): Offset? {
+        return (content as? IAesiContent)?.getOffset(position)
+    }
+
+    override fun getPosition(content: IContent, offset: Offset): Position? {
+        return (content as? IAesiContent)?.getPosition(offset)
     }
 
     private data class ParsedUrl(

@@ -77,8 +77,8 @@ class AesiLanguageServer @Inject constructor(
             LOG.warn("$documentUri: Changes to unknown document.")
             return
         }
-        val currentVersion = content.stamp
-        val changes = params.contentChanges.map { TextChange(it.range.toSpan(content)!!, it.text) }
+        val currentVersion = content.lastModificationStamp
+        val changes = params.contentChanges.map { TextChange(it.range.toSpan(this.resourceManager, content)!!, it.text) }
         this.remoteContentSource.update(documentUri, currentVersion, changes, params.textDocument.version.toLong())
     }
 
@@ -103,7 +103,7 @@ class AesiLanguageServer @Inject constructor(
         val documentUri = this.resourceManager.getUriFromLSPUri(position.textDocument.uri)
         val content = this.resourceManager.getContent(documentUri)
         val list = if (content != null) {
-            val offset = position.position.toOffset(content)
+            val offset = position.position.toOffset(this.resourceManager, content)
                     ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                     "Position not found within document.", position.position))
             val info = this.codeCompletionService.getCompletionInfo(documentUri, offset, it.toCancellationToken())
@@ -132,7 +132,7 @@ class AesiLanguageServer @Inject constructor(
         val documentUri = this.resourceManager.getUriFromLSPUri(position.textDocument.uri)
         val content = this.resourceManager.getContent(documentUri)
         val list = if (content != null) {
-            val offset = position.position.toOffset(content)
+            val offset = position.position.toOffset(this.resourceManager, content)
                     ?: throw ResponseErrorException(ResponseError(ResponseErrorCode.InvalidParams,
                     "Position not found within document.", position.position))
             val info = this.referenceResolverService.resolve(documentUri, offset, it.toCancellationToken())
@@ -150,7 +150,7 @@ class AesiLanguageServer @Inject constructor(
         val content = this.resourceManager.getContent(resource) ?: return null
         // TODO: Replace lspDocumentUri by the LSP document URI of the symbol.resource
         val resourceUri = lspDocumentUri
-        val nameRange2 = nameRange.toRange(content)
+        val nameRange2 = nameRange.toRange(this.resourceManager, content)
         return Location(resourceUri, nameRange2)
     }
 

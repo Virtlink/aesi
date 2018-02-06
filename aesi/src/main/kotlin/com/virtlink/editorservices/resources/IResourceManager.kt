@@ -1,6 +1,8 @@
 package com.virtlink.editorservices.resources
 
 import java.net.URI
+import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.Position
 
 /**
  * Manages the files and folders.
@@ -84,5 +86,35 @@ interface IResourceManager {
      * or does not currently exist.
      */
     fun getContent(uri: URI): IContent?
+
+    /**
+     * Gets the parent of the file or folder with the specified URI.
+     *
+     * @param uri The URI of the file or folder.
+     * @return The parent URI.
+     */
+    fun getParent(uri: URI): URI?
+
+    /**
+     * Gets the value of the specified line:character position within the document.
+     *
+     * @param content The document's content.
+     * @param position The position in the document
+     * @return The zero-based offset in the document;
+     * or null when the position is not in the document.
+     */
+    fun getOffset(content: IContent, position: Position): Offset?
+
+    /**
+     * Gets the line:character position of the specified value within the document.
+     *
+     * @param content The document's content.
+     * @param offset The zero-based offset in the document.
+     * @return The position in the document;
+     * or null when the value is not in the document.
+     */
+    fun getPosition(content: IContent, offset: Offset): Position?
+
+
 
 }
