@@ -21,7 +21,6 @@ import com.virtlink.editorservices.lsp.resources.LspResourceManager
 import com.virtlink.editorservices.lsp.toRange
 import com.virtlink.editorservices.referenceresolution.IDefinition
 import com.virtlink.editorservices.referenceresolution.IReferenceResolverService
-import com.virtlink.editorservices.referenceresolution.NullReferenceResolverService
 import com.virtlink.editorservices.resources.TextChange
 import com.virtlink.logging.logger
 
@@ -118,7 +117,7 @@ class AesiLanguageServer @Inject constructor(
 
     private fun toCompletionItem(proposal: ICompletionProposal): CompletionItem {
         val item = CompletionItem(proposal.label)
-        item.insertText = proposal.insertionText
+        item.insertText = proposal.content
         item.detail = proposal.description
         // TODO: Documentation
 //        item.documentation = proposal.documentation

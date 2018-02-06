@@ -11,7 +11,10 @@ import java.net.URI
 class NullCodeCompletionService @Inject constructor()
     : ICodeCompletionService {
 
-    override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken): ICompletionInfo?
+    override val triggerCharacters: List<Char>
+        get() = emptyList()
+
+    override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken?): ICompletionInfo?
             = null
 
 }

@@ -19,6 +19,7 @@ import org.eclipse.jface.text.contentassist.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.part.EditorPart;
 
+import javax.annotation.Nullable;
 import java.net.URI;
 import java.util.List;
 
@@ -97,9 +98,15 @@ public class AesiCompletionProcessor implements IContentAssistProcessor {
     }
     
     private org.eclipse.jface.text.contentassist.ICompletionProposal toEclipseCompletionProposal(ICompletionProposal proposal, long offset) {
-        String replacementText = proposal.getInsertionText() != null ? proposal.getInsertionText() : proposal.getLabel();
+        String replacementText = proposal.getContent() != null ? proposal.getContent() : proposal.getLabel();
         Image icon = this.iconManager.getIcon();
-        long caret = proposal.getCaret() != null ? proposal.getCaret() : replacementText.length();
+        @Nullable Long caretV;
+        if (proposal instanceof com.virtlink.editorservices.codecompletion.CompletionProposal) {
+            caretV = ((com.virtlink.editorservices.codecompletion.CompletionProposal)proposal).getCaret();
+        } else {
+            caretV = null;
+        }
+        long caret = caretV != null ? caretV : replacementText.length();
     	return new CompletionProposal(
                 replacementText,
                 (int)offset,

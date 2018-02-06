@@ -1,12 +1,18 @@
 package com.virtlink.editorservices.codecompletion
 
 import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.ScopeNames
 import java.io.Serializable
 
 /**
  * A completion proposal.
  */
 interface ICompletionProposal : Serializable {
+
+    /**
+     * Gets the text to insert when the completion is accepted.
+     */
+    val content: String?
 
     /**
      * Gets the display name of the proposal.
@@ -19,32 +25,19 @@ interface ICompletionProposal : Serializable {
     val description: String?
 
     /**
+     * Gets the right-hand label of the proposal.
+     */
+    val rightLabel: String?
+
+    /**
      * Gets the kind of proposal.
      *
      * For example: "meta.function" to indicate a function.
      */
-    val kind: String?
+    val scopes: ScopeNames
 
     /**
-     * Gets the attributes that apply to the proposal.
-     *
-     * This is an unordered list of names, each of which
-     * indicates an attribute of the completion proposal.
-     * For example "meta.static" and "meta.public" to
-     * indicate the element is public and static, for
-     * example a public static function.
+     * Gets the commit characters.
      */
-    val attributes: List<String>
-
-    /**
-     * Gets the text to insert when the completion is accepted.
-     */
-    val insertionText: String?
-
-    /**
-     * Gets the offset of the caret after the text has been inserted,
-     * relative to the start of the inserted text;
-     * or null to put the caret after the inserted text.
-     */
-    val caret: Offset?
+    val commitCharacters: List<Char>
 }

@@ -1,12 +1,14 @@
 package com.virtlink.editorservices.codecompletion
 
 import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.ScopeNames
 
 class CompletionProposal(
         override val label: String,
+        override val content: String? = null,
         override val description: String? = null,
-        override val kind: String? = null,
-        override val attributes: List<String> = emptyList(),
-        override val insertionText: String? = null,
-        override val caret: Offset? = null)
+        override val scopes: ScopeNames = "",
+        override val rightLabel: String? = null,
+        override val commitCharacters: List<Char> = emptyList(),
+        val caret: Offset? = null)
     : ICompletionProposal

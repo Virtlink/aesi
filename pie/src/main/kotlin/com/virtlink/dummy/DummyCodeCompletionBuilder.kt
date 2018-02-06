@@ -47,18 +47,15 @@ class DummyCodeCompletionBuilder @Inject constructor(
         val proposals = listOf(
                 CompletionProposal("Hello",
                         description = "Description string",
-                        insertionText = "hello world!",
-                        kind = "meta.field",
-                        attributes = listOf("meta.static")),
+                        content = "hello world!",
+                        scopes = "meta.field,meta.static"),
                 CompletionProposal("Local variable",
-                        insertionText = "local var",
-                        kind = "meta.variable",
-                        attributes = listOf("meta.internal")),
+                        content = "local var",
+                        scopes = "meta.variable,meta.internal"),
                 CompletionProposal("Method",
-                        insertionText = "method()",
+                        content = "method()",
                         caret = 7,
-                        kind = "meta.method",
-                        attributes = listOf("meta.abstract", "meta.deprecated", "meta.package")),
+                        scopes = "meta.method,meta.abstract,meta.deprecated,meta.package"),
                 CompletionProposal("if (then else)")
         )
 

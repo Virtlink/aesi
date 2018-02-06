@@ -18,6 +18,8 @@ import com.virtlink.editorservices.codecompletion.ICompletionProposal
 import javax.swing.Icon
 import com.google.inject.Inject
 import com.virtlink.editorservices.NullCancellationToken
+import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.codecompletion.CompletionProposal
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 
@@ -58,7 +60,7 @@ abstract class AesiCompletionContributor
 
 
         for (proposal in completionInfo.proposals) {
-            val icon = getIcon(proposal.kind, proposal.attributes)
+            val icon = getIcon(proposal.scopes, proposal.scopes.split(','))
             // TODO: Prefix?
             // TODO: Type
             val element = LookupElementBuilder.create(proposal.label)
@@ -68,8 +70,8 @@ abstract class AesiCompletionContributor
 //                    .withCaseSensitivity(proposal.caseSensitive)
 //                    .withPresentableText(proposal.prefix + proposal.name)
                     .withIcon(icon)
-                    .withBoldness("not-inherited" in proposal.attributes)
-                    .withStrikeoutness("deprecated" in proposal.attributes)
+                    .withBoldness("not-inherited" in proposal.scopes.split(','))
+                    .withStrikeoutness("deprecated" in proposal.scopes.split(','))
             // TODO: Description
             // TODO: Documentation
 //            val priorityElement = PrioritizedLookupElement.withPriority(element, proposal.priority.toDouble())
@@ -82,9 +84,9 @@ abstract class AesiCompletionContributor
 
     private fun proposalInsertHandler(context: InsertionContext, item: LookupElement, proposal: ICompletionProposal) {
         // Replace the text that's normally inserted by the completion.
-        val insertionText = proposal.insertionText ?: proposal.label
+        val insertionText = proposal.content ?: proposal.label
         context.document.replaceString(context.startOffset, context.tailOffset, insertionText)
-        val caret = proposal.caret
+        val caret: Offset? = (proposal as? CompletionProposal)?.caret
         if (caret != null && caret > 0L && caret < insertionText.length) {
             // Move the cursor relative to the end of the replaced text.
             EditorModificationUtil.moveCaretRelatively(context.editor, (caret - insertionText.length).toInt())

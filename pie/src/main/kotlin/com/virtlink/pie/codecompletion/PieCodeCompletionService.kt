@@ -26,10 +26,13 @@ class PieCodeCompletionService @Inject constructor(
                      val caretOffset: Offset)
         : Serializable
 
+    override val triggerCharacters: List<Char>
+        get() = emptyList()
+
     override fun getCompletionInfo(
             document: URI,
             caretOffset: Offset,
-            cancellationToken: ICancellationToken):
+            cancellationToken: ICancellationToken?):
             ICompletionInfo {
         val input = PieCodeCompletionService.Input(
                 document, caretOffset

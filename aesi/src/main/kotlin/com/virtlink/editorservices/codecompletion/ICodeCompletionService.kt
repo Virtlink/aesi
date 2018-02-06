@@ -10,6 +10,11 @@ import java.net.URI
 interface ICodeCompletionService {
 
     /**
+     * Gets the trigger characters.
+     */
+    val triggerCharacters: List<Char>
+
+    /**
      * Returns completion info for the current caret position in the text in a document.
      *
      * The cancellation token is used to abort a long-running operation when the result is no longer needed.
@@ -25,6 +30,6 @@ interface ICodeCompletionService {
     fun getCompletionInfo(
             document: URI,
             caretOffset: Offset,
-            cancellationToken: ICancellationToken)
+            cancellationToken: ICancellationToken?)
             : ICompletionInfo?
 }
