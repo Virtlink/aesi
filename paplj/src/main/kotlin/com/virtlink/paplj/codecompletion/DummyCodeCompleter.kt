@@ -13,6 +13,10 @@ class DummyCodeCompleter : ICodeCompletionService {
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
 
+    override fun configure(configuration: ICodeCompletionConfiguration) {
+        // Nothing to do.
+    }
+
     override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken?): ICompletionInfo {
         LOG.info("$document: Completing at $caretOffset.")
 

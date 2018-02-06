@@ -15,6 +15,11 @@ interface ICodeCompletionService {
     val triggerCharacters: List<Char>
 
     /**
+     * Configures the service.
+     */
+    fun configure(configuration: ICodeCompletionConfiguration)
+
+    /**
      * Returns completion info for the current caret position in the text in a document.
      *
      * The cancellation token is used to abort a long-running operation when the result is no longer needed.

@@ -14,6 +14,10 @@ class NullCodeCompletionService @Inject constructor()
     override val triggerCharacters: List<Char>
         get() = emptyList()
 
+    override fun configure(configuration: ICodeCompletionConfiguration) {
+        // Nothing to do.
+    }
+
     override fun getCompletionInfo(document: URI, caretOffset: Offset, cancellationToken: ICancellationToken?): ICompletionInfo?
             = null
 

@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import com.google.inject.name.Named
 import com.virtlink.editorservices.ICancellationToken
 import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.codecompletion.ICodeCompletionConfiguration
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.codecompletion.ICompletionInfo
 import com.virtlink.editorservices.resources.IResourceManager
@@ -28,6 +29,10 @@ class PieCodeCompletionService @Inject constructor(
 
     override val triggerCharacters: List<Char>
         get() = emptyList()
+
+    override fun configure(configuration: ICodeCompletionConfiguration) {
+        // Nothing to do.
+    }
 
     override fun getCompletionInfo(
             document: URI,
