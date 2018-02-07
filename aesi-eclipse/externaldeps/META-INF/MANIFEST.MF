@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1517928794698
+Bnd-LastModified: 1517998152060
 Build-Jdk: 1.8.0_162
 Built-By: daniel
 Bundle-ClassPath: .,aesi-0.0.1-SNAPSHOT.jar,aesi-utils-0.0.1-SNAPSHOT.ja
- r,kotlin-stdlib-1.1.51.jar,slf4j-api-1.7.25.jar,guice-4.1.0.jar,guice-a
+ r,kotlin-stdlib-1.2.21.jar,slf4j-api-1.7.25.jar,guice-4.1.0.jar,guice-a
  ssistedinject-4.1.0.jar,guice-multibindings-4.1.0.jar,guava-23.2-jre.ja
  r,jsr305-3.0.2.jar,annotations-13.0.jar,aopalliance-1.0.jar
 Bundle-DocURL: http://www.ewi.tudelft.nl/en
@@ -20,8 +20,8 @@ Embed-Dependency: aesi,aesi-utils,kotlin-stdlib,slf4j-api,guice,guice-as
 Embed-Transitive: true
 Embedded-Artifacts: aesi-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="aesi";v=
  "0.0.1-SNAPSHOT",aesi-utils-0.0.1-SNAPSHOT.jar;g="com.virtlink";a="aesi
- -utils";v="0.0.1-SNAPSHOT",kotlin-stdlib-1.1.51.jar;g="org.jetbrains.ko
- tlin";a="kotlin-stdlib";v="1.1.51",slf4j-api-1.7.25.jar;g="org.slf4j";a
+ -utils";v="0.0.1-SNAPSHOT",kotlin-stdlib-1.2.21.jar;g="org.jetbrains.ko
+ tlin";a="kotlin-stdlib";v="1.2.21",slf4j-api-1.7.25.jar;g="org.slf4j";a
  ="slf4j-api";v="1.7.25",guice-4.1.0.jar;g="com.google.inject";a="guice"
  ;v="4.1.0",guice-assistedinject-4.1.0.jar;g="com.google.inject.extensio
  ns";a="guice-assistedinject";v="4.1.0",guice-multibindings-4.1.0.jar;g=
@@ -92,22 +92,24 @@ Export-Package: com.google.common.annotations;provider=metaborg;mandator
  ;mandatory:=provider,kotlin.coroutines.experimental.jvm.internal;provid
  er=metaborg;mandatory:=provider,kotlin.experimental;provider=metaborg;m
  andatory:=provider,kotlin.internal;provider=metaborg;mandatory:=provide
- r,kotlin.io;provider=metaborg;mandatory:=provider,kotlin.jvm;provider=m
- etaborg;mandatory:=provider,kotlin.jvm.functions;provider=metaborg;mand
- atory:=provider,kotlin.jvm.internal;provider=metaborg;mandatory:=provid
- er,kotlin.jvm.internal.markers;provider=metaborg;mandatory:=provider,ko
- tlin.jvm.internal.unsafe;provider=metaborg;mandatory:=provider,kotlin.p
- roperties;provider=metaborg;mandatory:=provider,kotlin.ranges;provider=
- metaborg;mandatory:=provider,kotlin.reflect;provider=metaborg;mandatory
- :=provider,kotlin.sequences;provider=metaborg;mandatory:=provider,kotli
- n.system;provider=metaborg;mandatory:=provider,kotlin.text;provider=met
- aborg;mandatory:=provider,org.aopalliance.aop;provider=metaborg;mandato
- ry:=provider,org.aopalliance.intercept;provider=metaborg;mandatory:=pro
- vider,org.intellij.lang.annotations;provider=metaborg;mandatory:=provid
- er,org.jetbrains.annotations;provider=metaborg;mandatory:=provider,org.
- slf4j;provider=metaborg;mandatory:=provider;version="1.7.25",org.slf4j.
- event;provider=metaborg;mandatory:=provider;version="1.7.25",org.slf4j.
- helpers;provider=metaborg;mandatory:=provider;version="1.7.25",org.slf4
- j.spi;provider=metaborg;mandatory:=provider;version="1.7.25"
+ r,kotlin.internal.contracts;provider=metaborg;mandatory:=provider,kotli
+ n.io;provider=metaborg;mandatory:=provider,kotlin.jvm;provider=metaborg
+ ;mandatory:=provider,kotlin.jvm.functions;provider=metaborg;mandatory:=
+ provider,kotlin.jvm.internal;provider=metaborg;mandatory:=provider,kotl
+ in.jvm.internal.markers;provider=metaborg;mandatory:=provider,kotlin.jv
+ m.internal.unsafe;provider=metaborg;mandatory:=provider,kotlin.math;pro
+ vider=metaborg;mandatory:=provider,kotlin.properties;provider=metaborg;
+ mandatory:=provider,kotlin.ranges;provider=metaborg;mandatory:=provider
+ ,kotlin.reflect;provider=metaborg;mandatory:=provider,kotlin.sequences;
+ provider=metaborg;mandatory:=provider,kotlin.system;provider=metaborg;m
+ andatory:=provider,kotlin.text;provider=metaborg;mandatory:=provider,or
+ g.aopalliance.aop;provider=metaborg;mandatory:=provider,org.aopalliance
+ .intercept;provider=metaborg;mandatory:=provider,org.intellij.lang.anno
+ tations;provider=metaborg;mandatory:=provider,org.jetbrains.annotations
+ ;provider=metaborg;mandatory:=provider,org.slf4j;provider=metaborg;mand
+ atory:=provider;version="1.7.25",org.slf4j.event;provider=metaborg;mand
+ atory:=provider;version="1.7.25",org.slf4j.helpers;provider=metaborg;ma
+ ndatory:=provider;version="1.7.25",org.slf4j.spi;provider=metaborg;mand
+ atory:=provider;version="1.7.25"
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.3.0.201609221906
