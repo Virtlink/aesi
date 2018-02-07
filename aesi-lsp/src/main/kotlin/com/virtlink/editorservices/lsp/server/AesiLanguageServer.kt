@@ -78,7 +78,8 @@ class AesiLanguageServer @Inject constructor(
         }
         val currentVersion = content.lastModificationStamp
         val changes = params.contentChanges.map { TextChange(it.range.toSpan(this.resourceManager, content)!!, it.text) }
-        this.remoteContentSource.update(documentUri, currentVersion, changes, params.textDocument.version.toLong())
+        val newVersion = params.textDocument.version.toLong()
+        this.remoteContentSource.update(documentUri, currentVersion, changes, newVersion)
     }
 
     override fun saving(params: WillSaveTextDocumentParams) {

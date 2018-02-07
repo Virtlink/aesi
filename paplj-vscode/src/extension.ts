@@ -7,7 +7,8 @@ import { workspace, ExtensionContext } from 'vscode';
 import { LanguageClient, LanguageClientOptions, StreamInfo } from 'vscode-languageclient';
 
 export function activate(context: ExtensionContext) {
-    let serverOptions = getStdioServerOptions(context);
+    // let serverOptions = getStdioServerOptions(context);
+    let serverOptions = getSocketServerOptions(context);
     
     let clientOptions: LanguageClientOptions = {
         documentSelector: ['paplj'],

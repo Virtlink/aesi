@@ -19,18 +19,18 @@ data class Span(val startOffset: Offset, val endOffset: Offset): Serializable {
          */
         @JvmStatic fun fromLength(startOffset: Offset, length: Int): Span {
             if (startOffset < 0)
-                throw IllegalArgumentException("The start offset must be positive or zero.")
+                throw IllegalArgumentException("The start offset $startOffset must be positive or zero.")
             if (length < 0)
-                throw IllegalArgumentException("The length must be positive or zero.")
+                throw IllegalArgumentException("The length $length must be positive or zero.")
             return Span(startOffset, startOffset + length)
         }
     }
 
     init {
         if (startOffset < 0)
-            throw IllegalArgumentException("The start offset must be positive or zero.")
+            throw IllegalArgumentException("The start offset $startOffset must be positive or zero.")
         if (endOffset < startOffset)
-            throw IllegalArgumentException("The end offset must be at or after the start offset.")
+            throw IllegalArgumentException("The end offset $endOffset must be at or after the start offset $startOffset.")
     }
 
     val endInclusive: Offset
