@@ -7,6 +7,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.tree.IElementType
 import com.virtlink.editorservices.NullCancellationToken
 import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.ScopeNames
 import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager
 import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
@@ -75,7 +76,7 @@ class AesiLexer @Inject constructor(
 
     private fun getDefaultTokens(documentUri: URI): SyntaxColoringInfo {
         val content = this.resourceManager.getContent(documentUri) ?: return SyntaxColoringInfo(emptyList())
-        return SyntaxColoringInfo(listOf(Token(Span.fromLength(0, content.length.toInt()), "text")))
+        return SyntaxColoringInfo(listOf(Token(Span.fromLength(0, content.length.toInt()), ScopeNames("text"))))
     }
 
     private fun tokenize(tokens: List<IToken>): List<AesiToken> {
@@ -136,7 +137,7 @@ class AesiLexer @Inject constructor(
     }
 
     private fun getTokenType(token: IToken?): IElementType {
-        val name = this.scopeManager.getSimplifiedScope(token?.scopes ?: this.scopeManager.DEFAULT_SCOPE)
+        val name = this.scopeManager.getSimplifiedScope(token?.scopes ?: ScopeNames(this.scopeManager.DEFAULT_SCOPE))
         val tokenType = this.tokenTypeManager.getTokenType(name)
         return tokenType
     }

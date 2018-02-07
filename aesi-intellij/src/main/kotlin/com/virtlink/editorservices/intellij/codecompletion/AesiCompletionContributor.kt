@@ -19,6 +19,7 @@ import javax.swing.Icon
 import com.google.inject.Inject
 import com.virtlink.editorservices.NullCancellationToken
 import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.ScopeNames
 import com.virtlink.editorservices.codecompletion.CompletionProposal
 import com.virtlink.editorservices.codecompletion.ICodeCompletionService
 import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
@@ -60,7 +61,7 @@ abstract class AesiCompletionContributor
 
 
         for (proposal in completionInfo.proposals) {
-            val icon = getIcon(proposal.scopes, proposal.scopes.split(','))
+            val icon = getIcon(proposal.scopes)
             // TODO: Prefix?
             // TODO: Type
             val element = LookupElementBuilder.create(proposal.label)
@@ -70,8 +71,8 @@ abstract class AesiCompletionContributor
 //                    .withCaseSensitivity(proposal.caseSensitive)
 //                    .withPresentableText(proposal.prefix + proposal.name)
                     .withIcon(icon)
-                    .withBoldness("not-inherited" in proposal.scopes.split(','))
-                    .withStrikeoutness("deprecated" in proposal.scopes.split(','))
+                    .withBoldness("meta.not-inherited" in proposal.scopes)
+                    .withStrikeoutness("meta.deprecated" in proposal.scopes)
             // TODO: Description
             // TODO: Documentation
 //            val priorityElement = PrioritizedLookupElement.withPriority(element, proposal.priority.toDouble())
@@ -93,10 +94,10 @@ abstract class AesiCompletionContributor
         }
     }
 
-    private fun getIcon(kind: String?, attributes: Collection<String>) : Icon? {
-        val kindIcon = getKindIcon(kind)
-        val visibilityIcon = getVisibilityIcon(attributes)
-        val baseIcon = getBaseIcon(kindIcon, attributes)
+    private fun getIcon(scopes: ScopeNames) : Icon? {
+        val kindIcon = getKindIcon(scopes)
+        val visibilityIcon = getVisibilityIcon(scopes)
+        val baseIcon = getBaseIcon(kindIcon, scopes)
 
         if (baseIcon == null && visibilityIcon == null)
             return null
@@ -107,51 +108,49 @@ abstract class AesiCompletionContributor
         return resultIcon
     }
 
-    private fun getKindIcon(kind: String?): Icon? = when (kind) {
-        // TODO: Replace some of these by attributes
-        "variable" -> PlatformIcons.VARIABLE_ICON
-        "parameter" -> PlatformIcons.PARAMETER_ICON
-        "field" -> PlatformIcons.FIELD_ICON
-        "property" -> PlatformIcons.PROPERTY_ICON
-        "function" -> PlatformIcons.FUNCTION_ICON
-        "method" -> PlatformIcons.METHOD_ICON
-        "abstractMethod" -> PlatformIcons.ABSTRACT_METHOD_ICON
-        "interface" -> PlatformIcons.INTERFACE_ICON
-        "class" -> PlatformIcons.CLASS_ICON
-        "abstractClass" -> PlatformIcons.ABSTRACT_CLASS_ICON
-//        Kind.Trait -> TODO()
-        "exception" -> PlatformIcons.EXCEPTION_CLASS_ICON
-        "enum" -> PlatformIcons.ENUM_ICON
-        "annotation" -> PlatformIcons.ANNOTATION_TYPE_ICON
-        "package" -> PlatformIcons.PACKAGE_ICON
-        else -> null
-    }
-
-    private fun getVisibilityIcon(attributes: Collection<String>): Icon? {
+    private fun getKindIcon(scopes: ScopeNames): Icon? {
         return when {
-            "public" in attributes -> PlatformIcons.PUBLIC_ICON
-            "package" in attributes -> PlatformIcons.PACKAGE_LOCAL_ICON
-            "protected" in attributes -> PlatformIcons.PROTECTED_ICON
-            "private" in attributes -> PlatformIcons.PRIVATE_ICON
+            "meta.variable" in scopes -> PlatformIcons.VARIABLE_ICON
+            "meta.field" in scopes -> PlatformIcons.FIELD_ICON
+            "meta.property" in scopes -> PlatformIcons.PROPERTY_ICON
+            "meta.function" in scopes -> PlatformIcons.FUNCTION_ICON
+            "meta.method" in scopes -> if ("meta.abstract" in scopes) PlatformIcons.ABSTRACT_METHOD_ICON else PlatformIcons.METHOD_ICON
+            "meta.interface" in scopes -> PlatformIcons.INTERFACE_ICON
+            "meta.class" in scopes -> if ("meta.abstract" in scopes) PlatformIcons.ABSTRACT_CLASS_ICON else PlatformIcons.CLASS_ICON
+            "meta.exception" in scopes -> PlatformIcons.EXCEPTION_CLASS_ICON
+            "meta.enum" in scopes -> PlatformIcons.ENUM_ICON
+            "meta.annotation" in scopes -> PlatformIcons.ANNOTATION_TYPE_ICON
+            "meta.package" in scopes -> PlatformIcons.PACKAGE_ICON
             else -> null
         }
     }
 
-    private fun getBaseIcon(kindIcon: Icon?, attributes: Collection<String>): Icon? {
+    private fun getVisibilityIcon(scopes: ScopeNames): Icon? {
+        return when {
+            "meta.public" in scopes -> PlatformIcons.PUBLIC_ICON
+            "meta.package" in scopes -> PlatformIcons.PACKAGE_LOCAL_ICON
+            "meta.internal" in scopes -> PlatformIcons.PACKAGE_LOCAL_ICON
+            "meta.protected" in scopes -> PlatformIcons.PROTECTED_ICON
+            "meta.private" in scopes -> PlatformIcons.PRIVATE_ICON
+            else -> null
+        }
+    }
+
+    private fun getBaseIcon(kindIcon: Icon?, scopes: ScopeNames): Icon? {
         if (kindIcon == null) return null
 
         val iconLayers = SmartList<Icon>()
 
-        if ("external" in attributes) {
+        if ("meta.external" in scopes) {
             iconLayers.add(PlatformIcons.LOCKED_ICON)
         }
-        if ("excluded" in attributes) {
+        if ("meta.excluded" in scopes) {
             iconLayers.add(PlatformIcons.EXCLUDED_FROM_COMPILE_ICON)
         }
-        if ("static" in attributes) {
+        if ("meta.static" in scopes) {
             iconLayers.add(AllIcons.Nodes.StaticMark)
         }
-        if ("test" in attributes) {
+        if ("meta.test" in scopes) {
             // Currently has no icon.
         }
 

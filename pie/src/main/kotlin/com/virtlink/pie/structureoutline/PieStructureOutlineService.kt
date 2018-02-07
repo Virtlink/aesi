@@ -28,7 +28,7 @@ class PieStructureOutlineService(
             val children: List<StructureOutlineElement>,
             override val label: String,
             override val nameSpan: Span? = null,
-            override val scopes: ScopeNames = "",
+            override val scopes: ScopeNames = ScopeNames(),
             override val isLeaf: Boolean? = null)
         : IStructureOutlineElement
 

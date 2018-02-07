@@ -3,6 +3,7 @@ package com.virtlink.editorservices.intellij.syntaxcoloring
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.virtlink.editorservices.ScopeNames
 
 class ScopeManager {
 
@@ -83,10 +84,10 @@ class ScopeManager {
             createScopeStyle("variable", DefaultLanguageHighlighterColors.IDENTIFIER)
     )
 
-    fun getSimplifiedScope(scope: String): String {
+    fun getSimplifiedScope(scopes: ScopeNames): String {
         return this.styleScopes
                 .map { (prefix, _) -> prefix }
-                .firstOrNull { scope.startsWith(it, true) }
+                .firstOrNull { it in scopes }
                 ?: DEFAULT_SCOPE
     }
 

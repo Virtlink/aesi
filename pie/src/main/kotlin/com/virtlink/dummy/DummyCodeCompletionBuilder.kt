@@ -3,6 +3,7 @@ package com.virtlink.dummy
 import com.google.inject.Inject
 import com.virtlink.editorservices.ISessionManager
 import com.virtlink.editorservices.Offset
+import com.virtlink.editorservices.ScopeNames
 import com.virtlink.editorservices.codecompletion.CompletionInfo
 import com.virtlink.editorservices.codecompletion.CompletionProposal
 import com.virtlink.editorservices.codecompletion.ICompletionInfo
@@ -48,14 +49,14 @@ class DummyCodeCompletionBuilder @Inject constructor(
                 CompletionProposal("Hello",
                         description = "Description string",
                         content = "hello world!",
-                        scopes = "meta.field,meta.static"),
+                        scopes = ScopeNames("meta.field", "meta.static")),
                 CompletionProposal("Local variable",
                         content = "local var",
-                        scopes = "meta.variable,meta.internal"),
+                        scopes = ScopeNames("meta.variable", "meta.internal")),
                 CompletionProposal("Method",
                         content = "method()",
                         caret = 7,
-                        scopes = "meta.method,meta.abstract,meta.deprecated,meta.package"),
+                        scopes = ScopeNames("meta.method", "meta.abstract", "meta.deprecated", "meta.package")),
                 CompletionProposal("if (then else)")
         )
 

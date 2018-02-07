@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
+import com.virtlink.editorservices.ScopeNames;
 import org.eclipse.debug.internal.ui.ColorManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -51,15 +52,15 @@ public final class StyleManager {
 	/**
 	 * Gets the first style with the specified prefix.
 	 * 
-	 * @param name Tne name prefix.
+	 * @param scopes Tne scopes names.
 	 * @return The style.
 	 */
-	public Style getStyle(String name) {
+	public Style getStyle(ScopeNames scopes) {
 		return this.styles.stream()
-				.filter(e -> name.toLowerCase(Locale.ROOT).startsWith(e.getKey().toLowerCase(Locale.ROOT)))
-				.map(e -> e.getValue())
+				.filter(e -> scopes.contains(e.getKey()))
+				.map(Entry::getValue)
 				.findFirst()
-				.orElseGet( () -> getStyle(DEFAULT_STYLE_NAME) );
+				.orElseGet( () -> getStyle(new ScopeNames(DEFAULT_STYLE_NAME)) );
 	}
 	
 	/**
@@ -69,18 +70,18 @@ public final class StyleManager {
 	 * @return The created style range.
 	 */
 	public StyleRange getDefaultStyleRange(Span span) {
-		return getStyleRange(span, DEFAULT_STYLE_NAME);
+		return getStyleRange(span, new ScopeNames(DEFAULT_STYLE_NAME));
 	}
 	
 	/**
 	 * Gets the style with the specified attributes.
 	 * 
 	 * @param span The span.
-	 * @param name The style name prefix.
+	 * @param scopes The scope names.
 	 * @return The created style range.
 	 */
-	public StyleRange getStyleRange(final Span span, final String name) {
-		return getStyleRange(span, getStyle(name));
+	public StyleRange getStyleRange(final Span span, final ScopeNames scopes) {
+		return getStyleRange(span, getStyle(scopes));
 	}
 	
 	/**

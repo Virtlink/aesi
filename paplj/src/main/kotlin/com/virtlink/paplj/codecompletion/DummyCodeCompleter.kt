@@ -24,13 +24,13 @@ class DummyCodeCompleter : ICodeCompletionService {
                 CompletionProposal("Hello",
                         description = "Description string",
                         content = "hello world!",
-                        scopes = "meta.field,meta.static"),
+                        scopes = ScopeNames("meta.field", "meta.static")),
                 CompletionProposal("Local variable",
                         content = "local var",
-                        scopes = "meta.variable,meta.internal"),
+                        scopes = ScopeNames("meta.variable", "meta.internal")),
                 CompletionProposal("Method",
                         content = "method()",
-                        scopes = "meta.method,meta.abstract,meta.deprecated,meta.package"),
+                        scopes = ScopeNames("meta.method", "meta.abstract", "meta.deprecated", "meta.package")),
                 CompletionProposal("if (then else)")
         )
 

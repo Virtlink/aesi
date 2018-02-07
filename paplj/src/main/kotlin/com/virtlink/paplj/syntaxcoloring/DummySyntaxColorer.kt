@@ -12,8 +12,8 @@ class DummySyntaxColorer : ISyntaxColoringService {
 
     override fun getSyntaxColoringInfo(document: URI, span: Span, cancellationToken: ICancellationToken?): ISyntaxColoringInfo? {
         return SyntaxColoringInfo(listOf(
-                Token(Span.fromLength(2, 6), "keyword"),
-                Token(Span.fromLength(12, 4), "keyword")
+                Token(Span.fromLength(2, 6), ScopeNames("keyword")),
+                Token(Span.fromLength(12, 4), ScopeNames("keyword"))
         ))
     }
 

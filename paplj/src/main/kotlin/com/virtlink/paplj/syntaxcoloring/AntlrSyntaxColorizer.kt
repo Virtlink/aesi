@@ -36,7 +36,7 @@ class AntlrSyntaxColorizer @Inject constructor(
             val scope = getTokenScope(token)
             val startOffset = token.startIndex
             val endOffset = token.stopIndex + 1
-            tokens.add(Token(Span(startOffset.toLong(), endOffset.toLong()), scope))
+            tokens.add(Token(Span(startOffset.toLong(), endOffset.toLong()), ScopeNames(scope)))
 
             token = lexer.nextToken()
         }

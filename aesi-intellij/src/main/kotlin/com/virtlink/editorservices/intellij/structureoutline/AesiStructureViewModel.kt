@@ -79,25 +79,23 @@ class AesiStructureViewModel @Inject constructor(
         : PsiTreeElementBase<T>(element) {
 
         override fun getIcon(open: Boolean): Icon? {
-            return node.scopes.split(",").map {
-                when (it) {
-                    "file" -> PlatformIcons.FILE_ICON
-                    "module" -> PlatformIcons.OPENED_MODULE_GROUP_ICON
-                    "namespace" -> PlatformIcons.PACKAGE_ICON
-                    "package" -> PlatformIcons.PACKAGE_ICON
-                    "class" -> PlatformIcons.CLASS_ICON
-                    "interface" -> PlatformIcons.INTERFACE_ICON
-                    "enum" -> PlatformIcons.ENUM_ICON
-                    "property" -> PlatformIcons.PROPERTY_ICON
-                    "field" -> PlatformIcons.FIELD_ICON
-                    "function" -> PlatformIcons.FUNCTION_ICON
-                    "method" -> PlatformIcons.METHOD_ICON
-                    "constructor" -> PlatformIcons.METHOD_ICON
-                    "variable" -> PlatformIcons.VARIABLE_ICON
-                    "constant" -> PlatformIcons.VARIABLE_READ_ACCESS
-                    else -> null
-                }
-            }.filterNotNull().firstOrNull() ?: PlatformIcons.VARIABLE_READ_ACCESS
+            return when {
+                "meta.file" in node.scopes -> PlatformIcons.FILE_ICON
+                "meta.module" in node.scopes -> PlatformIcons.OPENED_MODULE_GROUP_ICON
+                "meta.namespace" in node.scopes -> PlatformIcons.PACKAGE_ICON
+                "meta.package" in node.scopes -> PlatformIcons.PACKAGE_ICON
+                "meta.class" in node.scopes -> PlatformIcons.CLASS_ICON
+                "meta.interface" in node.scopes -> PlatformIcons.INTERFACE_ICON
+                "meta.enum" in node.scopes -> PlatformIcons.ENUM_ICON
+                "meta.property" in node.scopes -> PlatformIcons.PROPERTY_ICON
+                "meta.field" in node.scopes -> PlatformIcons.FIELD_ICON
+                "meta.function" in node.scopes -> PlatformIcons.FUNCTION_ICON
+                "meta.method" in node.scopes -> PlatformIcons.METHOD_ICON
+                "meta.constructor" in node.scopes -> PlatformIcons.METHOD_ICON
+                "meta.variable" in node.scopes -> PlatformIcons.VARIABLE_ICON
+                "meta.constant" in node.scopes -> PlatformIcons.VARIABLE_READ_ACCESS
+                else -> PlatformIcons.VARIABLE_READ_ACCESS
+            }
         }
 
         override fun getPresentableText(): String? {
