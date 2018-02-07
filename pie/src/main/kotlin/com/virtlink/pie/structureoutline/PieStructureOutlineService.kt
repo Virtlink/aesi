@@ -2,9 +2,10 @@ package com.virtlink.pie.structureoutline
 
 import com.google.inject.name.Named
 import com.virtlink.editorservices.ICancellationToken
+import com.virtlink.editorservices.ScopeNames
+import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.resources.IResourceManager
-import com.virtlink.editorservices.structureoutline.IStructureOutlineService
-import com.virtlink.editorservices.structureoutline.IStructureTreeNode
+import com.virtlink.editorservices.structureoutline.*
 import com.virtlink.editorservices.symbols.ISymbol
 import com.virtlink.pie.IBuildManagerProvider
 import mb.pie.runtime.core.BuildApp
@@ -23,30 +24,33 @@ class PieStructureOutlineService(
 
     data class Input(val document: URI) : Serializable
 
-    data class StructureTreeNode(override val symbol: ISymbol, val children: List<StructureTreeNode>): IStructureTreeNode
+    data class StructureOutlineElement(
+            val children: List<StructureOutlineElement>,
+            override val label: String,
+            override val nameSpan: Span? = null,
+            override val scopes: ScopeNames = "",
+            override val isLeaf: Boolean? = null)
+        : IStructureOutlineElement
 
-    data class StructureTree(val roots: List<StructureTreeNode>): Serializable
+    data class StructureTree(val roots: List<StructureOutlineElement>): Serializable
 
-    override fun getRootNodes(
-            document: URI,
-            cancellationToken: ICancellationToken)
-            : List<IStructureTreeNode> {
-        return getTree(document).roots
+    override fun configure(configuration: IStructureOutlineConfiguration) {
+        // Nothing to do.
     }
 
-    override fun getChildNodes(
+    override fun getRoots(
             document: URI,
-            node: IStructureTreeNode,
-            cancellationToken: ICancellationToken)
-            : List<IStructureTreeNode> {
-        return (node as StructureTreeNode).children
+            cancellationToken: ICancellationToken?)
+            : IStructureOutlineInfo? {
+        return StructureOutlineInfo(getTree(document).roots)
     }
 
-    override fun hasChildren(
+    override fun getChildren(
             document: URI,
-            node: IStructureTreeNode)
-            : Boolean? {
-        return null
+            node: IStructureOutlineElement,
+            cancellationToken: ICancellationToken?)
+            : IStructureOutlineInfo? {
+        return StructureOutlineInfo((node as StructureOutlineElement).children)
     }
 
     private fun getTree(document: URI): StructureTree {

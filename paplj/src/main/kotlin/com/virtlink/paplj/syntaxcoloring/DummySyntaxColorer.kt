@@ -10,7 +10,7 @@ class DummySyntaxColorer : ISyntaxColoringService {
         // Nothing to do.
     }
 
-    override fun getSyntaxColoringInfo(document: URI, span: Span, cancellationToken: ICancellationToken?): ISyntaxColoringInfo {
+    override fun getSyntaxColoringInfo(document: URI, span: Span, cancellationToken: ICancellationToken?): ISyntaxColoringInfo? {
         return SyntaxColoringInfo(listOf(
                 Token(Span.fromLength(2, 6), "keyword"),
                 Token(Span.fromLength(12, 4), "keyword")

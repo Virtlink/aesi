@@ -26,5 +26,5 @@ interface ISyntaxColoringService {
             document: URI,
             span: Span,
             cancellationToken: ICancellationToken?)
-            : ISyntaxColoringInfo
+            : ISyntaxColoringInfo?
 }

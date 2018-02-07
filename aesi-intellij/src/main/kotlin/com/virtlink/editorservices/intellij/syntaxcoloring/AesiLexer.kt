@@ -12,6 +12,8 @@ import com.virtlink.editorservices.intellij.psi.AesiTokenTypeManager
 import com.virtlink.editorservices.intellij.resources.IntellijResourceManager
 import com.virtlink.editorservices.syntaxcoloring.ISyntaxColoringService
 import com.virtlink.editorservices.syntaxcoloring.IToken
+import com.virtlink.editorservices.syntaxcoloring.SyntaxColoringInfo
+import com.virtlink.editorservices.syntaxcoloring.Token
 import java.net.URI
 
 class AesiLexer @Inject constructor(
@@ -60,14 +62,20 @@ class AesiLexer @Inject constructor(
             LOG.debug("Buffer is empty.")
             this.tokens = emptyList()
         } else {
-            val highlighterTokens = this.syntaxColoringService.getSyntaxColoringInfo(
+            val coloringInfo = this.syntaxColoringService.getSyntaxColoringInfo(
                     this.documentUri,
                     Span(this.startOffset, this.endOffset),
-                    NullCancellationToken)
-            LOG.debug("Highlighter returned ${highlighterTokens.tokens.size} tokens")
-            this.tokens = tokenize(highlighterTokens.tokens)
+                    NullCancellationToken) ?: getDefaultTokens(this.documentUri)
+
+            LOG.debug("Colorizer returned ${coloringInfo.tokens.size} tokens")
+            this.tokens = tokenize(coloringInfo.tokens)
         }
         LOG.debug("Tokenizer produced ${this.tokens.size} tokens")
+    }
+
+    private fun getDefaultTokens(documentUri: URI): SyntaxColoringInfo {
+        val content = this.resourceManager.getContent(documentUri) ?: return SyntaxColoringInfo(emptyList())
+        return SyntaxColoringInfo(listOf(Token(Span.fromLength(0, content.length.toInt()), "text")))
     }
 
     private fun tokenize(tokens: List<IToken>): List<AesiToken> {

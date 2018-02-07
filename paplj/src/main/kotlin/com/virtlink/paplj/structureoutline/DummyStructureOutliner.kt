@@ -1,6 +1,8 @@
 package com.virtlink.paplj.structureoutline
 
 import com.virtlink.editorservices.ICancellationToken
+import com.virtlink.editorservices.ScopeNames
+import com.virtlink.editorservices.Span
 import com.virtlink.editorservices.structureoutline.*
 import com.virtlink.editorservices.symbols.ISymbol
 import com.virtlink.editorservices.symbols.Symbol
@@ -12,28 +14,33 @@ class DummyStructureOutliner: IStructureOutlineService {
     @Suppress("PrivatePropertyName")
     private val LOG by logger()
 
-    override fun getRootNodes(document: URI, cancellationToken: ICancellationToken): List<IStructureTreeNode>
-            = listOf(rootSymbol)
+    override fun configure(configuration: IStructureOutlineConfiguration) {
+        // Nothing to do.
+    }
 
-    override fun getChildNodes(document: URI, node: IStructureTreeNode, cancellationToken: ICancellationToken): List<IStructureTreeNode>
-            = (node as Node).children
+    override fun getRoots(document: URI, cancellationToken: ICancellationToken?): IStructureOutlineInfo
+            = StructureOutlineInfo(listOf(rootSymbol))
 
-    override fun hasChildren(document: URI, node: IStructureTreeNode)
-            = null
+    override fun getChildren(document: URI, node: IStructureOutlineElement, cancellationToken: ICancellationToken?): IStructureOutlineInfo
+            = StructureOutlineInfo((node as Node).children)
 
-    private val rootSymbol: Node = Node(Symbol(label = "root", kind = "constant"), listOf(
-            Node(Symbol(label = "file1", kind = "file"), listOf(
-                    Node(Symbol(label = "myClass0", kind = "class"), listOf(
-                            Node(Symbol(label = "myFunc", kind = "function"), listOf())
+    private val rootSymbol: Node = Node(label = "root", scopes = "constant", children = listOf(
+            Node(label = "file1", scopes = "file", children = listOf(
+                    Node(label = "myClass0", scopes = "class", children = listOf(
+                            Node(label = "myFunc", scopes = "function", children = listOf())
                     )),
-                    Node(Symbol(label = "myClass2", kind = "class"), listOf()),
-                    Node(Symbol(label = "myClass4", kind = "class"), listOf())
+                    Node(label = "myClass2", scopes = "class", children = listOf()),
+                    Node(label = "myClass4", scopes = "class", children = listOf())
             )),
-            Node(Symbol(label = "file2", kind = "file"), listOf())
+            Node(label = "file2", scopes = "file", children = listOf())
     ))
 
     private data class Node(
-            override val symbol: ISymbol,
-            val children: List<Node>) : IStructureTreeNode
+            val children: List<Node>,
+            override val label: String,
+            override val nameSpan: Span? = null,
+            override val scopes: ScopeNames = "",
+            override val isLeaf: Boolean? = null)
+        : IStructureOutlineElement
 
 }

@@ -20,7 +20,7 @@ class AntlrSyntaxColorizer @Inject constructor(
         // Nothing to do.
     }
 
-    override fun getSyntaxColoringInfo(document: URI, span: Span, cancellationToken: ICancellationToken?): ISyntaxColoringInfo {
+    override fun getSyntaxColoringInfo(document: URI, span: Span, cancellationToken: ICancellationToken?): ISyntaxColoringInfo? {
         val tokens = mutableListOf<IToken>()
 
         val content = this.resourceManager.getContent(document)

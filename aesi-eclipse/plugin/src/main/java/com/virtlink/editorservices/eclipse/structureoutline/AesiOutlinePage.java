@@ -80,7 +80,7 @@ public class AesiOutlinePage extends ContentOutlinePage {
     		this.editor.resetHighlightRange();
     	else {
     		AesiStructureNode node = (AesiStructureNode)((IStructuredSelection) selection).getFirstElement();
-    		@Nullable Span range = node.getNode().getSymbol().getNameRange();
+    		@Nullable Span range = node.getNode().getNameSpan();
     		if (range != null) {
 				try {
 					this.editor.setHighlightRange((int)range.getStartOffset(), (int)range.getLength(), true);

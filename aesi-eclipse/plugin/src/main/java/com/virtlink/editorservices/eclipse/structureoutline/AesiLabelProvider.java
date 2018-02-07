@@ -37,7 +37,7 @@ public class AesiLabelProvider extends LabelProvider {
             return null;
 
         AesiStructureNode node = (AesiStructureNode)element;
-        return node.getNode().getSymbol().getLabel();
+        return node.getNode().getLabel();
     }
 
     @Override

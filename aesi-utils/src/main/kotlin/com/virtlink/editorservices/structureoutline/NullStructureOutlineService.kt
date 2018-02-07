@@ -9,12 +9,15 @@ import java.net.URI
  */
 class NullStructureOutlineService @Inject constructor()
     : IStructureOutlineService {
-    override fun getRootNodes(document: URI, cancellationToken: ICancellationToken): List<IStructureTreeNode>
-            = emptyList()
 
-    override fun getChildNodes(document: URI, node: IStructureTreeNode, cancellationToken: ICancellationToken): List<IStructureTreeNode>
-            = emptyList()
+    override fun configure(configuration: IStructureOutlineConfiguration) {
+        // Nothing to do.
+    }
 
-    override fun hasChildren(document: URI, node: IStructureTreeNode): Boolean?
-            = false
+    override fun getRoots(document: URI, cancellationToken: ICancellationToken?): IStructureOutlineInfo?
+            = null
+
+    override fun getChildren(document: URI, node: IStructureOutlineElement, cancellationToken: ICancellationToken?): IStructureOutlineInfo?
+            = null
+
 }

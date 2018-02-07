@@ -17,7 +17,7 @@ class NullSyntaxColoringService @Inject constructor(
         // Nothing to do.
     }
 
-    override fun getSyntaxColoringInfo(document: URI, span: Span, cancellationToken: ICancellationToken?): ISyntaxColoringInfo {
+    override fun getSyntaxColoringInfo(document: URI, span: Span, cancellationToken: ICancellationToken?): ISyntaxColoringInfo? {
         val content = this.resourceService.getContent(document) ?: return SyntaxColoringInfo(emptyList())
         return SyntaxColoringInfo(listOf(Token(Span.fromLength(0, content.length.toInt()), "text")))
     }

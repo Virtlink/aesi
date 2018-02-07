@@ -7,8 +7,8 @@ import com.virtlink.editorservices.NullCancellationToken;
 import com.virtlink.editorservices.eclipse.codecompletion.AesiCompletionProcessor;
 import com.virtlink.editorservices.eclipse.editor.IAesiEditor;
 import com.virtlink.editorservices.eclipse.resources.EclipseResourceManager;
+import com.virtlink.editorservices.structureoutline.IStructureOutlineElement;
 import com.virtlink.editorservices.structureoutline.IStructureOutlineService;
-import com.virtlink.editorservices.structureoutline.IStructureTreeNode;
 import com.virtlink.editorservices.symbols.ISymbol;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.DefaultPositionUpdater;
@@ -61,7 +61,7 @@ public class AesiTreeContentProvider implements ITreeContentProvider {//implemen
     @Override
     public Object[] getElements(Object element) {
         URI document = this.resourceManager.getUri((IEditorInput)element);
-        List<? extends IStructureTreeNode> children = this.structureOutliner.getRootNodes(document, NullCancellationToken.INSTANCE);
+        List<? extends IStructureOutlineElement> children = this.structureOutliner.getRoots(document, NullCancellationToken.INSTANCE).getElements();
         return children.stream().map(s -> new AesiStructureNode(document, s, null)).toArray(AesiStructureNode[]::new);
     }
 
@@ -71,7 +71,7 @@ public class AesiTreeContentProvider implements ITreeContentProvider {//implemen
             return new Object[0];
         AesiStructureNode parent = (AesiStructureNode)element;
         URI document = parent.getDocumentUri();
-        List<? extends IStructureTreeNode> children = this.structureOutliner.getChildNodes(document, parent.getNode(), NullCancellationToken.INSTANCE);
+        List<? extends IStructureOutlineElement> children = this.structureOutliner.getChildren(document, parent.getNode(), NullCancellationToken.INSTANCE).getElements();
         return children.stream().map(s -> new AesiStructureNode(document, s, parent)).toArray(AesiStructureNode[]::new);
     }
 
@@ -89,7 +89,7 @@ public class AesiTreeContentProvider implements ITreeContentProvider {//implemen
         if (!(element instanceof AesiStructureNode))
             return false;
         AesiStructureNode node = (AesiStructureNode)element;
-        @Nullable Boolean b = this.structureOutliner.hasChildren(node.getDocumentUri(), node.getNode());
+        @Nullable Boolean b = node.getNode().isLeaf();// this.structureOutliner.hasChildren(node.getDocumentUri(), node.getNode());
         return b == null || b;
     }
 
