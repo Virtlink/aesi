@@ -6,7 +6,7 @@ env:
 - NODE_VERSION="5"
 
 before_install:
-- cd metaborg-pie && git apply ../req.patch
+- cd metaborg-pie && git apply ../req.patch && cd ../
 - nvm install $NODE_VERSION
 
 script:
