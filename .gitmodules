@@ -1,0 +1,6 @@
+[submodule "metaborg-util"]
+	path = metaborg-util
+	url = https://github.com/metaborg/util.git
+[submodule "metaborg-pie"]
+	path = metaborg-pie
+	url = https://github.com/metaborg/pie.git

@@ -40,7 +40,7 @@
 
     <properties>
         <!-- Keep this synchronized with shared.properties -->
-        <kotlin_version>1.2.21</kotlin_version>
+        <kotlin_version>1.2.40</kotlin_version>
         <dokka_version>0.9.15</dokka_version>
         <java_version>1.8</java_version>
         <guava_version>23.2-jre</guava_version>
