@@ -4,3 +4,6 @@
 [submodule "metaborg-pie"]
 	path = metaborg-pie
 	url = https://github.com/metaborg/pie.git
+[submodule "metaborg-deploy"]
+	path = metaborg-deploy
+	url = https://github.com/metaborg/spoofax-deploy.git

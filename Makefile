@@ -119,6 +119,8 @@ clean.paplj-vscode: clean.metaborg-pie
 	# Not supported
 
 metaborg-pie:
+	$(MAVEN) install -f $(abspath $(PREFIX)/metaborg-deploy/parent)
+	$(MAVEN) install -f $(abspath $(PREFIX)/metaborg-deploy/parent/java)
 	$(MAVEN) install -f $(abspath $(PREFIX)/metaborg-util/log)
 	$(MAVEN) install -f $(abspath $(PREFIX)/metaborg-util/vfs)
 	$(MAVEN) install -f $(abspath $(PREFIX)/metaborg-util/util)
@@ -126,6 +128,8 @@ metaborg-pie:
 	$(MAVEN) install -f $(abspath $(PREFIX)/metaborg-pie/runtime/builtin)
 
 clean.metaborg-pie:
+	$(MAVEN) clean -f $(abspath $(PREFIX)/metaborg-deploy/parent)
+	$(MAVEN) clean -f $(abspath $(PREFIX)/metaborg-deploy/parent/java)
 	$(MAVEN) clean -f $(abspath $(PREFIX)/metaborg-util/log)
 	$(MAVEN) clean -f $(abspath $(PREFIX)/metaborg-util/vfs)
 	$(MAVEN) clean -f $(abspath $(PREFIX)/metaborg-util/util)
