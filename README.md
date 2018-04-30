@@ -7,6 +7,27 @@
 
 The _Adaptible Editor Services Interface_.
 
+
+## Preparation
+1.  Checkout this Git repository and all its submodules.
+
+        git clone --recurse-submodules git@github.com:Virtlink/aesi.git
+
+    Or checkout the submodules after cloning:
+
+        git submodule update --init --recursive.
+
+2.  Apply the patch.
+
+        cd metaborg-pie
+	git apply ../req.patch
+
+3.  Build the project.
+
+        make
+
+
+
 ## License
 Copyright 2017-2018 - Daniel Pelsmaeker
 

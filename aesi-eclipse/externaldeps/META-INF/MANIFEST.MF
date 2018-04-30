@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1518013532228
-Build-Jdk: 1.8.0_162
+Bnd-LastModified: 1525087198534
+Build-Jdk: 1.8.0_172
 Built-By: daniel
 Bundle-ClassPath: .,aesi-0.0.1-SNAPSHOT.jar,aesi-utils-0.0.1-SNAPSHOT.ja
  r,kotlin-stdlib-1.2.21.jar,slf4j-api-1.7.25.jar,guice-4.1.0.jar,guice-a
