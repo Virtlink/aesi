@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
-import com.sun.scenario.effect.Offset;
 import com.virtlink.editorservices.Position;
 import com.virtlink.editorservices.resources.IAesiContent;
 import org.eclipse.core.filebuffers.FileBuffers;

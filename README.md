@@ -27,6 +27,26 @@ The _Adaptible Editor Services Interface_.
         make
 
 
+## Running
+- PAPLJ in IntelliJ:
+
+      cd paplj-intellij
+      gradle runIde
+
+- PAPLJ in Eclipse:
+
+  1. In Eclipse, import the Maven projects:
+
+     - `aesi-eclipse/plugin`
+     - `aesi-eclipse/externaldeps`
+     - `paplj-eclipse/plugin`
+     - `paplj-eclipse/externaldeps`
+
+  2. In the project `paplj-eclipse/plugin`,
+     execute the Run Application run configuration
+     to launch Eclipse.
+
+
 
 ## License
 Copyright 2017-2018 - Daniel Pelsmaeker
