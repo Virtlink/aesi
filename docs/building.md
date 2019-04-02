@@ -27,7 +27,7 @@ To locally view the built documentation, you need:
 
 2.  Run Jekyll.
 
-        jekyll serve
+        bundle exec jekyll serve
 
 3.  View the documentation at <http://localhost:4000/>.
 

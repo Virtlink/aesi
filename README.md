@@ -2,7 +2,7 @@
 
 [![Travis](https://travis-ci.org/Virtlink/aesi.svg?branch=master)][1]
 [![Docs](https://img.shields.io/badge/docs-latest-brightgreen.svg)][2]
-[![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)][3]
+[![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)][3]
 [![License](https://img.shields.io/github/license/Virtlink/aesi.svg)][4]
 
 The _Adaptible Editor Services Interface_.
@@ -49,7 +49,7 @@ The _Adaptible Editor Services Interface_.
 
 
 ## License
-Copyright 2017-2018 - Daniel Pelsmaeker
+Copyright 2017-2019 - Daniel A.A. Pelsmaeker
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the
